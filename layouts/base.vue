@@ -17,20 +17,7 @@
 const naiveUITheme = useNaiveUITheme();
 const naiveTheme = naiveUITheme.theme;
 const naiveThemeOverrides = naiveUITheme.themeOverrides;
-
 const m3 = useMaterial3ColorScheme();
-
-m3.customColorScheme.value = {
-  ...defaultColorScheme,
-  primary: "#94EDE4",
-  primaryContainer: "#5ab9d5",
-};
-
-m3.darkCustomColorScheme.value = {
-  ...defaultColorScheme,
-  primary: "#f0c142",
-  primaryContainer: "#f0c344",
-};
 </script>
 
 <style scoped></style>
