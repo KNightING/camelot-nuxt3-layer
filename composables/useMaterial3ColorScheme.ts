@@ -1,15 +1,15 @@
 import { isClient } from "@vueuse/core";
 
-export const MaterialThemeSystem = "system";
-export const MaterialThemeLight = "light";
-export const MaterialThemeDark = "dark";
+// export const MaterialThemeSystem = "system";
+// export const MaterialThemeLight = "light";
+// export const MaterialThemeDark = "dark";
 
-const ThemeValues = [
-  MaterialThemeSystem,
-  MaterialThemeLight,
-  MaterialThemeDark,
-];
-export type MaterialThemeMode = (typeof ThemeValues)[number];
+// const ThemeValues = [
+//   MaterialThemeSystem,
+//   MaterialThemeLight,
+//   MaterialThemeDark,
+// ];
+// export type MaterialThemeMode = (typeof ThemeValues)[number];
 
 export type Material3ColorScheme = {
   primary?: string;
@@ -132,13 +132,7 @@ export const defaultDarkColorScheme: Material3ColorScheme = {
 };
 
 export class Material3ColorSchemeProvider {
-  constructor(
-    target?: Ref<HTMLElement>,
-    themeMode?: Ref<MaterialThemeMode>,
-    editMode?: boolean
-  ) {
-    this.themeMode = themeMode ?? ref("system");
-
+  constructor(target?: Ref<HTMLElement>, editMode?: boolean) {
     const getCssVar = (key: string) =>
       useElCssVar(key, target, { inherit: false });
 
@@ -254,15 +248,12 @@ export class Material3ColorSchemeProvider {
       if (colorScheme.scrim) this.scrim.value = colorScheme.scrim;
     });
 
+    const mode = useColorMode();
+
     if (isClient) {
       if (target) {
         watch(
-          [
-            this.themeMode,
-            target,
-            this.customColorScheme,
-            this.darkCustomColorScheme,
-          ],
+          [mode, target, this.customColorScheme, this.darkCustomColorScheme],
           (nV) => {
             if (
               nV[2] &&
@@ -276,7 +267,7 @@ export class Material3ColorSchemeProvider {
         );
       } else {
         watch(
-          [this.themeMode, this.customColorScheme, this.darkCustomColorScheme],
+          [mode, this.customColorScheme, this.darkCustomColorScheme],
           (nV) => {
             this.updateScheme();
           },
@@ -288,10 +279,11 @@ export class Material3ColorSchemeProvider {
 
   private updateScheme = () => {
     let customColorScheme = this.customColorSchemeRef.value;
-    switch (this.themeMode.value) {
-      case "system":
+    const { system, store } = useColorMode();
+    switch (store.value) {
+      case "auto":
         {
-          if (useTheme().isDark.value) {
+          if (system.value) {
             customColorScheme =
               this.darkCustomColorSchemeRef.value ?? customColorScheme;
           }
@@ -304,8 +296,6 @@ export class Material3ColorSchemeProvider {
     }
     this.usedColorScheme.value = customColorScheme;
   };
-
-  public themeMode: Ref<MaterialThemeMode>;
 
   public primary: Ref<string>;
   public primaryContainer: Ref<string>;
@@ -384,11 +374,10 @@ let globalMaterial3ColorSchemeProvider:
 
 export const useMaterial3ColorScheme = (
   target?: Ref<HTMLElement>,
-  themeMode?: Ref<MaterialThemeMode>,
   editMode?: boolean
 ) => {
   if (target) {
-    return new Material3ColorSchemeProvider(target, themeMode, editMode);
+    return new Material3ColorSchemeProvider(target, editMode);
   } else {
     return (
       globalMaterial3ColorSchemeProvider ??

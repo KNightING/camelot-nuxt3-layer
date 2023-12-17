@@ -8,7 +8,7 @@ import type { BuiltInGlobalTheme } from "naive-ui/es/themes/interface";
 class NaiveUITheme {
   constructor() {
     const m3 = useMaterial3ColorScheme();
-    const systemTheme = useTheme();
+    const { system, store } = useColorMode();
 
     watch(
       m3.usedColorScheme,
@@ -21,11 +21,9 @@ class NaiveUITheme {
     );
 
     watch(
-      systemTheme.theme.storage,
+      system,
       (nV) => {
-        m3.themeMode.value = nV ?? "light";
-
-        if (systemTheme.isDark) {
+        if (nV === "dark") {
           // 有覆蓋黑暗模式時，使用暗黑模式
           // if (this.darkThemeOverrides.value) {
           //   this.theme.value = darkTheme;
