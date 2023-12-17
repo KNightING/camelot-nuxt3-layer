@@ -1,73 +1,82 @@
-# Nuxt Layer Starter
+# use this theme
 
-Create Nuxt extendable layer with this GitHub template.
+## Basic
 
-## Setup
+in `package.json`
 
-Make sure to install the dependencies:
-
-```bash
-pnpm install
+```json
+ "devDependencies": {
+    "@nuxt/eslint-config": "^0.1.1",
+    "@vueuse/core": "^10.7.0",
+    "@vueuse/nuxt": "^10.7.0",
+    "@nuxtjs/i18n": "8.0.0-rc.5",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
+    "autoprefixer": "^10.4.16",
+    "naive-ui": "^2.35.0",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "unplugin-icons": "^0.17.3",
+    "unplugin-vue-components": "^0.25.2"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.5.1",
+    "@vueuse/components": "^10.6.0",
+    "@vueuse/integrations": "^10.6.0"
+  }
 ```
 
-## Working on your theme
-
-Your theme is at the root of this repository, it is exactly like a regular Nuxt project, except you can publish it on NPM.
-
-The `.playground` directory should help you on trying your theme during development.
-
-Running `pnpm dev` will prepare and boot `.playground` directory, which imports your theme itself.
-
-## Distributing your theme
-
-Your Nuxt layer is shaped exactly the same as any other Nuxt project, except you can publish it on NPM.
-
-To do so, you only have to check if `files` in `package.json` are valid, then run:
-
-```bash
-npm publish --access public
-```
-
-Once done, your users will only have to run:
-
-```bash
-npm install --save your-theme
-```
-
-Then add the dependency to their `extends` in `nuxt.config`:
+in `nuxt.config.ts`
 
 ```ts
-defineNuxtConfig({
-  extends: 'your-theme'
+export default defineNuxtConfig({
+  ...
+  extends: [
+      "github:KNightING/camelot-nuxt3-layer", // GitHub Remote Source
+  ],
+});
+```
+
+## TailwindCSS
+
+1. copy `tailwind.config.js` to root folder
+
+## i18n
+
+1. in `nuxt.config.ts`
+
+```ts
+export default defineNuxtConfig({
+  ...
+  i18n: {
+    locales: [
+      {
+        name: "English",
+        code: "en-us",
+        file: "en-us.json",
+      },
+      {
+        name: "正體中文",
+        code: "zh-tw",
+        file: "zh-tw.json",
+      },
+    ],
+    lazy: true,
+    langDir: "lang",
+    defaultLocale: "zh-tw",
+
+    // lang路由 https://v8.i18n.nuxtjs.org/options/routing#strategy
+    strategy: "no_prefix",
+
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: "i18n_redirected",
+      cookieCrossOrigin: true,
+      cookieSecure: true,
+      redirectOn: "root", // recommended
+    },
+    vueI18n: "./i18n.config.ts",
+  },
 })
 ```
 
-## Development Server
-
-Start the development server on http://localhost:3000
-
-```bash
-pnpm dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-pnpm build
-```
-
-Or statically generate it with:
-
-```bash
-pnpm generate
-```
-
-Locally preview production build:
-
-```bash
-pnpm preview
-```
-
-Checkout the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+   2. copy `lang` folder and `i18n.config.ts` to root folder
