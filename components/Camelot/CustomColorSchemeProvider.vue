@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts" generic="T">
-import type { CustomColorScheme } from "../../composables/useColorScheme";
-
 const props = defineProps<{
   lightColorScheme?: CustomColorScheme<T>;
   darkColorScheme?: CustomColorScheme<T>;
@@ -26,3 +24,4 @@ onMounted(() => {
 </script>
 
 <style scoped></style>
+../../composables/useCustomColorScheme

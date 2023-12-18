@@ -52,7 +52,12 @@ export const useCustomColorScheme = <T>(
           }
         }
         const cssVar = getCssVar(cssVarKey, target);
-        cssVar.value = nV[key];
+        const rbga = useColor().hexToRgbaArray(nV[key]);
+        if (!rbga) {
+          cssVar.value = nV[key];
+        } else {
+          cssVar.value = `${rbga[0]},${rbga[1]},${rbga[2]}`;
+        }
       }
     }
   });

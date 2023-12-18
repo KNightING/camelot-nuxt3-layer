@@ -17,8 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import type { CustomColorScheme } from "../composables/useColorScheme";
-
 const { lightColorScheme, darkColorScheme } = useMaterial3ColorScheme();
 const click = () => {
   lightColorScheme.value.primary = "red";
@@ -34,14 +32,15 @@ const change = () => {
 };
 
 const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
-  primary: "yellow",
-  test: "pink",
+  primary: "#44ffFF",
+  test: "#F40fFF",
 });
 
 const changeCustom = () => {
-  elCustomLightColorScheme.value.primary = "green";
-  elCustomLightColorScheme.value.test = "purple";
+  elCustomLightColorScheme.value.primary = "#F40fFF";
+  elCustomLightColorScheme.value.test = "#44ffFF";
 };
 </script>
 
 <style scoped></style>
+../composables/useCustomColorScheme

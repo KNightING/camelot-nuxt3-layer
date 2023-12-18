@@ -424,7 +424,12 @@ watchImmediate(globalUsedColorScheme, (nV) => {
     if (useIsValidKey(key, nV)) {
       globalChangeCase.value = key;
       const cssVar = getCssVar(globalChangeCase.value);
-      cssVar.value = nV[key];
+      const rbga = useColor().hexToRgbaArray(nV[key]);
+      if (!rbga) {
+        cssVar.value = nV[key];
+      } else {
+        cssVar.value = `${rbga[0]},${rbga[1]},${rbga[2]}`;
+      }
     }
   }
 });
@@ -482,7 +487,12 @@ export const useMaterial3ColorScheme = (
       if (useIsValidKey(key, nV)) {
         changeCase.value = key;
         const cssVar = getCssVar(changeCase.value, target);
-        cssVar.value = nV[key];
+        const rbga = useColor().hexToRgbaArray(nV[key]);
+        if (!rbga) {
+          cssVar.value = nV[key];
+        } else {
+          cssVar.value = `${rbga[0]},${rbga[1]},${rbga[2]}`;
+        }
       }
     }
   });

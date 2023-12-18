@@ -35,21 +35,33 @@ class ColorUtil {
     return `#${hex}`;
   }
 
+  /**
+   *
+   * @param hex
+   * @returns [r,g,b,a]
+   */
+  public hexToRgbaArray(hex: string | undefined) {
+    if (!hex) return undefined;
+    const fullHex = this.toFullHex(hex);
+    if (!fullHex) return undefined;
+
+    return fullHex
+      .replace("#", "")
+      .match(/.{2}/g)!
+      .map((c) => parseInt(c, 16));
+  }
+
   // alpha's range is from 0 to 1
   public hexToRgba(
     hex: string | undefined,
     alpha?: number
   ): string | undefined {
-    if (!hex) return undefined;
-    const fullHex = this.toFullHex(hex);
-    if (!fullHex) return undefined;
+    const array = this.hexToRgbaArray(hex);
+    if (!array) return undefined;
 
-    const [r, g, b, a] = fullHex
-      .replace("#", "")
-      .match(/.{2}/g)!
-      .map((c) => parseInt(c, 16));
-
-    return `rgba(${r},${g},${b}, ${alpha ?? Math.floor((a * 10) / 255) / 10})`;
+    return `rgba(${array[0]},${array[1]},${array[2]}, ${
+      alpha ?? Math.floor((array[3] * 10) / 255) / 10
+    })`;
   }
 
   /**
