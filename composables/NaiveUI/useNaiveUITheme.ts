@@ -1,4 +1,4 @@
-import { darkTheme, type GlobalThemeOverrides } from "naive-ui/lib";
+import { darkTheme, type GlobalThemeOverrides } from "naive-ui";
 
 import type { BuiltInGlobalTheme } from "naive-ui/es/themes/interface";
 

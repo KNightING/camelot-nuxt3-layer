@@ -1,4 +1,4 @@
-import { isClient, type MaybeElementRef } from "@vueuse/core";
+import { type MaybeElementRef } from "@vueuse/core";
 import { useChangeCase } from "@vueuse/integrations/useChangeCase";
 
 export type Material3ColorScheme = {
