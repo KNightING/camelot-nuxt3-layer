@@ -1,4 +1,3 @@
-import { Material3ColorSchemePartial } from '../composables/useMaterial3ColorScheme';
 <template>
   <span>
     <div class="text-primary">{{ useBaseUrl() }}</div>
@@ -10,10 +9,16 @@ import { Material3ColorSchemePartial } from '../composables/useMaterial3ColorSch
     <CamelotMaterial3Provider :light-color-scheme="elLightColorScheme">
       <div class="text-on-primary bg-primary" @click="change">CHANGE</div>
     </CamelotMaterial3Provider>
+
+    <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme">
+      <div class="text-test bg-primary" @click="changeCustom">CHANGE</div>
+    </CamelotCustomColorSchemeProvider>
   </span>
 </template>
 
 <script setup lang="ts">
+import type { CustomColorScheme } from "../composables/useColorScheme";
+
 const { lightColorScheme, darkColorScheme } = useMaterial3ColorScheme();
 const click = () => {
   lightColorScheme.value.primary = "red";
@@ -26,6 +31,16 @@ const elLightColorScheme = ref<Material3ColorSchemePartial>({
 
 const change = () => {
   elLightColorScheme.value.primary = "green";
+};
+
+const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
+  primary: "yellow",
+  test: "pink",
+});
+
+const changeCustom = () => {
+  elCustomLightColorScheme.value.primary = "green";
+  elCustomLightColorScheme.value.test = "purple";
 };
 </script>
 

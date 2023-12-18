@@ -125,6 +125,10 @@ export const defaultDarkColorScheme: Material3ColorSchemePartial = {
   scrim: "#000000",
 };
 
+export const Material3ColorSchemeKeys = Object.keys(
+  defaultColorScheme
+) as (keyof Material3ColorScheme)[];
+
 // export class Material3ColorSchemeProvider {
 //   constructor(target?: Ref<HTMLElement>, editMode?: boolean) {
 //     const getCssVar = (key: string) =>
@@ -458,7 +462,7 @@ export const useMaterial3ColorScheme = (
   const darkColorScheme = ref<Material3ColorSchemePartial>(
     config?.darkColorScheme ?? globalDarkColorScheme.value
   );
-  
+
   const usedColorScheme = computed(() => {
     let isDark = true;
     if (store.value === "auto") {

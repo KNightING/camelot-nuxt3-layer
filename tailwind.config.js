@@ -52,6 +52,7 @@ module.exports = {
         "shadow": "var(--material3-shadow)",
         "surface-tint": "var(--material3-surface-tint)",
         "scrim": "var(--material3-scrim)",
+        "test":"var(--custom-test)"
       },
       transitionTimingFunction: {
         'overshoot':'cubic-bezier(0.2, 0.4, 0.8, 1.3)'

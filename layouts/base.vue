@@ -5,7 +5,7 @@
         <n-message-provider placement="bottom">
           <div class="min-h-screen bg-surface transition-all duration-300 flex flex-col">
             <NuxtLoadingIndicator />
-            <slot></slot>
+            <slot />
           </div>
         </n-message-provider>
       </n-notification-provider>
@@ -17,7 +17,6 @@
 const naiveUITheme = useNaiveUITheme();
 const naiveTheme = naiveUITheme.theme;
 const naiveThemeOverrides = naiveUITheme.themeOverrides;
-const m3 = useMaterial3ColorScheme();
 </script>
 
 <style scoped></style>
