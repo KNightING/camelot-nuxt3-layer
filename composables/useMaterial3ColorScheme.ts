@@ -456,10 +456,9 @@ export const useMaterial3ColorScheme = (
     config?.lightColorScheme ?? globalLightColorScheme.value
   );
   const darkColorScheme = ref<Material3ColorSchemePartial>(
-    config?.lightColorScheme ?? globalDarkColorScheme.value
+    config?.darkColorScheme ?? globalDarkColorScheme.value
   );
-  const { system, store } = useColorMode();
-
+  
   const usedColorScheme = computed(() => {
     let isDark = true;
     if (store.value === "auto") {
@@ -467,7 +466,7 @@ export const useMaterial3ColorScheme = (
     } else {
       isDark = store.value === "dark";
     }
-    return { ...(isDark ? lightColorScheme.value : darkColorScheme.value) };
+    return { ...(isDark ? darkColorScheme.value : lightColorScheme.value) };
   });
 
   const changeCase = useChangeCase("", "paramCase");
