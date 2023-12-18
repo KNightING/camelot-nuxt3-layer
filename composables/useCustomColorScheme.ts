@@ -2,7 +2,7 @@ import type { MaybeElementRef } from "@vueuse/core";
 import { useChangeCase } from "@vueuse/integrations/useChangeCase";
 import { Material3ColorSchemeKeys } from "./useMaterial3ColorScheme";
 
-export type CustomColorScheme<T> = Partial<Material3ColorScheme | T>;
+export type CustomColorScheme<T = any> = Partial<Material3ColorScheme | T>;
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
   useElCssVar(`${key}`, target, { inherit: false });
