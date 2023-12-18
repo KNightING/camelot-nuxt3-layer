@@ -17,7 +17,7 @@ onMounted(() => {
     container,
     {
       lightColorScheme: props.lightColorScheme,
-      darkColorScheme: props.darkColorScheme,
+      darkColorScheme: props.darkColorScheme ,
     }
   );
 });

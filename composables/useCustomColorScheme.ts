@@ -2,7 +2,7 @@ import type { MaybeElementRef } from "@vueuse/core";
 import { useChangeCase } from "@vueuse/integrations/useChangeCase";
 import { Material3ColorSchemeKeys } from "./useMaterial3ColorScheme";
 
-export type CustomColorScheme<T> = Partial<Material3ColorScheme & T>;
+export type CustomColorScheme<T> = Partial<Material3ColorScheme | T>;
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
   useElCssVar(`${key}`, target, { inherit: false });
@@ -18,8 +18,10 @@ export const useCustomColorScheme = <T>(
     editMode?: boolean;
   }
 ) => {
-  const lightColorScheme = ref(config?.lightColorScheme ?? defaultColorScheme);
-  const darkColorScheme = ref(
+  const lightColorScheme = ref<CustomColorScheme<T>>(
+    config?.lightColorScheme ?? defaultColorScheme
+  );
+  const darkColorScheme = ref<CustomColorScheme<T>>(
     config?.darkColorScheme ?? defaultDarkColorScheme
   );
 
@@ -30,7 +32,10 @@ export const useCustomColorScheme = <T>(
     } else {
       isDark = store.value === "dark";
     }
-    return { ...(isDark ? darkColorScheme.value : lightColorScheme.value) };
+    const cs = <CustomColorScheme<T>>(
+      (isDark ? darkColorScheme.value : lightColorScheme.value)
+    );
+    return { ...cs };
   });
 
   const changeCase = useChangeCase("", "paramCase");
