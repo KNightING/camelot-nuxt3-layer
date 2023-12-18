@@ -3,7 +3,9 @@ import type { CustomColorScheme } from "../useCustomColorScheme";
 
 const mode = useColorMode();
 
-export const useNaiveUITheme = (cs: CustomColorScheme<any>) => {
+export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
+  const cs = computed(() => unref(csRef));
+
   const naiveTheme = computed(() => {
     if (mode.value === "dark") {
       return darkTheme;
@@ -13,85 +15,86 @@ export const useNaiveUITheme = (cs: CustomColorScheme<any>) => {
 
   const naiveThemeOverride = computed(() => {
     const color = useColor();
-    const primaryLightness = color.lightness(cs.primary);
-    const primaryDarkness = color.darkness(cs.primary);
+
+    const primaryLightness = color.lightness(cs.value.primary);
+    const primaryDarkness = color.darkness(cs.value.primary);
     return {
       common: {
-        primaryColor: cs.primary,
-        borderColor: cs.primary,
-        errorColor: cs.error,
-        textColorBase: cs.primary,
-        textColor1: cs.onSurface,
+        primaryColor: cs.value.primary,
+        borderColor: cs.value.primary,
+        errorColor: cs.value.error,
+        textColorBase: cs.value.primary,
+        textColor1: cs.value.onSurface,
 
         // * [Select] Border Hover Color
-        primaryColorHover: cs.primary,
+        primaryColorHover: cs.value.primary,
 
         // * [Select] 選項的顏色
         // * [Select] 選擇後的顏色
-        textColor2: cs.onSurface,
+        textColor2: cs.value.onSurface,
 
-        textColorDisabled: cs.outline,
+        textColorDisabled: cs.value.outline,
 
         // * [Select] 清單背景的顏色
-        popoverColor: cs.surfaceContainer,
+        popoverColor: cs.value.surfaceContainer,
 
         // * [Select] 輸入框的顏色
-        inputColor: cs.surface,
+        inputColor: cs.value.surface,
 
         // * [Select] Placeholder的顏色
-        placeholderColor: cs.outline,
+        placeholderColor: cs.value.outline,
 
         // * [Select] Arrow Icon的顏色
-        iconColor: cs.onSurface,
+        iconColor: cs.value.onSurface,
 
-        hoverColor: color.hexToRgba(cs.onSurface, 0.1),
+        hoverColor: color.hexToRgba(cs.value.onSurface, 0.1),
       },
       Button: {
-        textColor: cs.primary,
+        textColor: cs.value.primary,
         textColorHover: primaryLightness,
         textColorPressed: primaryDarkness,
         textColorFocus: primaryLightness,
-        colorSecondary: cs.secondary,
-        colorSecondaryHover: color.lightness(cs.secondary),
-        colorSecondaryPressed: color.darkness(cs.secondary),
+        colorSecondary: cs.value.secondary,
+        colorSecondaryHover: color.lightness(cs.value.secondary),
+        colorSecondaryPressed: color.darkness(cs.value.secondary),
 
-        border: `1px solid ${cs.primary}`,
+        border: `1px solid ${cs.value.primary}`,
         borderHover: `1px solid ${primaryLightness}`,
         borderPressed: `1px solid ${primaryDarkness}`,
         borderFocus: `1px solid ${primaryLightness}`,
 
-        colorPrimary: cs.primary,
+        colorPrimary: cs.value.primary,
         colorHoverPrimary: primaryLightness,
         colorPressedPrimary: primaryDarkness,
         colorFocusPrimary: primaryLightness,
-        textColorPrimary: cs.onPrimary,
+        textColorPrimary: cs.value.onPrimary,
         borderHoverPrimary: `1px solid ${primaryLightness}`,
         borderPressedPrimary: `1px solid ${primaryDarkness}`,
         borderFocusPrimary: `1px solid ${primaryLightness}`,
 
-        colorTertiary: cs.tertiary,
-        colorTertiaryHover: color.lightness(cs.tertiary),
-        colorTertiaryPressed: color.darkness(cs.tertiary),
-        textColorTertiary: cs.onTertiary,
-        colorError: cs.error,
-        colorErrorHover: color.lightness(cs.error),
-        colorErrorPressed: color.darkness(cs.error),
-        textColorError: cs.onError,
+        colorTertiary: cs.value.tertiary,
+        colorTertiaryHover: color.lightness(cs.value.tertiary),
+        colorTertiaryPressed: color.darkness(cs.value.tertiary),
+        textColorTertiary: cs.value.onTertiary,
+        colorError: cs.value.error,
+        colorErrorHover: color.lightness(cs.value.error),
+        colorErrorPressed: color.darkness(cs.value.error),
+        textColorError: cs.value.onError,
       },
       Layout: {
-        siderColor: cs.surfaceContainer,
+        siderColor: cs.value.surfaceContainer,
       },
       Menu: {
         // drawer
-        itemIconColorCollapsed: cs.onSurface,
-        itemIconColor: cs.onSurface,
-        itemIconColorHover: cs.onSurface,
-        itemTextColor: cs.onSurface,
-        itemTextColorHover: cs.onSurface,
-        arrowColor: cs.onSurface,
-        arrowColorHover: cs.onSurface,
-        itemColorHover: cs.primaryContainer,
-        itemColorActive: cs.primaryContainer,
+        itemIconColorCollapsed: cs.value.onSurface,
+        itemIconColor: cs.value.onSurface,
+        itemIconColorHover: cs.value.onSurface,
+        itemTextColor: cs.value.onSurface,
+        itemTextColorHover: cs.value.onSurface,
+        arrowColor: cs.value.onSurface,
+        arrowColorHover: cs.value.onSurface,
+        itemColorHover: cs.value.primaryContainer,
+        itemColorActive: cs.value.primaryContainer,
       },
     };
   });

@@ -2,7 +2,8 @@ import type { MaybeElementRef } from "@vueuse/core";
 import { useChangeCase } from "@vueuse/integrations/useChangeCase";
 import { Material3ColorSchemeKeys } from "./useMaterial3ColorScheme";
 
-export type CustomColorScheme<T = any> = Partial<Material3ColorScheme | T>;
+export type CustomColorScheme<T = any> = Material3ColorSchemePartial &
+  Partial<T>;
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
   useElCssVar(`${key}`, target, { inherit: false });
@@ -18,11 +19,12 @@ export const useCustomColorScheme = <T>(
     editMode?: boolean;
   }
 ) => {
-  const lightColorScheme = ref<CustomColorScheme<T>>(
-    config?.lightColorScheme ?? defaultColorScheme
+  const lightColorScheme = ref(
+    config?.lightColorScheme ?? <CustomColorScheme<T>>{ ...defaultColorScheme }
   );
-  const darkColorScheme = ref<CustomColorScheme<T>>(
-    config?.darkColorScheme ?? defaultDarkColorScheme
+  const darkColorScheme = ref(
+    config?.darkColorScheme ??
+      <CustomColorScheme<T>>{ ...defaultDarkColorScheme }
   );
 
   const usedColorScheme = computed(() => {
@@ -67,15 +69,16 @@ export const useCustomColorScheme = <T>(
     }
   });
 
-  if (config) {
-    if (config.lightColorScheme) {
-      lightColorScheme.value = config.lightColorScheme;
-    }
+  // if (config) {
+  //   if (config.lightColorScheme) {
+  //     const a = config.lightColorScheme
+  //     lightColorScheme.value =  config.lightColorScheme;
+  //   }
 
-    if (config.darkColorScheme) {
-      darkColorScheme.value = config.darkColorScheme;
-    }
-  }
+  //   if (config.darkColorScheme) {
+  //     darkColorScheme.value = config.darkColorScheme;
+  //   }
+  // }
 
   return { mode: store, lightColorScheme, darkColorScheme, usedColorScheme };
 };

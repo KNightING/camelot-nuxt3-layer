@@ -12,16 +12,21 @@ const props = defineProps<{
 
 const container = ref<HTMLElement>();
 
+const usedColorScheme = ref<CustomColorScheme<T>>();
+
 onMounted(() => {
-  const { lightColorScheme: lcs, darkColorScheme: dcs } = useCustomColorScheme<T>(
+  const { lightColorScheme: lcs, darkColorScheme: dcs,usedColorScheme:used } = useCustomColorScheme<T>(
     container,
     {
       lightColorScheme: props.lightColorScheme,
       darkColorScheme: props.darkColorScheme ,
     }
   );
+
+  usedColorScheme.value = computed(()=>used.value).value;
 });
+
+defineExpose({usedColorScheme});
 </script>
 
 <style scoped></style>
-../../composables/useCustomColorScheme
