@@ -39,7 +39,7 @@ export function useElCssVar(
   } = options;
   const variable = ref(initialValue);
   const elRef = computed(
-    () => unrefElement(target) || window?.document?.documentElement
+    () => unrefElement(target) ?? window?.document?.documentElement
   );
 
   function updateCssVar() {

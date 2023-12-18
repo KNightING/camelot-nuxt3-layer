@@ -1,4 +1,4 @@
-import { isClient } from "@vueuse/core";
+import { isClient, type MaybeElementRef } from "@vueuse/core";
 import { useChangeCase } from "@vueuse/integrations/useChangeCase";
 
 export type Material3ColorScheme = {
@@ -384,6 +384,12 @@ export const defaultDarkColorScheme: Material3ColorSchemePartial = {
 //   }
 // };
 
+type Material3ColorSchemeConfig = {
+  lightColorScheme?: Material3ColorSchemePartial;
+  darkColorScheme?: Material3ColorSchemePartial;
+  editMode?: boolean;
+};
+
 const globalLightColorScheme =
   ref<Material3ColorSchemePartial>(defaultColorScheme);
 const globalDarkColorScheme = ref<Material3ColorSchemePartial>(
@@ -406,7 +412,7 @@ const globalUsedColorScheme = computed(() => {
 
 const globalChangeCase = useChangeCase("", "paramCase");
 
-const getCssVar = (key: string, target?: Ref<HTMLElement>) =>
+const getCssVar = (key: string, target?: MaybeElementRef) =>
   useElCssVar(`--material3-${key}`, target, { inherit: false });
 
 watchImmediate(globalUsedColorScheme, (nV) => {
@@ -419,7 +425,17 @@ watchImmediate(globalUsedColorScheme, (nV) => {
   }
 });
 
-export const useGlobalMaterial3ColorScheme = () => {
+export const useGlobalMaterial3ColorScheme = (
+  config?: Material3ColorSchemeConfig
+) => {
+  if (config?.lightColorScheme) {
+    globalLightColorScheme.value = config?.lightColorScheme;
+  }
+
+  if (config?.darkColorScheme) {
+    globalDarkColorScheme.value = config?.darkColorScheme;
+  }
+
   return {
     mode: store,
     lightColorScheme: globalLightColorScheme,
@@ -429,18 +445,18 @@ export const useGlobalMaterial3ColorScheme = () => {
 };
 
 export const useMaterial3ColorScheme = (
-  target?: Ref<HTMLElement>,
-  editMode?: boolean
+  target?: MaybeElementRef,
+  config?: Material3ColorSchemeConfig
 ) => {
   if (!target) {
-    return useGlobalMaterial3ColorScheme();
+    return useGlobalMaterial3ColorScheme(config);
   }
 
   const lightColorScheme = ref<Material3ColorSchemePartial>(
-    globalLightColorScheme.value
+    config?.lightColorScheme ?? globalLightColorScheme.value
   );
   const darkColorScheme = ref<Material3ColorSchemePartial>(
-    globalDarkColorScheme.value
+    config?.lightColorScheme ?? globalDarkColorScheme.value
   );
   const { system, store } = useColorMode();
 
@@ -451,13 +467,13 @@ export const useMaterial3ColorScheme = (
     } else {
       isDark = store.value === "dark";
     }
-    return { ...(isDark ? darkColorScheme.value : lightColorScheme.value) };
+    return { ...(isDark ? lightColorScheme.value : darkColorScheme.value) };
   });
 
   const changeCase = useChangeCase("", "paramCase");
 
   watchImmediate(usedColorScheme, (nV) => {
-    if (editMode === false) return;
+    if (config?.editMode === false) return;
 
     for (const key in nV) {
       if (useIsValidKey(key, nV)) {
@@ -467,6 +483,16 @@ export const useMaterial3ColorScheme = (
       }
     }
   });
+
+  if (config) {
+    if (config.lightColorScheme) {
+      lightColorScheme.value = config.lightColorScheme;
+    }
+
+    if (config.darkColorScheme) {
+      darkColorScheme.value = config.darkColorScheme;
+    }
+  }
 
   return { mode: store, lightColorScheme, darkColorScheme, usedColorScheme };
 };
