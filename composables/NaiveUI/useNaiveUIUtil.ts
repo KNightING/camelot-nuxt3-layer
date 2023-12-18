@@ -1,7 +1,8 @@
-import type { GlobalThemeOverrides } from "naive-ui";
+import type { GlobalThemeOverrides } from "naive-ui/lib";
+import type { Material3ColorSchemePartial } from "../useMaterial3ColorScheme";
 
 function getThemeFromMaterial3ColorScheme(
-  cs: Material3ColorScheme
+  cs: Material3ColorSchemePartial
 ): GlobalThemeOverrides {
   const color = useColor();
   const primaryLightness = color.lightness(cs.primary);

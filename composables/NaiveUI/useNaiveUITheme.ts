@@ -1,5 +1,4 @@
-import { darkTheme } from "naive-ui";
-import type { GlobalThemeOverrides } from "naive-ui";
+import { darkTheme, type GlobalThemeOverrides } from "naive-ui/lib";
 
 import type { BuiltInGlobalTheme } from "naive-ui/es/themes/interface";
 
@@ -24,18 +23,6 @@ class NaiveUITheme {
       system,
       (nV) => {
         if (nV === "dark") {
-          // 有覆蓋黑暗模式時，使用暗黑模式
-          // if (this.darkThemeOverrides.value) {
-          //   this.theme.value = darkTheme;
-          //   return;
-          // }
-
-          // 沒有覆蓋暗黑模式但有覆蓋一般模式時，使用一般模式
-          // if (this.themeOverrides.value){
-          //   this.theme.value = undefined;
-          // }
-
-          // 都沒有覆蓋行為則預設暗黑模式
           this.theme.value = darkTheme;
           return;
         }

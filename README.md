@@ -39,6 +39,19 @@ export default defineNuxtConfig({
 ## TailwindCSS
 
 1. copy `tailwind.config.js` to root folder
+2. copy `assets` folder to root folder
+3. in `nuxt.config.ts`
+
+```ts
+export default defineNuxtConfig({
+  ...
+  css: [
+    "@/assets/css/global.css",
+    "@/assets/css/tailwind-base.css",
+    "@/assets/css/tailwind-components.css",
+    "@/assets/css/tailwind-utilities.css",
+  ],});
+```
 
 ## i18n
 

@@ -1,7 +1,3 @@
 {
-  "HelloWorld": "Hello World",
-  "Title": "Title",
-  "Dashboard": "Dashboard",
-  "MemberQuery": "Member",
-  "ProductQuery": "Product"
+  "HelloWorld": "Hello World"
 }
