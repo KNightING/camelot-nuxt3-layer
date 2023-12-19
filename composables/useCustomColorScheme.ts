@@ -3,6 +3,7 @@ import { useChangeCase } from "@vueuse/integrations/useChangeCase";
 import { Material3ColorSchemeKeys } from "./useMaterial3ColorScheme";
 
 export type CustomColorScheme<T = any> = Material3ColorSchemePartial &
+  Partial<CamelotColorScheme> &
   Partial<T>;
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
@@ -24,7 +25,7 @@ export const useCustomColorScheme = <T>(
   );
   const darkColorScheme = ref(
     config?.darkColorScheme ??
-      <CustomColorScheme<T>>{ ...defaultDarkColorScheme }
+    <CustomColorScheme<T>>{ ...defaultDarkColorScheme }
   );
 
   const usedColorScheme = computed(() => {
@@ -51,6 +52,8 @@ export const useCustomColorScheme = <T>(
         let cssVarKey = changeCase.value;
         if (Material3ColorSchemeKeys.includes(key)) {
           cssVarKey = `--material3-${cssVarKey}`;
+        } else if (CamelotColorSchemeKeys.includes(key)) {
+          cssVarKey = `--camelot-${cssVarKey}`;
         } else {
           if (config?.cssVarKeyPrefix) {
             cssVarKey = `--${config.cssVarKeyPrefix}-${cssVarKey}`;
@@ -59,11 +62,11 @@ export const useCustomColorScheme = <T>(
           }
         }
         const cssVar = getCssVar(cssVarKey, target);
-        const rbga = useColor().hexToRgbaArray(nV[key]);
-        if (!rbga) {
+        const rgba = useColor().hexToRgbaArray(nV[key]);
+        if (!rgba) {
           cssVar.value = nV[key];
         } else {
-          cssVar.value = `${rbga[0]},${rbga[1]},${rbga[2]}`;
+          cssVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`;
         }
       }
     }
@@ -82,3 +85,14 @@ export const useCustomColorScheme = <T>(
 
   return { mode: store, lightColorScheme, darkColorScheme, usedColorScheme };
 };
+
+
+type CamelotColorScheme = {
+  rippleColor: string
+}
+
+export const CamelotColorSchemeKeys = Object.keys(
+  <CamelotColorScheme>{
+    rippleColor: ""
+  }
+) as (keyof CamelotColorScheme)[];

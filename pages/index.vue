@@ -27,6 +27,8 @@
         class="text-test bg-primary"
         @click="changeCustom"
       >CHANGE</div>
+      <CamelotRippleEffect><div class="w-10 h-10" /></CamelotRippleEffect>
+      <CamelotRippleEffect ripple-color="#034324"><div class="w-10 h-10" /></CamelotRippleEffect>
     </CamelotCustomColorSchemeProvider>
   </span>
 </template>
@@ -49,6 +51,7 @@ const change = () => {
 const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
   primary: "#44ffFF",
   test: "#F40fFF",
+  rippleColor:"#000FFF"
 });
 
 const changeCustom = () => {

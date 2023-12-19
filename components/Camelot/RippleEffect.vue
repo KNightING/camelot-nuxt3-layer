@@ -1,5 +1,4 @@
 <!-- 包裝Ripple的元件  -->
-
 <template>
   <div
     id="container"
@@ -12,13 +11,26 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{rippleColor?:string}>();
+
 const container = ref<HTMLDivElement>();
 
 // let size: number | undefined = undefined;
 
 const { height, width, x, y } = useElementBounding(container);
 
-const rippleSizeCss = useCssVar("--ripple-size", container);
+const rippleSizeCss = useElCssVar("--ripple-size", container);
+
+const rippleColorCss = useElCssVar("--camelot-ripple-color",container,{inherit:false});
+
+watchOnce(container,(nV)=>{
+  if(props.rippleColor){
+    const rgba = useColor().hexToRgbaArray(props.rippleColor);
+    if(rgba){
+      rippleColorCss.value = `${rgba[0]},${rgba[1]},${rgba[2]}`;
+    }
+  }
+});
 
 watchOnce([height, width], (nV) => {
   const height = nV[0];
@@ -55,7 +67,7 @@ const onMouseDown = (e: MouseEvent) => {
 <style scoped>
 :deep(.ripple) {
   position: absolute;
-  background: radial-gradient(#0000, var(--material3-primary));
+  background: radial-gradient(#0000, rgba(var(--camelot-ripple-color)));
   transform: translate(-50%, -50%);
   pointer-events: none;
   border-radius: 50%;
