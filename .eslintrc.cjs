@@ -1,4 +1,8 @@
 module.exports = {
   root: true,
   extends: ["@nuxt/eslint-config"],
+  rules:{
+    'vue/multi-word-component-names': 'off',
+    'vue/require-default-prop':'off'
+  }
 };
