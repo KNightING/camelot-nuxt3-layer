@@ -1,3 +1,4 @@
+import { useFloat } from '../../composables/useFloat';
 <template>
   <div
     class="border rounded-full px-1 flex items-center group min-w-fit active:border-primary"
@@ -114,7 +115,7 @@ const checkFixed = computed(() => {
   const stepString = step.toString();
   const dotIndex = stepString.indexOf(".");
   let fixed = 1;
-  if (dotIndex > 0) {
+  if (dotIndex >= 0) {
     fixed = Math.pow(10, stepString.length - dotIndex);
   }
   return fixed;
@@ -122,9 +123,10 @@ const checkFixed = computed(() => {
 
 const calc = (value: number, isPlus: boolean) => {
   const step = absStep.value;
-  const fixed = checkFixed.value;
+  // const fixed = checkFixed.value;
   const plusStep = isPlus ? step : step * -1;
-  return Math.round((value * fixed + plusStep * fixed)) / fixed;
+  return useFloat().plus(value,plusStep);
+  // return Math.round((value * fixed + plusStep * fixed)) / fixed;
 }
 
 const onMinusClick = () => {

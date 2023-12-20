@@ -1,3 +1,4 @@
+import { useFloat } from '../composables/useFloat';
 <template>
   <span>
     <div class="text-primary">{{ useBaseUrl() }}</div>
@@ -31,6 +32,7 @@
       <CamelotRippleEffect ripple-color="#034324"><div class="w-10 h-10" /></CamelotRippleEffect>
 
       <CamelotNumberCounter
+        v-model="v"
         class="w-4"
         :max="10"
         :min="0"
@@ -44,7 +46,11 @@
 </template>
 
 <script setup lang="ts">
-const v = ref(0.3)
+const v = ref(0.3);
+
+watch(v,(nV)=>{
+  console.log(useFloat().plus(nV,0.1));
+});
 
 const { lightColorScheme, darkColorScheme } = useMaterial3ColorScheme();
 const click = () => {
@@ -70,6 +76,8 @@ const changeCustom = () => {
   elCustomLightColorScheme.value.primary = "#F40fFF";
   elCustomLightColorScheme.value.test = "#44ffFF";
 };
+
+
 </script>
 
 <style scoped></style>
