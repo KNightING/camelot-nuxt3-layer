@@ -125,7 +125,7 @@ const calc = (value: number, isPlus: boolean) => {
   const step = absStep.value;
   // const fixed = checkFixed.value;
   const plusStep = isPlus ? step : step * -1;
-  return useFloat().plus(value,plusStep);
+  return useFloat().plus(value,plusStep).value;
   // return Math.round((value * fixed + plusStep * fixed)) / fixed;
 }
 

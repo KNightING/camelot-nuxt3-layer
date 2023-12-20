@@ -48,8 +48,10 @@ import { useFloat } from '../composables/useFloat';
 <script setup lang="ts">
 const v = ref(0.3);
 
-watch(v,(nV)=>{
-  console.log(useFloat().plus(nV,0.1));
+const plus = useFloat().plus(v, 0.3);
+
+watch(plus,(nV)=>{
+  console.log(nV);
 });
 
 const { lightColorScheme, darkColorScheme } = useMaterial3ColorScheme();
