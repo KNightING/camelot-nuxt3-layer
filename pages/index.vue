@@ -29,11 +29,23 @@
       >CHANGE</div>
       <CamelotRippleEffect><div class="w-10 h-10" /></CamelotRippleEffect>
       <CamelotRippleEffect ripple-color="#034324"><div class="w-10 h-10" /></CamelotRippleEffect>
+
+      <CamelotNumberCounter
+        class="w-4"
+        :max="10"
+        :min="0"
+        min-step-by-value
+        used-min-step-by-value
+      />
+
     </CamelotCustomColorSchemeProvider>
+
   </span>
 </template>
 
 <script setup lang="ts">
+const v = ref(0.3)
+
 const { lightColorScheme, darkColorScheme } = useMaterial3ColorScheme();
 const click = () => {
   lightColorScheme.value.primary = "red";
@@ -61,4 +73,3 @@ const changeCustom = () => {
 </script>
 
 <style scoped></style>
-../composables/useCustomColorScheme
