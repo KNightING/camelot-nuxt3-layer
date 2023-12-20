@@ -16,17 +16,21 @@ export enum AuthorizationType {
   BearerJWT,
 }
 
+
 export type ExtendsFetchOptions = {
   authorizationType?: AuthorizationType;
   contentType?: ContentType;
-  // 需要設定key
-  clearCache?: boolean;
+
+  /**
+  * "default" 目前與 "clearNuxtData" 相同: 需先設定key
+  */
+  cachePolicy?: "default" | "clearNuxtData" | "useNuxtData"
 };
 
 const defaultExtendsFetchOptions: ExtendsFetchOptions = {
   authorizationType: AuthorizationType.BearerJWT,
   contentType: ContentType.Json,
-  clearCache: true,
+  cachePolicy: "default"
 };
 
 export type FetchOptions<
@@ -83,28 +87,40 @@ abstract class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
       headers: headers,
     };
 
-    this.clearCache(opt);
     return opt;
   }
 
-  protected clearCache(options?: FetchOptions) {
-    if (options) {
-      if (options.clearCache && options.key) {
-        clearNuxtData(options.key);
-      }
-    }
-  }
+  // protected clearCache(options?: FetchOptions) {
+  //   if (options) {
+  //     if (options.clearCache && options.key) {
+  //       clearNuxtData(options.key);
+  //     }
+  //   }
+  // }
 
   private async useFetchWrapper<DataT>(
     url: Url,
     method: "get" | "post" | "patch" | "put" | "delete",
     options?: FetchOptions<DataT, T>
   ) {
+    if (options?.cachePolicy === 'default' || options?.cachePolicy === 'clearNuxtData') {
+      clearNuxtData(options.key);
+    }
+
     const { data, error, refresh, execute, status, pending } = await useFetch(
       url,
       {
         ...(await this.mergeFetchOptions(options)),
         method: method,
+        getCachedData(key) {
+          console.log(key)
+
+          if (options?.cachePolicy === 'useNuxtData') {
+            if (useNuxtData(key).data.value) {
+              return useNuxtData(key);
+            }
+          }
+        },
       }
     );
     const isSuccess = computed(() => status.value === "success");
