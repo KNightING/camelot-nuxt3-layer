@@ -47,13 +47,23 @@
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps<{
   modelValue?: number;
   step?: number;
   min?: number;
   max?: number;
   placeholder?: string;
+  /**
+   * 是否使用目前value的最小單位當成step, 如果有設定step會優先此設定
+   * 例如目前值為0.2, step則會使用0.1
+   * 例如目前值為0.03, step則會使用0.01
+   **/
   minStepByValue?: boolean;
+  /**
+   * 是否使用曾經value的最小單位當成step, minStepByValue需為true
+   * 例如曾經step為0.01, 現在值為0.2, step不會更新成0.1, 會繼續使用0.01
+   **/
   usedMinStepByValue?:boolean;
 }>();
 
