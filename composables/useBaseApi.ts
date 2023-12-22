@@ -87,34 +87,24 @@ abstract class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
       headers: headers,
     };
 
+    if (opt?.cachePolicy === 'default' || opt?.cachePolicy === 'clearNuxtData') {
+      clearNuxtData(opt.key);
+    }
+
     return opt;
   }
-
-  // protected clearCache(options?: FetchOptions) {
-  //   if (options) {
-  //     if (options.clearCache && options.key) {
-  //       clearNuxtData(options.key);
-  //     }
-  //   }
-  // }
 
   private async useFetchWrapper<DataT>(
     url: Url,
     method: "get" | "post" | "patch" | "put" | "delete",
     options?: FetchOptions<DataT, T>
   ) {
-    if (options?.cachePolicy === 'default' || options?.cachePolicy === 'clearNuxtData') {
-      clearNuxtData(options.key);
-    }
-
     const { data, error, refresh, execute, status, pending } = await useFetch(
       url,
       {
         ...(await this.mergeFetchOptions(options)),
         method: method,
         getCachedData(key) {
-          console.log(key)
-
           if (options?.cachePolicy === 'useNuxtData') {
             if (useNuxtData(key).data.value) {
               return useNuxtData(key);
