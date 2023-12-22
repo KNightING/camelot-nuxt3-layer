@@ -7,11 +7,11 @@
       >
         <div
           class="w-full h-full bg-gray-900 opacity-80"
-          @click="onMaskClick"
+          @click="onCloseByMaskClick"
         />
         <dialog
           :open="open"
-          class="bg-surface-container rounded-lg shadow overflow-hidden flex flex-col"
+          class=" bg-white rounded-lg shadow overflow-hidden flex flex-col"
         >
           <i-material-symbols-close
             class="text-primary text-lg m-1 self-end cursor-pointer"
@@ -51,7 +51,7 @@ const open = computed({
   },
 });
 
-function onMaskClick() {
+function onCloseByMaskClick() {
   if (props.closeByMask) {
     open.value = false;
   }
