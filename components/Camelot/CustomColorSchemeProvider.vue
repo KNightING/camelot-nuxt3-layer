@@ -14,19 +14,31 @@ const container = ref<HTMLElement>();
 
 const usedColorScheme = ref<CustomColorScheme<T>>();
 
-onMounted(() => {
-  const { lightColorScheme: lcs, darkColorScheme: dcs,usedColorScheme:used } = useCustomColorScheme<T>(
+watchOnce(container, (nV) => {
+  const { lightColorScheme, darkColorScheme, usedColorScheme: used } = useCustomColorScheme<T>(
     container,
     {
       lightColorScheme: props.lightColorScheme,
-      darkColorScheme: props.darkColorScheme ,
+      darkColorScheme: props.darkColorScheme,
     }
   );
 
-  usedColorScheme.value = computed(()=>used.value).value;
+  console.table(lightColorScheme.value)
+
+  watchImmediate(props, (nV) => {
+    if(nV.lightColorScheme){
+      lightColorScheme.value = { ...lightColorScheme.value, ...nV.lightColorScheme };
+    }
+
+    if(nV.darkColorScheme){
+      darkColorScheme.value = {...darkColorScheme.value, ...nV.darkColorScheme };
+    }
+  });
+
+  usedColorScheme.value = computed(() => used.value).value;
 });
 
-defineExpose({usedColorScheme});
+defineExpose({ usedColorScheme });
 </script>
 
 <style scoped></style>

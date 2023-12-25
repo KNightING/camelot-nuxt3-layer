@@ -1,36 +1,32 @@
 <template>
   <Teleport to="body">
     <Transition>
-      <div
+      <CamelotCustomColorSchemeProvider
         v-if="open"
-        class="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
+        class="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center w-full h-full"
       >
         <div
-          class="w-full h-full bg-gray-900 opacity-80"
+          class="mask w-full h-full"
           @click="onMaskClick"
         />
         <dialog
           :open="open"
-          class="bg-surface-container rounded-lg shadow overflow-hidden flex flex-col"
+          class="bg-transparent"
         >
-          <i-material-symbols-close
-            class="text-primary text-lg m-1 self-end cursor-pointer"
-            @click="open = false"
-          />
-          <div class="overflow-auto">
-            <slot />
-          </div>
+          <slot />
         </dialog>
-      </div>
+      </CamelotCustomColorSchemeProvider>
     </Transition>
   </Teleport>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 const props = withDefaults(
   defineProps<{
     open: boolean;
     closeByMask?: boolean;
+    lightColorScheme?: CustomColorScheme<T>;
+    darkColorScheme?: CustomColorScheme<T>;
   }>(),
   {
     open: false,
@@ -61,11 +57,15 @@ function onMaskClick() {
 <style scoped>
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.mask {
+  background-color: rgba(var(--camelot-mask-color), .8);
 }
 </style>

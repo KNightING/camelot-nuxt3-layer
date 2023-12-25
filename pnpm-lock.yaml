@@ -19,6 +19,9 @@ dependencies:
     version: 4.1.2
 
 devDependencies:
+  '@iconify-json/material-symbols':
+    specifier: ^1.1.62
+    version: 1.1.62
   '@nuxt/eslint-config':
     specifier: ^0.1.1
     version: 0.1.1(eslint@8.56.0)
@@ -895,6 +898,12 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
+    dev: true
+
+  /@iconify-json/material-symbols@1.1.62:
+    resolution: {integrity: sha512-l3cB53TdQwuLev2MXr/d9r406uwv0/RkP3yTPxYkMzxGvzIBUjAwlrTOVrb5Zn+2VoaLUUOAyxwCCF0Bmxlexg==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: true
 
   /@iconify/types@2.0.0:

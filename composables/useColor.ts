@@ -45,10 +45,12 @@ class ColorUtil {
     const fullHex = this.toFullHex(hex);
     if (!fullHex) return undefined;
 
-    return fullHex
+    const array = fullHex
       .replace("#", "")
       .match(/.{2}/g)!
       .map((c) => parseInt(c, 16));
+
+    return [array[0], array[1], array[2], Math.floor((array[3] * 10) / 255) / 10]
   }
 
   // alpha's range is from 0 to 1
@@ -59,9 +61,8 @@ class ColorUtil {
     const array = this.hexToRgbaArray(hex);
     if (!array) return undefined;
 
-    return `rgba(${array[0]},${array[1]},${array[2]}, ${
-      alpha ?? Math.floor((array[3] * 10) / 255) / 10
-    })`;
+    return `rgba(${array[0]},${array[1]},${array[2]}, ${alpha ?? Math.floor((array[3] * 10) / 255) / 10
+      })`;
   }
 
   /**

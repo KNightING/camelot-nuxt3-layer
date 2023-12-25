@@ -1,7 +1,6 @@
-import { useFloat } from '../../composables/useFloat';
 <template>
   <div
-    class="border rounded-full px-1 flex items-center group min-w-fit active:border-primary"
+    class="border rounded-full px-1 flex items-center group min-w-fit active:border-primary bg-white"
     :class="{
       'border-primary': isFocus
     }"
@@ -22,7 +21,7 @@ import { useFloat } from '../../composables/useFloat';
     <input
       ref="input"
       v-model="value"
-      class="flex-1 text-center outline-none appearance-none m-0 min-w-[4ch]"
+      class="flex-1 text-center outline-none appearance-none m-0 min-w-[4ch] bg-transparent"
       type="number"
       :placeholder="placeholder"
       :step="step"
@@ -65,7 +64,7 @@ const props = defineProps<{
    * 是否使用曾經value的最小單位當成step, minStepByValue需為true
    * 例如曾經step為0.01, 現在值為0.2, step不會更新成0.1, 會繼續使用0.01
    **/
-  usedMinStepByValue?:boolean;
+  usedMinStepByValue?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -74,11 +73,17 @@ const emit = defineEmits<{
 
 const selfValue = ref(props.modelValue ?? 0);
 
+watch(props, (nV) => {
+  if (nV.modelValue) {
+    selfValue.value = nV.modelValue;
+  }
+})
+
 const value = computed({
   get: () => selfValue.value,
   set: (value) => {
     selfValue.value = value;
-    emit("update:modelValue", value);
+    emit("update:modelValue", selfValue.value);
   },
 });
 
@@ -98,35 +103,22 @@ const absStep = computed(() => {
     const usedStep = absStep.value as number;
     if (dotIndex > 0) {
       const calcStep = 1 / Math.pow(10, stepString.length - dotIndex - 1);
-      if(props.usedMinStepByValue && usedStep && calcStep > usedStep){
+      if (props.usedMinStepByValue && usedStep && calcStep > usedStep) {
         return usedStep;
-      }else{
-       return calcStep;
+      } else {
+        return calcStep;
       }
-    }else if(props.usedMinStepByValue && usedStep){
+    } else if (props.usedMinStepByValue && usedStep) {
       return usedStep;
     }
   }
   return 1;
 });
 
-const checkFixed = computed(() => {
-  const step = absStep.value;
-  const stepString = step.toString();
-  const dotIndex = stepString.indexOf(".");
-  let fixed = 1;
-  if (dotIndex >= 0) {
-    fixed = Math.pow(10, stepString.length - dotIndex);
-  }
-  return fixed;
-});
-
 const calc = (value: number, isPlus: boolean) => {
   const step = absStep.value;
-  // const fixed = checkFixed.value;
   const plusStep = isPlus ? step : step * -1;
-  return useFloat().plus(value,plusStep).value;
-  // return Math.round((value * fixed + plusStep * fixed)) / fixed;
+  return useFloat().plus(value, plusStep).value;
 }
 
 const onMinusClick = () => {

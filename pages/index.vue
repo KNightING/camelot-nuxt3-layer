@@ -1,4 +1,3 @@
-import { useFloat } from '../composables/useFloat';
 <template>
   <span>
     <div class="text-primary">{{ useBaseUrl() }}</div>
@@ -10,18 +9,6 @@ import { useFloat } from '../composables/useFloat';
       class="text-primary"
       @click="useColorMode().value = 'dark'"
     >dark</div>
-
-    <div
-      class="text-primary"
-      @click="click"
-    >test</div>
-
-    <CamelotMaterial3Provider :light-color-scheme="elLightColorScheme">
-      <div
-        class="text-on-primary bg-primary"
-        @click="change"
-      >CHANGE</div>
-    </CamelotMaterial3Provider>
 
     <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme">
       <div
@@ -42,23 +29,60 @@ import { useFloat } from '../composables/useFloat';
 
     </CamelotCustomColorSchemeProvider>
 
+    <CamelotNumberCounter
+      v-model="v"
+      class="w-4"
+      :max="10"
+      :min="0"
+      min-step-by-value
+      used-min-step-by-value
+    />
+
+    <input v-model="v">
+
+    <div
+      class="text-test bg-primary"
+      @click="open = true"
+    >open dialog</div>
+
+    <CamelotBaseDialog
+      v-model:open="open"
+    >
+      <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
+        <div class="flex justify-end">
+          <i-material-symbols-close
+            class="text-primary text-lg m-1 cursor-pointer"
+            @click="open = false"
+          />
+        </div>
+        <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
+          <CamelotNumberCounter
+            v-model="v"
+            class="w-4"
+            :max="10"
+            :min="0"
+            min-step-by-value
+            used-min-step-by-value
+          />
+          <div class="h-[600px]" />
+        </div>
+
+      </div>
+    </CamelotBaseDialog>
   </span>
 </template>
 
 <script setup lang="ts">
 const v = ref(0.3);
 
-const plus = useFloat().plus(v, 0.3);
-
-watch(plus,(nV)=>{
-  console.log(nV);
+useCustomColorScheme<{ test: string }>(undefined,{
+  lightColorScheme:{
+  test: "#F40fFF",
+},
+darkColorScheme:{
+  test: "#140fF1",
+}
 });
-
-const { lightColorScheme, darkColorScheme } = useMaterial3ColorScheme();
-const click = () => {
-  lightColorScheme.value.primary = "red";
-  darkColorScheme.value.primary = "blue";
-};
 
 const elLightColorScheme = ref<Material3ColorSchemePartial>({
   primary: "yellow",
@@ -75,10 +99,11 @@ const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
 });
 
 const changeCustom = () => {
-  elCustomLightColorScheme.value.primary = "#F40fFF";
-  elCustomLightColorScheme.value.test = "#44ffFF";
+  elCustomLightColorScheme.value.primary = "#734F41";
+  elCustomLightColorScheme.value.test = "#FF4F4F";
 };
 
+const open = ref(false);
 
 </script>
 

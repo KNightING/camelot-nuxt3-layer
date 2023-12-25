@@ -12,6 +12,7 @@
     "postinstall": "nuxt prepare .playground"
   },
   "devDependencies": {
+    "@iconify-json/material-symbols": "^1.1.62",
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxtjs/i18n": "8.0.0-rc.5",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
