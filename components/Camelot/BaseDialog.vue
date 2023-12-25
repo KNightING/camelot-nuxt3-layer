@@ -4,10 +4,11 @@
       <CamelotCustomColorSchemeProvider
         v-if="open"
         class="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center w-full h-full"
+        :light-color-scheme="lightColorScheme"
       >
         <div
           class="mask w-full h-full"
-          @click="onMaskClick"
+          @click="onCloseByMaskClick"
         />
         <dialog
           :open="open"
@@ -20,13 +21,13 @@
   </Teleport>
 </template>
 
-<script setup lang="ts" generic="T">
+<script setup lang="ts">
 const props = withDefaults(
   defineProps<{
     open: boolean;
     closeByMask?: boolean;
-    lightColorScheme?: CustomColorScheme<T>;
-    darkColorScheme?: CustomColorScheme<T>;
+    lightColorScheme?: CustomColorScheme<any>;
+    darkColorScheme?: CustomColorScheme<any>;
   }>(),
   {
     open: false,
@@ -47,7 +48,7 @@ const open = computed({
   },
 });
 
-function onMaskClick() {
+function onCloseByMaskClick() {
   if (props.closeByMask) {
     open.value = false;
   }
