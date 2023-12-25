@@ -1,22 +1,33 @@
+import { useLoading } from '../composables/useLoading';
 <template>
-  <span>
-    <div class="text-primary">{{ useBaseUrl() }}</div>
+  <div>
+    <div class="text-primary">
+      {{ useBaseUrl() }}
+    </div>
     <div
       class="text-primary"
       @click="useColorMode().value = 'light'"
-    >light</div>
+    >
+      light
+    </div>
     <div
       class="text-primary"
       @click="useColorMode().value = 'dark'"
-    >dark</div>
+    >
+      dark
+    </div>
 
     <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme">
       <div
         class="text-test bg-primary"
         @click="changeCustom"
-      >CHANGE</div>
+      >
+        CHANGE
+      </div>
       <CamelotRippleEffect><div class="w-10 h-10" /></CamelotRippleEffect>
-      <CamelotRippleEffect ripple-color="#034324"><div class="w-10 h-10" /></CamelotRippleEffect>
+      <CamelotRippleEffect ripple-color="#034324">
+        <div class="w-10 h-10" />
+      </CamelotRippleEffect>
 
       <CamelotNumberCounter
         v-model="v"
@@ -26,7 +37,6 @@
         min-step-by-value
         used-min-step-by-value
       />
-
     </CamelotCustomColorSchemeProvider>
 
     <CamelotNumberCounter
@@ -43,7 +53,9 @@
     <div
       class="text-test bg-primary"
       @click="open = true"
-    >open dialog</div>
+    >
+      open dialog
+    </div>
 
     <CamelotBaseDialog
       v-model:open="open"
@@ -66,16 +78,29 @@
           />
           <div class="h-[600px]" />
         </div>
-
       </div>
     </CamelotBaseDialog>
-  </span>
+    <div
+      class="text-test bg-primary"
+      @click="openLoading"
+    >
+      open loading
+    </div>
+    <CamelotLoading />
+
+    <CamelotTabs
+      v-model="tabSelected"
+      class="top-0 sticky bg-surface py-2 px-2 z-10 drop-shadow"
+      :data="data"
+      display-key="name"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 const v = ref(0.3);
 
-useCustomColorScheme<{ test: string }>(undefined,{
+const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined,{
   lightColorScheme:{
   test: "#F40fFF",
 },
@@ -101,9 +126,30 @@ const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
 const changeCustom = () => {
   elCustomLightColorScheme.value.primary = "#734F41";
   elCustomLightColorScheme.value.test = "#FF4F4F";
+  globalColorScheme.lightColorScheme.value = {
+    ...globalColorScheme.lightColorScheme.value,
+    maskColor:"#FFFFFF"
+  }
 };
 
 const open = ref(false);
+
+const openLoading = async ()=>{
+  const closeable = useLoading().open("test");
+  await useDelay(3000);
+  closeable();
+}
+
+const data =
+  Array.from({ length:21 }).map((_, rowIndex) => {
+    return {
+      no: `${rowIndex}`,
+      name: `分類-${rowIndex}`,
+    };
+  });
+
+  const tabSelected = ref(0);
+
 
 </script>
 

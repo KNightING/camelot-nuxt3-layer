@@ -23,8 +23,6 @@ watchOnce(container, (nV) => {
     }
   );
 
-  console.table(lightColorScheme.value)
-
   watchImmediate(props, (nV) => {
     if(nV.lightColorScheme){
       lightColorScheme.value = { ...lightColorScheme.value, ...nV.lightColorScheme };

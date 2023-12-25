@@ -1,8 +1,8 @@
 <template>
   <div
-    class="border rounded-full px-1 flex items-center group min-w-fit active:border-primary bg-white"
+    class="container "
     :class="{
-      'border-primary': isFocus
+      'container-focus': isFocus
     }"
   >
     <button
@@ -10,9 +10,7 @@
       @click="onMinusClick"
     >
       <slot name="minus">
-        <CamelotRippleEffect
-          class="w-4 h-4 rounded-full flex items-center justify-center text-base select-none font-bold"
-        >
+        <CamelotRippleEffect class="controller">
           -
         </CamelotRippleEffect>
       </slot>
@@ -21,7 +19,6 @@
     <input
       ref="input"
       v-model="value"
-      class="flex-1 text-center outline-none appearance-none m-0 min-w-[4ch] bg-transparent"
       type="number"
       :placeholder="placeholder"
       :step="step"
@@ -36,9 +33,7 @@
       @click="onPlusClick"
     >
       <slot name="plus">
-        <CamelotRippleEffect
-          class="w-4 h-4 rounded-full flex items-center justify-center text-base select-none font-bold"
-        >
+        <CamelotRippleEffect class="controller">
           +
         </CamelotRippleEffect>
       </slot>
@@ -142,6 +137,36 @@ const onPlusClick = () => {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  align-items: center;
+  border-radius: 9999px;
+  border-width: 1px;
+  min-width: fit-content;
+  background-color: #ffffff;
+}
+
+.container:active {
+  border-color: rgba(var(--material3-primary), 1);
+}
+
+.container-focus {
+  border-color: rgba(var(--material3-primary), 1);
+}
+
+input {
+  margin: 0;
+  flex: 1 1 0%;
+  outline-style: none;
+  text-align: center;
+  background-color: transparent;
+  appearance: none;
+  min-width: 4ch;
+}
+
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -152,5 +177,18 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.controller {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+  width: 1rem;
+  height: 1rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  user-select: none;
 }
 </style>

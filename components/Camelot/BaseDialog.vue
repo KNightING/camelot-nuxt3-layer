@@ -3,16 +3,16 @@
     <Transition>
       <CamelotCustomColorSchemeProvider
         v-if="open"
-        class="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center w-full h-full"
+        class="color-scheme-provider"
         :light-color-scheme="lightColorScheme"
+        :dark-color-scheme="darkColorScheme"
       >
         <div
-          class="mask w-full h-full"
+          class="mask "
           @click="onCloseByMaskClick"
         />
         <dialog
           :open="open"
-          class="bg-transparent"
         >
           <slot />
         </dialog>
@@ -66,7 +66,28 @@ function onCloseByMaskClick() {
   opacity: 0;
 }
 
+.color-scheme-provider {
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
 .mask {
   background-color: rgba(var(--camelot-mask-color), .8);
+  width: 100%;
+  height: 100%;
+  pointer-events: painted;
+}
+
+dialog {
+  background-color: transparent;
 }
 </style>

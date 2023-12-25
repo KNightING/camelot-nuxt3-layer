@@ -3,7 +3,6 @@
   <div
     id="container"
     ref="container"
-    class="relative overflow-hidden p-0 m-0"
     @mousedown="onMouseDown"
   >
     <slot />
@@ -21,7 +20,7 @@ const { height, width, x, y } = useElementBounding(container);
 
 const rippleSizeCss = useElCssVar("--ripple-size", container);
 
-const rippleColorCss = useElCssVar("--camelot-ripple-color",container,{inherit:false});
+const rippleColorCss = useElCssVar("--camelot-ripple-color", container, {inherit:false});
 
 watchOnce(container,(nV)=>{
   if(props.rippleColor){
@@ -65,9 +64,16 @@ const onMouseDown = (e: MouseEvent) => {
 </script>
 
 <style scoped>
+#container {
+  position: relative;
+  overflow: hidden;
+  padding: 0px;
+  margin: 0px;
+}
+
 :deep(.ripple) {
   position: absolute;
-  background: radial-gradient(#0000, rgba(var(--camelot-ripple-color)));
+  background: radial-gradient(#0000, rgba(var(--camelot-ripple-color),1));
   transform: translate(-50%, -50%);
   pointer-events: none;
   border-radius: 50%;

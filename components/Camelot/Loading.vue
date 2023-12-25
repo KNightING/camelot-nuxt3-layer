@@ -1,12 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <Teleport to="body">
-    <div
-      v-if="isOpening"
-      class="fixed top-0 left-0 z-[9999] bg-black bg-opacity-60 h-screen w-screen flex justify-center items-center"
-    >
-      <span class="loader" />
-    </div>
+    <CamelotBaseDialog :open="isOpening">
+      <span class="loader " />
+    </CamelotBaseDialog>
   </Teleport>
 </template>
 
@@ -16,6 +13,7 @@ const { isOpening } = useLoading();
 
 <style scoped>
 .loader {
+  display:block;
   font-size: 10px;
   width: 1em;
   height: 1em;

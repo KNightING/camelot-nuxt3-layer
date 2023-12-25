@@ -12,12 +12,12 @@ const getCssVar = (key: string, target?: MaybeElementRef) =>
 const { system, store } = useColorMode();
 
 const defaultCamelotLightColorScheme: CamelotColorScheme = {
-  rippleColor: "",
+  rippleColor: "#111827",
   maskColor: "#111827"
 }
 
 const defaultCamelotDarkColorScheme: CamelotColorScheme = {
-  rippleColor: "",
+  rippleColor: "#111827",
   maskColor: "#111827"
 }
 

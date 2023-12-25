@@ -1,5 +1,7 @@
 import type { DebounceFilterOptions } from "@vueuse/core";
 
+type LoadingCloseable = () => void;
+
 interface LoadingState {
   tags: string[];
 }
@@ -9,12 +11,14 @@ const state = ref<LoadingState>({
 });
 
 export const useLoading = () => {
-  const open = (tag: string) => {
+  const open = (tag: string): LoadingCloseable => {
     // state.value.tags.push(tag);
     state.value = {
       ...state.value,
       tags: [...state.value.tags, tag],
     };
+
+    return () => close(tag);
   };
 
   const close = (tag?: string) => {
