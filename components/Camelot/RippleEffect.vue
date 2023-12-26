@@ -10,42 +10,42 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{rippleColor?:string}>();
+const props = defineProps<{rippleColor?:string}>()
 
-const container = ref<HTMLDivElement>();
+const container = ref<HTMLDivElement>()
 
 // let size: number | undefined = undefined;
 
-const { height, width, x, y } = useElementBounding(container);
+const { height, width, x, y } = useElementBounding(container)
 
-const rippleSizeCss = useElCssVar("--ripple-size", container);
+const rippleSizeCss = useElCssVar('--ripple-size', container)
 
-const rippleColorCss = useElCssVar("--camelot-ripple-color", container, {inherit:false});
+const rippleColorCss = useElCssVar('--camelot-ripple-color', container, { inherit: false })
 
-watchOnce(container,(nV)=>{
-  if(props.rippleColor){
-    const rgba = useColor().hexToRgbaArray(props.rippleColor);
-    if(rgba){
-      rippleColorCss.value = `${rgba[0]},${rgba[1]},${rgba[2]}`;
+watchOnce(container, (nV) => {
+  if (props.rippleColor) {
+    const rgba = useColor().hexToRgbaArray(props.rippleColor)
+    if (rgba) {
+      rippleColorCss.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
     }
   }
-});
+})
 
 watchOnce([height, width], (nV) => {
-  const height = nV[0];
-  const width = nV[1];
+  const height = nV[0]
+  const width = nV[1]
 
   // 斜邊長 = 圓的半徑
   // 但是size需要設定成直徑所以要*2
-  const size = Math.sqrt(Math.pow(height, 2) + Math.pow(width, 2)) * 2;
-  rippleSizeCss.value = `${size}px`;
-});
+  const size = Math.sqrt(Math.pow(height, 2) + Math.pow(width, 2)) * 2
+  rippleSizeCss.value = `${size}px`
+})
 
 const onMouseDown = (e: MouseEvent) => {
-  const ripples = document.createElement("span");
-  ripples.className = "ripple";
-  ripples.style.left = `${e.clientX - x.value}px`;
-  ripples.style.top = `${e.clientY - y.value}px`;
+  const ripples = document.createElement('span')
+  ripples.className = 'ripple'
+  ripples.style.left = `${e.clientX - x.value}px`
+  ripples.style.top = `${e.clientY - y.value}px`
 
   // if (!size) {
   //   // 斜邊長 = 圓的半徑
@@ -55,12 +55,12 @@ const onMouseDown = (e: MouseEvent) => {
 
   // ripples.style.setProperty("--ripple-size", `${size}px`);
 
-  container.value?.appendChild(ripples);
+  container.value?.appendChild(ripples)
 
   setTimeout(() => {
-    ripples.remove();
-  }, 650);
-};
+    ripples.remove()
+  }, 650)
+}
 </script>
 
 <style scoped>

@@ -9,11 +9,13 @@
     "generate": "nuxt generate .playground",
     "preview": "nuxt preview .playground",
     "lint": "eslint .",
-    "postinstall": "nuxt prepare .playground"
+    "postinstall": "nuxt prepare .playground",
+    "fix": "eslint --fix --ext .js,.jsx,.vue,.ts ."
   },
   "devDependencies": {
     "@iconify-json/material-symbols": "^1.1.62",
     "@nuxt/eslint-config": "^0.1.1",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/i18n": "8.0.0-rc.5",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@vueuse/core": "^10.7.0",

@@ -1,4 +1,3 @@
-import { useLoading } from '../composables/useLoading';
 <template>
   <div>
     <div class="text-primary">
@@ -98,58 +97,57 @@ import { useLoading } from '../composables/useLoading';
 </template>
 
 <script setup lang="ts">
-const v = ref(0.3);
+const v = ref(0.3)
 
-const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined,{
-  lightColorScheme:{
-  test: "#F40fFF",
-},
-darkColorScheme:{
-  test: "#140fF1",
-}
-});
+const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined, {
+  lightColorScheme: {
+    test: '#F40fFF'
+  },
+  darkColorScheme: {
+    test: '#140fF1'
+  }
+})
 
 const elLightColorScheme = ref<Material3ColorSchemePartial>({
-  primary: "yellow",
-});
+  primary: 'yellow'
+})
 
 const change = () => {
-  elLightColorScheme.value.primary = "green";
-};
+  elLightColorScheme.value.primary = 'green'
+}
 
 const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
-  primary: "#44ffFF",
-  test: "#F40fFF",
-  rippleColor:"#000FFF"
-});
+  primary: '#44ffFF',
+  test: '#F40fFF',
+  rippleColor: '#000FFF'
+})
 
 const changeCustom = () => {
-  elCustomLightColorScheme.value.primary = "#734F41";
-  elCustomLightColorScheme.value.test = "#FF4F4F";
+  elCustomLightColorScheme.value.primary = '#734F41'
+  elCustomLightColorScheme.value.test = '#FF4F4F'
   globalColorScheme.lightColorScheme.value = {
     ...globalColorScheme.lightColorScheme.value,
-    maskColor:"#FFFFFF"
+    maskColor: '#FFFFFF'
   }
-};
+}
 
-const open = ref(false);
+const open = ref(false)
 
-const openLoading = async ()=>{
-  const closeable = useLoading().open("test");
-  await useDelay(3000);
-  closeable();
+const openLoading = async () => {
+  const closeable = useLoading().open('test')
+  await useDelay(3000)
+  closeable()
 }
 
 const data =
-  Array.from({ length:21 }).map((_, rowIndex) => {
+  Array.from({ length: 21 }).map((_, rowIndex) => {
     return {
       no: `${rowIndex}`,
-      name: `分類-${rowIndex}`,
-    };
-  });
+      name: `分類-${rowIndex}`
+    }
+  })
 
-  const tabSelected = ref(0);
-
+const tabSelected = ref(0)
 
 </script>
 

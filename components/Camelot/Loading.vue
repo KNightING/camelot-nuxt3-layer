@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-const { isOpening } = useLoading();
+const { isOpening } = useLoading()
 </script>
 
 <style scoped>

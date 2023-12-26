@@ -1,3 +1,3 @@
-const drawerCollapsed = ref(true);
+const drawerCollapsed = ref(true)
 
-export const useDrawerCollapsed = () => drawerCollapsed;
+export const useDrawerCollapsed = () => drawerCollapsed

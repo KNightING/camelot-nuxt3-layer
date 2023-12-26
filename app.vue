@@ -22,12 +22,12 @@
 
 <script setup lang="ts">
 const elCustomLightColorScheme = ref<CustomColorScheme<{ test2: string }>>({
-  primary: "#44ffFF",
-  test2: "#F40fFF",
-});
+  primary: '#44ffFF',
+  test2: '#F40fFF'
+})
 
-const naiveUITheme = useNaiveUITheme(elCustomLightColorScheme);
-const naiveTheme = naiveUITheme.naiveTheme;
-const naiveThemeOverrides = naiveUITheme.naiveThemeOverride;
+const naiveUITheme = useNaiveUITheme(elCustomLightColorScheme)
+const naiveTheme = naiveUITheme.naiveTheme
+const naiveThemeOverrides = naiveUITheme.naiveThemeOverride
 
 </script>

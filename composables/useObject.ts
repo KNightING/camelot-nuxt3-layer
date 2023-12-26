@@ -18,118 +18,118 @@ export type PartialRecursive<T> = {
  *
  */
 const diff = <T>(oldObj: T, newObj: T): PartialRecursive<T> => {
-  const result: PartialRecursive<T> = {};
+  const result: PartialRecursive<T> = {}
 
   for (const key in newObj) {
-    const oldValue = oldObj[key];
-    const newValue = newObj[key];
+    const oldValue = oldObj[key]
+    const newValue = newObj[key]
 
-    if (typeof oldValue === "undefined") {
-      result[key] = newValue as any;
-      continue;
+    if (typeof oldValue === 'undefined') {
+      result[key] = newValue as any
+      continue
     }
 
     if (Array.isArray(newValue) && Array.isArray(oldValue)) {
       if (newValue.length !== oldValue.length) {
-        result[key] = newValue as any;
-        continue;
+        result[key] = newValue as any
+        continue
       }
 
       for (let i = 0; i < newValue.length; i++) {
-        const arrayOldValue = oldValue[i];
-        const arrayNewValue = newValue[i];
+        const arrayOldValue = oldValue[i]
+        const arrayNewValue = newValue[i]
 
-        const diffResult = isObjectDiff(arrayOldValue, arrayNewValue);
+        const diffResult = isObjectDiff(arrayOldValue, arrayNewValue)
         if (diffResult) {
           // ! 只要有一個不一樣，就整筆個Array替換
-          result[key] = newValue as any;
+          result[key] = newValue as any
         }
       }
-      continue;
+      continue
     }
 
-    const diffResult = isObjectDiff(oldValue, newValue);
+    const diffResult = isObjectDiff(oldValue, newValue)
     if (diffResult) {
       if (diffResult === true) {
-        result[key] = newValue as any;
+        result[key] = newValue as any
       } else {
-        result[key] = diffResult as any;
+        result[key] = diffResult as any
       }
     }
   }
 
-  return result;
-};
+  return result
+}
 
 const isObjectDiff = (
   oldValue: any,
   newValue: any
 ): boolean | PartialRecursive<any> => {
-  if (newValue !== null && typeof newValue === "object") {
+  if (newValue !== null && typeof newValue === 'object') {
     if (isDate(oldValue) && isDate(newValue)) {
       if (oldValue.getTime() !== newValue.getTime()) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
     }
 
-    const innerDiff = diff(oldValue, newValue);
+    const innerDiff = diff(oldValue, newValue)
     if (Object.keys(innerDiff).length > 0) {
-      return innerDiff;
+      return innerDiff
     }
-    return false;
+    return false
   }
 
   if (oldValue !== newValue) {
-    return true;
+    return true
   }
-  return false;
-};
+  return false
+}
 
 const isDate = (val: any): val is Date => {
   // https://stackoverflow.com/a/643827/15380305
   // Object.prototype.toString.call(val) === '[object Date]'
-  return val instanceof Date;
-};
+  return val instanceof Date
+}
 
 const deepClone = <T>(source: T): T => {
-  if (null == source || "object" != typeof source) return source;
+  if (source == null || typeof source !== 'object') { return source }
 
   if (isDate(source)) {
-    const copy = new Date();
-    copy.setTime(source.getTime());
-    return copy as T;
+    const copy = new Date()
+    copy.setTime(source.getTime())
+    return copy as T
   }
 
   if (Array.isArray(source)) {
-    const copy = [];
+    const copy = []
     for (let i = 0, len = source.length; i < len; i++) {
-      copy[i] = deepClone(source[i]);
+      copy[i] = deepClone(source[i])
     }
-    return copy as T;
+    return copy as T
   }
 
   if (source instanceof Object) {
-    const copy = {} as T;
+    const copy = {} as T
     for (const key in source) {
-      copy[key] = deepClone(source[key]);
+      copy[key] = deepClone(source[key])
     }
-    return copy as T;
+    return copy as T
   }
 
-  throw new Error("Unable to copy obj! Its type isn't supported.");
-};
+  throw new Error("Unable to copy obj! Its type isn't supported.")
+}
 
 const isUndefined = (obj: any) => {
-  return typeof obj === "undefined";
-};
+  return typeof obj === 'undefined'
+}
 
-const isNotUndefined = (obj: any) => !isUndefined(obj);
+const isNotUndefined = (obj: any) => !isUndefined(obj)
 
 export const useObject = () => {
-  return { diff, isDate, deepClone, isUndefined, isNotUndefined };
-};
+  return { diff, isDate, deepClone, isUndefined, isNotUndefined }
+}
 
 // const timestamp1 = 1616608200000; // example timestamp
 // const date1 = new Date(timestamp1);

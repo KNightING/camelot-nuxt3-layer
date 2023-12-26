@@ -1,4 +1,4 @@
-import { defineNuxtModule } from "@nuxt/kit";
+import { defineNuxtModule } from '@nuxt/kit'
 
 export default defineNuxtModule({
   // Default configuration options of the Nuxt module
@@ -6,11 +6,11 @@ export default defineNuxtModule({
   // Add types for volar
   setup(options, nuxt) {
     nuxt.options.build.transpile.push(
-      "claygl",
-      "echarts",
-      "zrender",
-      "resize-detector",
+      'claygl',
+      'echarts',
+      'zrender',
+      'resize-detector',
       /echarts/
-    );
-  },
-});
+    )
+  }
+})

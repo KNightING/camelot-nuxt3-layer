@@ -8,35 +8,35 @@
 const props = defineProps<{
   lightColorScheme?: CustomColorScheme<T>;
   darkColorScheme?: CustomColorScheme<T>;
-}>();
+}>()
 
-const container = ref<HTMLElement>();
+const container = ref<HTMLElement>()
 
-const usedColorScheme = ref<CustomColorScheme<T>>();
+const usedColorScheme = ref<CustomColorScheme<T>>()
 
 watchOnce(container, (nV) => {
   const { lightColorScheme, darkColorScheme, usedColorScheme: used } = useCustomColorScheme<T>(
     container,
     {
       lightColorScheme: props.lightColorScheme,
-      darkColorScheme: props.darkColorScheme,
+      darkColorScheme: props.darkColorScheme
     }
-  );
+  )
 
   watchImmediate(props, (nV) => {
-    if(nV.lightColorScheme){
-      lightColorScheme.value = { ...lightColorScheme.value, ...nV.lightColorScheme };
+    if (nV.lightColorScheme) {
+      lightColorScheme.value = { ...lightColorScheme.value, ...nV.lightColorScheme }
     }
 
-    if(nV.darkColorScheme){
-      darkColorScheme.value = {...darkColorScheme.value, ...nV.darkColorScheme };
+    if (nV.darkColorScheme) {
+      darkColorScheme.value = { ...darkColorScheme.value, ...nV.darkColorScheme }
     }
-  });
+  })
 
-  usedColorScheme.value = computed(() => used.value).value;
-});
+  usedColorScheme.value = computed(() => used.value).value
+})
 
-defineExpose({ usedColorScheme });
+defineExpose({ usedColorScheme })
 </script>
 
 <style scoped></style>

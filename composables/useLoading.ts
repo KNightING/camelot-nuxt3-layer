@@ -1,4 +1,4 @@
-import type { DebounceFilterOptions } from "@vueuse/core";
+import type { DebounceFilterOptions } from '@vueuse/core'
 
 type LoadingCloseable = () => void;
 
@@ -7,54 +7,54 @@ interface LoadingState {
 }
 
 const state = ref<LoadingState>({
-  tags: [],
-});
+  tags: []
+})
 
 export const useLoading = () => {
   const open = (tag: string): LoadingCloseable => {
     // state.value.tags.push(tag);
     state.value = {
       ...state.value,
-      tags: [...state.value.tags, tag],
-    };
+      tags: [...state.value.tags, tag]
+    }
 
-    return () => close(tag);
-  };
+    return () => close(tag)
+  }
 
   const close = (tag?: string) => {
     if (tag) {
       // state.value.tags = state.value.tags.filter((value) => value != tag);
       state.value = {
         ...state.value,
-        tags: state.value.tags.filter((value) => value != tag),
-      };
+        tags: state.value.tags.filter(value => value !== tag)
+      }
     } else {
       state.value = {
         ...state.value,
-        tags: [],
-      };
+        tags: []
+      }
     }
-  };
+  }
 
   const isOpening = computed(() => {
-    return state.value.tags.length > 0;
-  });
+    return state.value.tags.length > 0
+  })
 
-  return { state, open, close, isOpening };
-};
+  return { state, open, close, isOpening }
+}
 
 export const useLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>
 ) => {
   return async (params?: P) => {
-    const { open, close } = useLoading();
-    open(tag);
-    const result = await fn(params);
-    close(tag);
-    return result;
-  };
-};
+    const { open, close } = useLoading()
+    open(tag)
+    const result = await fn(params)
+    close(tag)
+    return result
+  }
+}
 
 export const useDebounceLoadingFn = <T, P = void>(
   tag: string,
@@ -62,8 +62,8 @@ export const useDebounceLoadingFn = <T, P = void>(
   ms?: globalThis.MaybeRefOrGetter<number>,
   options?: DebounceFilterOptions
 ) => {
-  return useDebounceFn(useLoadingFn(tag, fn), ms, options);
-};
+  return useDebounceFn(useLoadingFn(tag, fn), ms, options)
+}
 
 export const useThrottleLoadingFn = <T, P = void>(
   tag: string,
@@ -79,5 +79,5 @@ export const useThrottleLoadingFn = <T, P = void>(
     trailing,
     leading,
     rejectOnCancel
-  );
-};
+  )
+}

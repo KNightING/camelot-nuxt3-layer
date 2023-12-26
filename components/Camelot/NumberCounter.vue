@@ -60,31 +60,31 @@ const props = defineProps<{
    * 例如曾經step為0.01, 現在值為0.2, step不會更新成0.1, 會繼續使用0.01
    **/
   usedMinStepByValue?: boolean;
-}>();
+}>()
 
 const emit = defineEmits<{
-  "update:modelValue": [value?: number];
-}>();
+  'update:modelValue': [value?: number];
+}>()
 
-const selfValue = ref(props.modelValue ?? 0);
+const selfValue = ref(props.modelValue ?? 0)
 
 watch(props, (nV) => {
   if (nV.modelValue) {
-    selfValue.value = nV.modelValue;
+    selfValue.value = nV.modelValue
   }
 })
 
 const value = computed({
   get: () => selfValue.value,
   set: (value) => {
-    selfValue.value = value;
-    emit("update:modelValue", selfValue.value);
-  },
-});
+    selfValue.value = value
+    emit('update:modelValue', selfValue.value)
+  }
+})
 
-const input = ref<HTMLInputElement>();
+const input = ref<HTMLInputElement>()
 
-const isFocus = ref(false);
+const isFocus = ref(false)
 
 const absStep = computed(() => {
   if (props.step) {
@@ -92,47 +92,47 @@ const absStep = computed(() => {
   }
 
   if (props.minStepByValue) {
-    const value = Math.abs(selfValue.value);
-    const stepString = value.toString();
-    const dotIndex = stepString.indexOf(".");
-    const usedStep = absStep.value as number;
+    const value = Math.abs(selfValue.value)
+    const stepString = value.toString()
+    const dotIndex = stepString.indexOf('.')
+    const usedStep = absStep.value as number
     if (dotIndex > 0) {
-      const calcStep = 1 / Math.pow(10, stepString.length - dotIndex - 1);
+      const calcStep = 1 / Math.pow(10, stepString.length - dotIndex - 1)
       if (props.usedMinStepByValue && usedStep && calcStep > usedStep) {
-        return usedStep;
+        return usedStep
       } else {
-        return calcStep;
+        return calcStep
       }
     } else if (props.usedMinStepByValue && usedStep) {
-      return usedStep;
+      return usedStep
     }
   }
-  return 1;
-});
+  return 1
+})
 
 const calc = (value: number, isPlus: boolean) => {
-  const step = absStep.value;
-  const plusStep = isPlus ? step : step * -1;
-  return useFloat().plus(value, plusStep).value;
+  const step = absStep.value
+  const plusStep = isPlus ? step : step * -1
+  return useFloat().plus(value, plusStep).value
 }
 
 const onMinusClick = () => {
-  let calcValue = calc(value.value, false);
-  if (props.min != undefined && calcValue <= props.min) {
-    calcValue = props.min;
+  let calcValue = calc(value.value, false)
+  if (props.min !== undefined && calcValue <= props.min) {
+    calcValue = props.min
   }
-  value.value = calcValue;
-  input.value?.focus();
-};
+  value.value = calcValue
+  input.value?.focus()
+}
 
 const onPlusClick = () => {
-  let calcValue = calc(value.value, true);
-  if (props.max != undefined && calcValue >= props.max) {
-    calcValue = props.max;
+  let calcValue = calc(value.value, true)
+  if (props.max !== undefined && calcValue >= props.max) {
+    calcValue = props.max
   }
-  value.value = calcValue;
-  input.value?.focus();
-};
+  value.value = calcValue
+  input.value?.focus()
+}
 
 </script>
 
@@ -165,7 +165,6 @@ input {
   appearance: none;
   min-width: 4ch;
 }
-
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

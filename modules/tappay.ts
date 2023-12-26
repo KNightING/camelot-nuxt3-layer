@@ -1,4 +1,4 @@
-import { defineNuxtModule } from "@nuxt/kit";
+import { defineNuxtModule } from '@nuxt/kit'
 
 export default defineNuxtModule({
   hooks: {
@@ -15,11 +15,11 @@ export default defineNuxtModule({
     nuxt.options.app.head.script = [
       ...(nuxt.options.app.head.script ?? []),
       {
-        src: "https://js.tappaysdk.com/sdk/tpdirect/v5.17.0",
+        src: 'https://js.tappaysdk.com/sdk/tpdirect/v5.17.0'
       },
       {
-        src: "https://pay.google.com/gp/p/js/pay.js",
-      },
-    ];
-  },
-});
+        src: 'https://pay.google.com/gp/p/js/pay.js'
+      }
+    ]
+  }
+})

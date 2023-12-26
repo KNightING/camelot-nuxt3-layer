@@ -1,23 +1,23 @@
-import { darkTheme } from "naive-ui";
-import type { CustomColorScheme } from "../useCustomColorScheme";
+import { darkTheme } from 'naive-ui'
+import type { CustomColorScheme } from '../useCustomColorScheme'
 
-const mode = useColorMode();
+const mode = useColorMode()
 
 export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
-  const cs = computed(() => unref(csRef));
+  const cs = computed(() => unref(csRef))
 
   const naiveTheme = computed(() => {
-    if (mode.value === "dark") {
-      return darkTheme;
+    if (mode.value === 'dark') {
+      return darkTheme
     }
-    return undefined;
-  });
+    return undefined
+  })
 
   const naiveThemeOverride = computed(() => {
-    const color = useColor();
+    const color = useColor()
 
-    const primaryLightness = color.lightness(cs.value.primary);
-    const primaryDarkness = color.darkness(cs.value.primary);
+    const primaryLightness = color.lightness(cs.value.primary)
+    const primaryDarkness = color.darkness(cs.value.primary)
     return {
       common: {
         primaryColor: cs.value.primary,
@@ -47,7 +47,7 @@ export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
         // * [Select] Arrow Icon的顏色
         iconColor: cs.value.onSurface,
 
-        hoverColor: color.hexToRgba(cs.value.onSurface, 0.1),
+        hoverColor: color.hexToRgba(cs.value.onSurface, 0.1)
       },
       Button: {
         textColor: cs.value.primary,
@@ -79,10 +79,10 @@ export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
         colorError: cs.value.error,
         colorErrorHover: color.lightness(cs.value.error),
         colorErrorPressed: color.darkness(cs.value.error),
-        textColorError: cs.value.onError,
+        textColorError: cs.value.onError
       },
       Layout: {
-        siderColor: cs.value.surfaceContainer,
+        siderColor: cs.value.surfaceContainer
       },
       Menu: {
         // drawer
@@ -94,10 +94,10 @@ export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
         arrowColor: cs.value.onSurface,
         arrowColorHover: cs.value.onSurface,
         itemColorHover: cs.value.primaryContainer,
-        itemColorActive: cs.value.primaryContainer,
-      },
-    };
-  });
+        itemColorActive: cs.value.primaryContainer
+      }
+    }
+  })
 
-  return { naiveTheme, naiveThemeOverride };
-};
+  return { naiveTheme, naiveThemeOverride }
+}

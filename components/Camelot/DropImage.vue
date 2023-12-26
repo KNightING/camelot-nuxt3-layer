@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { useImage } from "@vueuse/core";
+import { useImage } from '@vueuse/core'
 
 const props = defineProps<{
   label?: string;
@@ -57,46 +57,46 @@ const props = defineProps<{
   id?: string;
   placeholderText?: string;
   isAspectVideo?:Boolean
-}>();
+}>()
 const emit = defineEmits<{
-  "update:modelValue": [value?: File | string];
-}>();
+  'update:modelValue': [value?: File | string];
+}>()
 
-const imageOptions = ref({ src: props?.originImage ?? "" });
+const imageOptions = ref({ src: props?.originImage ?? '' })
 
-const { isLoading } = useImage(imageOptions);
+const { isLoading } = useImage(imageOptions)
 
 const image = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(image) {
-    const imageElement = itemImageRef.value;
+    const imageElement = itemImageRef.value
 
     if (imageElement && image) {
       if (image instanceof File) {
-        const reader = new FileReader();
-        reader.addEventListener("load", (event) => {
+        const reader = new FileReader()
+        reader.addEventListener('load', (event) => {
           if (event.target) {
-            imageElement.src = event.target.result as string;
+            imageElement.src = event.target.result as string
           }
-        });
-        reader.readAsDataURL(image);
-      } else if (typeof image === "string") {
-        imageElement.src = image;
-        const { isLoading } = useImage({ src: image });
+        })
+        reader.readAsDataURL(image)
+      } else if (typeof image === 'string') {
+        imageElement.src = image
+        const { isLoading } = useImage({ src: image })
       }
     }
 
-    emit("update:modelValue", image);
-  },
-});
+    emit('update:modelValue', image)
+  }
+})
 
 const id = ref(
   props.id ?? `file-selector-${new Date().getTime()}-${useRandom()}-${useRandom()}`
-);
+)
 
-const itemImageRef = ref<HTMLImageElement>();
+const itemImageRef = ref<HTMLImageElement>()
 
 //  渲染圖片
 // watch([itemImageRef, image], (nV) => {
@@ -120,39 +120,39 @@ const itemImageRef = ref<HTMLImageElement>();
 //   emit("update:modelValue", image);
 // });
 
-const dropZoneRef = ref<HTMLDivElement>();
+const dropZoneRef = ref<HTMLDivElement>()
 
 const setImageRef = (file: File) => {
-  if (!itemImageRef.value) return;
+  if (!itemImageRef.value) { return }
 
-  itemImageRef.value.src = "";
+  itemImageRef.value.src = ''
   if (!file.type) {
     //   console.log(
     //     "Error: The File.type property does not appear to be supported on this browser."
     //   );
-    return;
+    return
   }
-  if (!file.type.match("image.*")) {
+  if (!file.type.match('image.*')) {
     //   console.log("Error: The selected file does not appear to be an image.");
-    return;
+    return
   }
-  image.value = file;
-};
+  image.value = file
+}
 
 function onImageChange(event: Event) {
-  const target = event.target as HTMLInputElement;
+  const target = event.target as HTMLInputElement
   if (itemImageRef.value && target.files && target.files.length > 0) {
-    setImageRef(target.files[0]);
+    setImageRef(target.files[0])
   }
 }
 
 const onDrop = (files: File[] | null) => {
   if (itemImageRef.value && files && files.length > 0) {
-    setImageRef(files[0]);
+    setImageRef(files[0])
   }
-};
+}
 
-const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
+const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
 </script>
 
 <style scoped></style>

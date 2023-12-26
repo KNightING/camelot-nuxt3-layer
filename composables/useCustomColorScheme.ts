@@ -1,24 +1,36 @@
-import type { MaybeElementRef } from "@vueuse/core";
-import { useChangeCase } from "@vueuse/integrations/useChangeCase";
-import { Material3ColorSchemeKeys } from "./useMaterial3ColorScheme";
+import type { MaybeElementRef } from '@vueuse/core'
+import { useChangeCase } from '@vueuse/integrations/useChangeCase'
+import { Material3ColorSchemeKeys } from './useMaterial3ColorScheme'
+
+type CamelotColorScheme = {
+  rippleColor: string,
+  maskColor: string,
+}
+
+export const CamelotColorSchemeKeys = Object.keys(
+  <CamelotColorScheme>{
+    rippleColor: '',
+    maskColor: ''
+  }
+) as (keyof CamelotColorScheme)[]
 
 export type CustomColorScheme<T = any> = Material3ColorSchemePartial &
   Partial<CamelotColorScheme> &
   Partial<T>;
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
-  useElCssVar(`${key}`, target, { inherit: false });
+  useElCssVar(`${key}`, target, { inherit: false })
 
-const { system, store } = useColorMode();
+const { system, store } = useColorMode()
 
 const defaultCamelotLightColorScheme: CamelotColorScheme = {
-  rippleColor: "#111827",
-  maskColor: "#111827"
+  rippleColor: '#111827',
+  maskColor: '#111827'
 }
 
 const defaultCamelotDarkColorScheme: CamelotColorScheme = {
-  rippleColor: "#111827",
-  maskColor: "#111827"
+  rippleColor: '#111827',
+  maskColor: '#111827'
 }
 
 const globalLightColorScheme = ref<CustomColorScheme<any>>({ ...defaultColorScheme, ...defaultCamelotLightColorScheme })
@@ -47,74 +59,76 @@ export const useCustomColorScheme = <T>(
       globalLightColorScheme.value = {
         ...globalLightColorScheme.value,
         ...config.lightColorScheme
-      };
+      }
     }
 
     if (config?.darkColorScheme) {
       globalDarkColorScheme.value = {
         ...globalDarkColorScheme.value,
         ...config.darkColorScheme
-      };
+      }
     }
   }
 
-  const lightColorScheme = target ? ref(
-    {
-      ...globalLightColorScheme.value,
-      ...(config?.lightColorScheme ? config?.lightColorScheme : {})
-    }
-  ) : globalLightColorScheme;
-  const darkColorScheme = target ? ref(
-    {
-      ...globalDarkColorScheme.value,
-      ...(config?.darkColorScheme ? config?.darkColorScheme : {})
-    }
-  ) : globalDarkColorScheme;
+  const lightColorScheme = target
+    ? ref(
+      {
+        ...globalLightColorScheme.value,
+        ...(config?.lightColorScheme ? config?.lightColorScheme : {})
+      }
+    )
+    : globalLightColorScheme
+  const darkColorScheme = target
+    ? ref(
+      {
+        ...globalDarkColorScheme.value,
+        ...(config?.darkColorScheme ? config?.darkColorScheme : {})
+      }
+    )
+    : globalDarkColorScheme
 
   const usedColorScheme = computed(() => {
-    let isDark = true;
-    if (store.value === "auto") {
-      isDark = system.value === "dark";
+    let isDark = true
+    if (store.value === 'auto') {
+      isDark = system.value === 'dark'
     } else {
-      isDark = store.value === "dark";
+      isDark = store.value === 'dark'
     }
     const cs = <CustomColorScheme<T>>(
       (isDark ? darkColorScheme.value : lightColorScheme.value)
-    );
-    return { ...cs };
-  });
+    )
+    return { ...cs }
+  })
 
-  const changeCase = useChangeCase("", "paramCase");
+  const changeCase = useChangeCase('', 'paramCase')
 
   if (target) {
     watchImmediate(usedColorScheme, (nV) => {
-      if (config?.editable === false) return;
+      if (config?.editable === false) { return }
 
       for (const key in nV) {
         if (useIsValidKey(key, nV)) {
-          changeCase.value = key;
-          let cssVarKey = changeCase.value;
+          changeCase.value = key
+          let cssVarKey = changeCase.value
           if (Material3ColorSchemeKeys.includes(key)) {
-            cssVarKey = `--material3-${cssVarKey}`;
+            cssVarKey = `--material3-${cssVarKey}`
           } else if (CamelotColorSchemeKeys.includes(key)) {
-            cssVarKey = `--camelot-${cssVarKey}`;
+            cssVarKey = `--camelot-${cssVarKey}`
+          } else if (config?.cssVarKeyPrefix) {
+            cssVarKey = `--${config.cssVarKeyPrefix}-${cssVarKey}`
           } else {
-            if (config?.cssVarKeyPrefix) {
-              cssVarKey = `--${config.cssVarKeyPrefix}-${cssVarKey}`;
-            } else {
-              cssVarKey = `--custom-${cssVarKey}`;
-            }
+            cssVarKey = `--custom-${cssVarKey}`
           }
-          const cssVar = getCssVar(cssVarKey, target);
-          const rgba = useColor().hexToRgbaArray(nV[key]);
+          const cssVar = getCssVar(cssVarKey, target)
+          const rgba = useColor().hexToRgbaArray(nV[key])
           if (!rgba) {
-            cssVar.value = nV[key];
+            cssVar.value = nV[key]
           } else {
-            cssVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`;
+            cssVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
           }
         }
       }
-    });
+    })
   }
 
   // if (config) {
@@ -128,18 +142,5 @@ export const useCustomColorScheme = <T>(
   //   }
   // }
 
-  return { mode: store, lightColorScheme, darkColorScheme, usedColorScheme };
-};
-
-
-type CamelotColorScheme = {
-  rippleColor: string,
-  maskColor: string,
+  return { mode: store, lightColorScheme, darkColorScheme, usedColorScheme }
 }
-
-export const CamelotColorSchemeKeys = Object.keys(
-  <CamelotColorScheme>{
-    rippleColor: "",
-    maskColor: ""
-  }
-) as (keyof CamelotColorScheme)[];

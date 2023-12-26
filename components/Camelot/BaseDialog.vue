@@ -31,26 +31,26 @@ const props = withDefaults(
   }>(),
   {
     open: false,
-    closeByMask: true,
+    closeByMask: true
   }
-);
+)
 
 const emit = defineEmits<{
-  "update:open": [isOpen: boolean];
-}>();
+  'update:open': [isOpen: boolean];
+}>()
 
 const open = computed({
   get() {
-    return props.open;
+    return props.open
   },
   set(value) {
-    emit("update:open", value);
-  },
-});
+    emit('update:open', value)
+  }
+})
 
 function onCloseByMaskClick() {
   if (props.closeByMask) {
-    open.value = false;
+    open.value = false
   }
 }
 </script>

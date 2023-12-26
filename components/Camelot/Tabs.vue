@@ -34,56 +34,56 @@ const props = withDefaults(
     scrollSmooth?: boolean;
   }>(),
   {
-    scrollSmooth: true,
+    scrollSmooth: true
   }
-);
+)
 
 const emit = defineEmits<{
-  "update:modelValue": [value?: number];
+  'update:modelValue': [value?: number];
   changedWithClick: [value: number];
-}>();
+}>()
 
 const isValidKey = (
   key: string | number | symbol,
   object: object
 ): key is keyof typeof object => {
-  return key in object;
-};
+  return key in object
+}
 
-const getDisplayLabel = (data?:T)=>{
-  if(data && props.displayKey && typeof data === 'object' && isValidKey(props.displayKey, data as object)){
-    return data[props.displayKey];
-  }else{
-    return data;
+const getDisplayLabel = (data?:T) => {
+  if (data && props.displayKey && typeof data === 'object' && isValidKey(props.displayKey, data as object)) {
+    return data[props.displayKey]
+  } else {
+    return data
   }
 }
 
-const isSelected = (index:number)=>{
-  return index === selectedIndex.value;
+const isSelected = (index:number) => {
+  return index === selectedIndex.value
 }
 
 const selectedIndex = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(value) {
-    emit("update:modelValue", value);
-  },
-});
+    emit('update:modelValue', value)
+  }
+})
 
-const tabsElRefs = ref<HTMLElement[]>([]);
+const tabsElRefs = ref<HTMLElement[]>([])
 
 const onSelected = (index: number, data: T) => {
-  if (selectedIndex.value === index) return;
-  selectedIndex.value = index;
-  emit("changedWithClick", index);
-};
+  if (selectedIndex.value === index) { return }
+  selectedIndex.value = index
+  emit('changedWithClick', index)
+}
 
 watch(selectedIndex, (nV) => {
-  if (nV === undefined) return;
-  const tabEl = tabsElRefs.value[nV];
-  const parentEl = tabEl.parentElement;
-  if (!parentEl) return;
+  if (nV === undefined) { return }
+  const tabEl = tabsElRefs.value[nV]
+  const parentEl = tabEl.parentElement
+  if (!parentEl) { return }
 
   // if (!props.selectedCenter) {
   //   let tabLeft = tabEl.getBoundingClientRect().left - 15;
@@ -103,23 +103,23 @@ watch(selectedIndex, (nV) => {
   //   return;
   // }
 
-  const parentWidth = parentEl.clientWidth;
+  const parentWidth = parentEl.clientWidth
 
-  const tabWidth = tabEl.clientWidth;
+  const tabWidth = tabEl.clientWidth
 
-  let scrollLeft = tabEl.offsetLeft - (parentWidth - tabWidth) / 2;
+  let scrollLeft = tabEl.offsetLeft - (parentWidth - tabWidth) / 2
 
   if (scrollLeft < 0) {
-    scrollLeft = 0;
+    scrollLeft = 0
   } else if (scrollLeft > parentEl.scrollWidth) {
-    scrollLeft = parentEl.scrollWidth;
+    scrollLeft = parentEl.scrollWidth
   }
 
   parentEl.scrollTo({
     left: scrollLeft,
-    behavior: props.scrollSmooth ? "smooth" : "auto",
-  });
-});
+    behavior: props.scrollSmooth ? 'smooth' : 'auto'
+  })
+})
 </script>
 
 <style scoped>
