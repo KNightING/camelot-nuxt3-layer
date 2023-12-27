@@ -9,6 +9,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     'space-before-function-paren': ['error', { anonymous: 'always', named: 'never', asyncArrow: 'always' }],
     'func-call-spacing': 'off',
-    'require-await': 'off'
+    'require-await': 'off',
+    'no-labels': 'off'
   }
 }

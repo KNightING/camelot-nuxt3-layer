@@ -93,3 +93,37 @@ export default defineNuxtConfig({
 ```
 
    2. copy `lang` folder and `i18n.config.ts` to root folder
+
+
+## Drop Code
+
+Build with drop code
+
+drop `console` and `debugger` or some code.
+
+just add `--drop-code` to command like:
+
+not working on `nuxt dev`
+
+```bash
+pnpm generate --drop-code
+```
+
+if what to drop some code then write `DEV` label with target function like:
+
+```js
+function example() {
+  DEV: doAnExpensiveCheck()
+  return normalCodePath()
+}
+```
+
+then will become to
+
+```js
+function example() {
+  return normalCodePath();
+}
+```
+
+more in [ESBuild](https://esbuild.github.io/api/#drop-labels)

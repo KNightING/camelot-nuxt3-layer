@@ -22,7 +22,10 @@ if (osPlatform === 'darwin') {
 }
 
 function getArgvBoolean(key: string, defaultValue = false): boolean {
-  const index = process.argv.indexOf(key)
+  const index = process.argv.findIndex((value) => {
+    return value.startsWith(key)
+  })
+
   if (index >= 0) {
     const arg = process.argv[index]
     const [key, value] = arg.split('=')
@@ -34,6 +37,8 @@ function getArgvBoolean(key: string, defaultValue = false): boolean {
   }
   return defaultValue
 }
+
+const dropCode = getArgvBoolean('--drop-code')
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
 
@@ -83,15 +88,23 @@ export default defineNuxtConfig({
       Icons({ autoInstall: true })
     ],
     esbuild: {
-      drop: getArgvBoolean('--define-drop-code', false)
+      drop: dropCode
         ? ['console', 'debugger']
         : [],
-      define: {
-        __DROP__: (!getArgvBoolean('--define-drop-code', false)).toString()
-      }
+      dropLabels: dropCode
+        ? ['DEV']
+        : []
     },
     optimizeDeps: {
       exclude: isMac ? ['fsevents'] : []
+    }
+  },
+
+  nitro: {
+    esbuild: {
+      options: {
+        drop: ['console']
+      }
     }
   },
 
