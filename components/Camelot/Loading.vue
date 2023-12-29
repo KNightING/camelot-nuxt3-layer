@@ -1,10 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <Teleport to="body">
-    <CamelotBaseDialog :open="isOpening">
-      <span class="loader " />
-    </CamelotBaseDialog>
-  </Teleport>
+  <CamelotBaseDialog :open="isOpening">
+    <span class="loader" />
+  </CamelotBaseDialog>
 </template>
 
 <script setup lang="ts">

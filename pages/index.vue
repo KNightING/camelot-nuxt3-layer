@@ -79,6 +79,38 @@
         </div>
       </div>
     </CamelotBaseDialog>
+
+    <div
+      class="text-test bg-primary my-4"
+      @click="openBottomSheet = true"
+    >
+      open BottomSheet
+    </div>
+
+    <CamelotBaseBottomSheet
+      v-model:open="openBottomSheet"
+    >
+      <div class="overflow-hidden rounded-xl shadow flex flex-col w-screen h-[30vh] bg-surface-container ">
+        <div class="flex justify-end">
+          <i-material-symbols-close
+            class="text-primary text-lg m-1 cursor-pointer"
+            @click="openBottomSheet = false"
+          />
+        </div>
+        <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
+          <CamelotNumberCounter
+            v-model="v"
+            class="w-4"
+            :max="10"
+            :min="0"
+            min-step-by-value
+            used-min-step-by-value
+          />
+          <div class="h-[600px]" />
+        </div>
+      </div>
+    </CamelotBaseBottomSheet>
+
     <div
       class="text-test bg-primary"
       @click="openLoading"
@@ -132,6 +164,8 @@ const changeCustom = () => {
 }
 
 const open = ref(false)
+
+const openBottomSheet = ref(false)
 
 const openLoading = async () => {
   const closeable = useLoading().open('test')

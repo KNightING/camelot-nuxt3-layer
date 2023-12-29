@@ -1,13 +1,11 @@
 <template>
   <Transition>
-    <div
-      v-if="open"
-      class="dialog-container"
-    >
+    <div v-if="open" class="dialog-container">
       <div
         class="mask"
         @click="onCloseByMaskClick"
       />
+
       <dialog
         :open="open"
       >
@@ -42,6 +40,8 @@ const open = computed({
   }
 })
 
+const a = computed(() => open.value)
+
 function onCloseByMaskClick() {
   if (props.closeByMask) {
     open.value = false
@@ -60,6 +60,16 @@ function onCloseByMaskClick() {
   opacity: 0;
 }
 
+.v-enter-active dialog,
+.v-leave-active dialog{
+  transition: transform 0.4s ease;
+}
+
+.v-enter-from dialog,
+.v-leave-to dialog{
+  transform: translateY(100%);
+}
+
 .dialog-container {
   display: flex;
   position: fixed;
@@ -68,10 +78,10 @@ function onCloseByMaskClick() {
   bottom: 0;
   left: 0;
   z-index: 50;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   height: 100%;
+  pointer-events: none;
 }
 
 .mask {
@@ -82,6 +92,7 @@ function onCloseByMaskClick() {
 }
 
 dialog {
+  pointer-events: painted;
   background-color: transparent;
 }
 </style>
