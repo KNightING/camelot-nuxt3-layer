@@ -125,10 +125,19 @@
       :data="data"
       display-key="name"
     />
+
+    <div @click="expanded = !expanded">
+      Expanded
+    </div>
+    <CamelotExpanded :expanded="expanded">
+      <div class="bg-gradient-to-b from-red-500 to-blue-500 h-28" />
+    </CamelotExpanded>
   </div>
 </template>
 
 <script setup lang="ts">
+const expanded = ref(false)
+
 const v = ref(0.3)
 
 const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined, {
