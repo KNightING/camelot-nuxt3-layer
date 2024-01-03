@@ -125,10 +125,36 @@
       :data="data"
       display-key="name"
     />
+
+    <CamelotSteps
+      v-model="step"
+      :steps="[
+        '確認商品',
+        '填寫資料',
+        '訂購完成'
+      ]"
+    >
+      <!-- <template #dot="{ index, isComplete }">
+        <div
+          class="w-7 aspect-square bg-white rounded-full flex justify-center items-center"
+          :class="{'!bg-yellow-500':isComplete}"
+        >
+          <span class=" text-red-500 " :class="{'!text-blue-500':isComplete}">{{ index }}</span>
+        </div>
+      </template> -->
+      <!-- <template #content="{ value,index }">
+        <span class="text-red-100">{{ index }}{{ value }}</span>
+      </template> -->
+    </CamelotSteps>
+    <div class="text-on-surface">
+      {{ step }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const step = ref(0)
+
 const v = ref(0.3)
 
 const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined, {
