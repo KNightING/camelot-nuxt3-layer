@@ -149,11 +149,18 @@
     <div class="text-on-surface">
       {{ step }}
     </div>
+    <div @click="expanded = !expanded">
+      Expanded
+    </div>
+    <CamelotExpanded :expanded="expanded">
+      <div class="bg-gradient-to-b from-red-500 to-blue-500 h-28" />
+    </CamelotExpanded>
   </div>
 </template>
 
 <script setup lang="ts">
 const step = ref(0)
+const expanded = ref(false)
 
 const v = ref(0.3)
 
