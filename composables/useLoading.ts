@@ -50,9 +50,11 @@ export const useLoadingFn = <T, P = void>(
   return async (params?: P) => {
     const { open, close } = useLoading()
     open(tag)
-    const result = await fn(params)
-    close(tag)
-    return result
+    try {
+      return await fn(params)
+    } finally {
+      close(tag)
+    }
   }
 }
 
