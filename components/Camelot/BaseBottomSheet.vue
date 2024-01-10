@@ -18,29 +18,14 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    open: boolean;
     closeByMask?: boolean;
   }>(),
   {
-    open: false,
     closeByMask: true
   }
 )
 
-const emit = defineEmits<{
-  'update:open': [isOpen: boolean];
-}>()
-
-const open = computed({
-  get() {
-    return props.open
-  },
-  set(value) {
-    emit('update:open', value)
-  }
-})
-
-const a = computed(() => open.value)
+const open = defineModel('open', { default: false })
 
 function onCloseByMaskClick() {
   if (props.closeByMask) {

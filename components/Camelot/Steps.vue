@@ -97,11 +97,38 @@
 <script setup lang="ts">
 const props = defineProps<{
   steps: string[];
+
+  /**
+   * 啟動點擊可以切換step
+   */
+  enableChangeByClick?:boolean;
+
+  /**
+   * 禁止點擊切換到下一頁
+   */
+  disableClickToNext?:boolean;
+
+  /**
+   * 禁止點擊切換到上一頁
+   */
+  disableClickToPrevision?:boolean;
 }>()
 
 const step = defineModel<number>({ default: 0 })
 
 const onStepClick = (index:number) => {
+  if (!props.enableChangeByClick) {
+    return
+  }
+
+  if (props.disableClickToNext && index > step.value) {
+    return
+  }
+
+  if (props.disableClickToPrevision && index < step.value) {
+    return
+  }
+
   step.value = index
 }
 

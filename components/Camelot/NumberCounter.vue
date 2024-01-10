@@ -18,7 +18,7 @@
 
     <input
       ref="input"
-      v-model="value"
+      v-model="model"
       type="number"
       :placeholder="placeholder"
       :step="step"
@@ -44,7 +44,6 @@
 <script setup lang="ts">
 
 const props = defineProps<{
-  modelValue?: number;
   step?: number;
   min?: number;
   max?: number;
@@ -62,25 +61,7 @@ const props = defineProps<{
   usedMinStepByValue?: boolean;
 }>()
 
-const emit = defineEmits<{
-  'update:modelValue': [value?: number];
-}>()
-
-const selfValue = ref(props.modelValue ?? 0)
-
-watch(props, (nV) => {
-  if (nV.modelValue) {
-    selfValue.value = nV.modelValue
-  }
-})
-
-const value = computed({
-  get: () => selfValue.value,
-  set: (value) => {
-    selfValue.value = value
-    emit('update:modelValue', selfValue.value)
-  }
-})
+const model = defineModel<number>({ default: 0 })
 
 const input = ref<HTMLInputElement>()
 
@@ -92,8 +73,8 @@ const absStep = computed(() => {
   }
 
   if (props.minStepByValue) {
-    const value = Math.abs(selfValue.value)
-    const stepString = value.toString()
+    const absValue = Math.abs(model.value)
+    const stepString = absValue.toString()
     const dotIndex = stepString.indexOf('.')
     const usedStep = absStep.value as number
     if (dotIndex > 0) {
@@ -117,20 +98,20 @@ const calc = (value: number, isPlus: boolean) => {
 }
 
 const onMinusClick = () => {
-  let calcValue = calc(value.value, false)
+  let calcValue = calc(model.value, false)
   if (props.min !== undefined && calcValue <= props.min) {
     calcValue = props.min
   }
-  value.value = calcValue
+  model.value = calcValue
   input.value?.focus()
 }
 
 const onPlusClick = () => {
-  let calcValue = calc(value.value, true)
+  let calcValue = calc(model.value, true)
   if (props.max !== undefined && calcValue >= props.max) {
     calcValue = props.max
   }
-  value.value = calcValue
+  model.value = calcValue
   input.value?.focus()
 }
 

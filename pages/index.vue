@@ -133,15 +133,17 @@
         '填寫資料',
         '訂購完成'
       ]"
+      enable-change-by-click
+      disable-click-to-next
     >
-      <!-- <template #dot="{ index, isComplete }">
+      <template #dot="{ index, isComplete }">
         <div
           class="w-7 aspect-square bg-white rounded-full flex justify-center items-center"
           :class="{'!bg-yellow-500':isComplete}"
         >
           <span class=" text-red-500 " :class="{'!text-blue-500':isComplete}">{{ index }}</span>
         </div>
-      </template> -->
+      </template>
       <!-- <template #content="{ value,index }">
         <span class="text-red-100">{{ index }}{{ value }}</span>
       </template> -->
@@ -155,6 +157,22 @@
     <CamelotExpanded :expanded="expanded">
       <div class="bg-gradient-to-b from-red-500 to-blue-500 h-28" />
     </CamelotExpanded>
+
+    <div class="w-40 h-40 ">
+      <CamelotSkeleton />
+    </div>
+
+    <div class="w-40 h-40">
+      <CamelotImage src="https://cataas.com/cat?v=1" class="w-full h-full object-scale-down" />
+    </div>
+
+    <div class="w-40 h-40">
+      <CamelotImage src="https://123" class="w-full h-full object-scale-down">
+        <template #error>
+          <span class="flex w-full h-full bg-black text-red-600">loading image error</span>
+        </template>
+      </CamelotImage>
+    </div>
   </div>
 </template>
 
