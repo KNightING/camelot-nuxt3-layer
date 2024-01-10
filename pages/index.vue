@@ -89,6 +89,7 @@
 
     <CamelotBaseBottomSheet
       v-model:open="openBottomSheet"
+      hash-tag="bottom"
     >
       <div class="overflow-hidden rounded-xl shadow flex flex-col w-screen h-[30vh] bg-surface-container ">
         <div class="flex justify-end">

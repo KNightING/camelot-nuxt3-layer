@@ -2,6 +2,7 @@
   <Transition>
     <div
       v-if="open"
+      :id="hashTag"
       class="dialog-container"
     >
       <div
@@ -20,32 +21,44 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    open: boolean;
     closeByMask?: boolean;
+    hashTag?:string;
   }>(),
   {
-    open: false,
     closeByMask: true
   }
 )
 
-const emit = defineEmits<{
-  'update:open': [isOpen: boolean];
-}>()
-
-const open = computed({
-  get() {
-    return props.open
-  },
-  set(value) {
-    emit('update:open', value)
-  }
-})
+const open = defineModel('open', { default: false })
 
 function onCloseByMaskClick() {
   if (props.closeByMask) {
     open.value = false
   }
+}
+
+if (props.hashTag) {
+  const router = useRouter()
+
+  watch(open, (isOpen) => {
+    if (isOpen) {
+      router.push({ hash: `#${props.hashTag}` })
+    } else if (useRouterHistory()) {
+      router.back()
+    } else {
+      router.replace({ hash: '' })
+    }
+  })
+
+  const route = useRoute()
+
+  watch(() => route.hash, (hash) => {
+    if (hash === `#${props.hashTag}`) {
+      open.value = true
+    } else {
+      open.value = false
+    }
+  }, { immediate: true })
 }
 </script>
 

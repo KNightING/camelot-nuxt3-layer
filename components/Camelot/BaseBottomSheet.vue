@@ -1,6 +1,6 @@
 <template>
   <Transition>
-    <div v-if="open" class="dialog-container">
+    <div v-if="open" :id="hashTag" class="dialog-container">
       <div
         class="mask"
         @click="onCloseByMaskClick"
@@ -19,6 +19,7 @@
 const props = withDefaults(
   defineProps<{
     closeByMask?: boolean;
+    hashTag?:string;
   }>(),
   {
     closeByMask: true
@@ -31,6 +32,30 @@ function onCloseByMaskClick() {
   if (props.closeByMask) {
     open.value = false
   }
+}
+
+if (props.hashTag) {
+  const router = useRouter()
+
+  watch(open, (isOpen) => {
+    if (isOpen) {
+      router.push({ hash: `#${props.hashTag}` })
+    } else if (useRouterHistory()) {
+      router.back()
+    } else {
+      router.replace({ hash: '' })
+    }
+  })
+
+  const route = useRoute()
+
+  watch(() => route.hash, (hash) => {
+    if (hash === `#${props.hashTag}`) {
+      open.value = true
+    } else {
+      open.value = false
+    }
+  }, { immediate: true })
 }
 </script>
 
