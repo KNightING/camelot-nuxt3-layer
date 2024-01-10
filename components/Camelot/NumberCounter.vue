@@ -11,7 +11,7 @@
     >
       <slot name="minus">
         <CamelotRippleEffect class="controller">
-          -
+          <span>-</span>
         </CamelotRippleEffect>
       </slot>
     </button>
@@ -34,7 +34,7 @@
     >
       <slot name="plus">
         <CamelotRippleEffect class="controller">
-          +
+          <span>+</span>
         </CamelotRippleEffect>
       </slot>
     </button>
@@ -123,6 +123,7 @@ const onPlusClick = () => {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
   align-items: center;
+  height: 28px;
   border-radius: 9999px;
   border-width: 1px;
   min-width: fit-content;
@@ -161,13 +162,16 @@ input[type=number] {
 
 .controller {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 9999px;
-  width: 1rem;
-  height: 1rem;
+  height: 24px;
+  aspect-ratio: 1 / 1;
+}
+
+.controller span {
   font-size: 1rem;
-  line-height: 1.5rem;
   font-weight: 700;
   user-select: none;
 }
