@@ -87,7 +87,7 @@ if (props.hashTag) {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 50;
+  z-index: 9999;
   align-items: flex-end;
   width: 100%;
   height: 100%;
