@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "main": "./nuxt.config.ts",
-  "types": "./types/**",
+  "types": "./types/*",
   "scripts": {
     "dev": "nuxi dev .playground",
     "build": "nuxt build .playground",
