@@ -130,7 +130,8 @@ export default defineNuxtConfig({
     ],
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
-    'unplugin-icons/nuxt'
+    'unplugin-icons/nuxt',
+    '@nuxtjs/tailwindcss'
   ],
 
   experimental: {
