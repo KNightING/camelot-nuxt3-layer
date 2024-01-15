@@ -1,7 +1,7 @@
 <template>
   <div class="container" :class="{'close':!expanded}">
     <div style="min-height:0px">
-      <slot/>
+      <slot />
     </div>
   </div>
 </template>
