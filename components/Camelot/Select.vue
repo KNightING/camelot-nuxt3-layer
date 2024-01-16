@@ -1,6 +1,6 @@
 <template>
   <div ref="el" class="container" @click="open = true">
-      <slot :selected-data="selectedData" />
+    <slot :selected-data="selectedData" />
 
     <Transition>
       <div v-if="open" class="background" @click="onBackgroundClick">
@@ -94,7 +94,7 @@ const optionContainerY = computed(() => {
 
 const onBackgroundClick = (e:Event) => {
   open.value = false
-  e.
+  e.stopPropagation()
 }
 
 </script>
