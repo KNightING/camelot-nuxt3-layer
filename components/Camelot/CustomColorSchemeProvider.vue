@@ -8,6 +8,7 @@
 const props = defineProps<{
   lightColorScheme?: CustomColorScheme<T>;
   darkColorScheme?: CustomColorScheme<T>;
+  coverGlobal?:boolean;
 }>()
 
 const container = ref<HTMLElement>()
@@ -19,7 +20,8 @@ watchOnce(container, (nV) => {
     container,
     {
       lightColorScheme: props.lightColorScheme,
-      darkColorScheme: props.darkColorScheme
+      darkColorScheme: props.darkColorScheme,
+      coverGlobal: props.coverGlobal
     }
   )
 

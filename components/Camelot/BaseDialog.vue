@@ -1,21 +1,24 @@
 <template>
-  <Transition>
-    <div
-      v-if="open"
-      :id="hashTag"
-      class="dialog-container"
-    >
-      <div
-        class="mask"
-        @click="onCloseByMaskClick"
-      />
-      <dialog
-        :open="open"
-      >
-        <slot />
-      </dialog>
-    </div>
-  </Transition>
+  <Teleport to="body">
+    <Transition>
+      <CamelotCustomColorSchemeProvider v-if="open">
+        <div
+          :id="hashTag"
+          class="dialog-container"
+        >
+          <div
+            class="mask"
+            @click="onCloseByMaskClick"
+          />
+          <dialog
+            :open="open"
+          >
+            <slot />
+          </dialog>
+        </div>
+      </CamelotCustomColorSchemeProvider>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -83,8 +86,8 @@ if (props.hashTag) {
   z-index: 9999;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100dvh;
 }
 
 .mask {

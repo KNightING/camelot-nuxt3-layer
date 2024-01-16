@@ -1,36 +1,40 @@
 <template>
   <div ref="el" class="container" @click="open = true">
     <slot :selected-data="selectedData" />
-
-    <Transition>
-      <div v-if="open" class="background" @click="onBackgroundClick">
-        <div
-          ref="optionsContainerEl"
-          class="options-container"
-          :style="`width:${width}px;max-height:${optionsContainerMaxHeight}px;transform:translate(${x}px, ${optionContainerY}px);`"
-        >
-          <template v-for="(d,index) in data" :key="index">
-            <button type="button" @click="value = d.value">
-              <slot name="option" :index="index" :data="d" :is-selected="value === d.value">
-                <div class="option">
-                  <span style="width: 1.5rem">{{ value === d.value ? '✓' :'' }} </span>
-                  <span
-                    style="margin-top: 0.25rem;
+    <Teleport to="body">
+      <Transition>
+        <CamelotCustomColorSchemeProvider v-if="open">
+          <div class="background" @click="onBackgroundClick">
+            <div
+              ref="optionsContainerEl"
+              class="options-container"
+              :style="[ `width:${width}px;max-height:${optionsContainerMaxHeight}px;transform:translate(${x}px, ${optionContainerY}px);`]"
+            >
+              <template v-for="(d,index) in data" :key="index">
+                <button type="button" @click="value = d.value">
+                  <slot name="option" :index="index" :data="d" :is-selected="value === d.value">
+                    <div class="option">
+                      <span style="width: 1.5rem">{{ value === d.value ? '✓' :'' }} </span>
+                      <span
+                        style="margin-top: 0.25rem;
                   margin-bottom: 0.25rem;
                   font-size: 1rem;
                   line-height: 1.5rem; "
-                  >{{ d.label }}</span>
-                </div>
-              </slot>
-            </button>
-          </template>
-        </div>
-      </div>
-    </Transition>
+                      >{{ d.label }}</span>
+                    </div>
+                  </slot>
+                </button>
+              </template>
+            </div>
+          </div>
+        </CamelotCustomColorSchemeProvider>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts" generic="T">
+import type { HTMLAttributes, CSSProperties } from 'vue'
 import type { SelectOption } from '../../types/selectOption'
 
 const props = withDefaults(defineProps<{
@@ -67,9 +71,9 @@ watch(el, (nV) => {
 const { x, y, top, right, bottom, left, width, height } =
         useElementBounding(selectEl)
 
-const optionsContainerBackgroundColorVar = useElCssVar('--c-select-background', el, { inherit: false })
+const optionsContainerBackgroundColorVar = useElCssVar('--c-select-background', optionsContainerEl, { inherit: false })
 
-watch([el, props], ([el, props]) => {
+watch([optionsContainerEl, props], ([el, props]) => {
   if (el && props) {
     const optionsContainerBackgroundColor = props.optionsContainerBackgroundColor
     if (optionsContainerBackgroundColor) {
@@ -102,7 +106,6 @@ const onBackgroundClick = (e:Event) => {
 <style scoped>
 
 .container {
-  --c-select-background: var(--material3-background);
   display: flex;
   justify-content: center;
   width: 100%;
@@ -114,12 +117,13 @@ const onBackgroundClick = (e:Event) => {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 20;
-  width: 100%;
-  height: 100%;
+  z-index: 9990;
+  width: 100vw;
+  height: 100dvh;
 }
 
 .options-container {
+  --c-select-background: var(--material3-background);
   background: rgba(var(--c-select-background),1);
   display: flex;
   overflow: auto;

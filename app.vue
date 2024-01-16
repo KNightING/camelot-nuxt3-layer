@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme">
+    <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme" :cover-global="true">
       <n-config-provider
         :theme="naiveTheme"
         :theme-overrides="naiveThemeOverrides"

@@ -52,9 +52,10 @@ export const useCustomColorScheme = <T>(
     darkColorScheme?: CustomColorScheme<T>;
     cssVarKeyPrefix?: string;
     editable?: boolean;
+    coverGlobal?: boolean;
   }
 ) => {
-  if (!target) {
+  if (!target || config?.coverGlobal) {
     if (config?.lightColorScheme) {
       globalLightColorScheme.value = {
         ...globalLightColorScheme.value,

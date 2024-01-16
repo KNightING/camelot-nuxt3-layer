@@ -16,7 +16,7 @@
       dark
     </div>
 
-    <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme">
+    <!-- <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme">
       <div
         class="text-test bg-primary"
         @click="changeCustom"
@@ -36,7 +36,7 @@
         min-step-by-value
         used-min-step-by-value
       />
-    </CamelotCustomColorSchemeProvider>
+    </CamelotCustomColorSchemeProvider> -->
 
     <CamelotNumberCounter
       v-model="v"
@@ -122,10 +122,18 @@
 
     <CamelotTabs
       v-model="tabSelected"
-      class="top-0 sticky bg-surface py-2 px-2 z-10 drop-shadow"
+      class="top-0 sticky bg-surface py-2 px-2  drop-shadow"
       :data="data"
       display-key="name"
     />
+
+    <CamelotSelect :data="options" :value="department" options-container-background-color="#F35F6F">
+      <div
+        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+      >
+        <span class="flex-1">新竹縣</span>
+      </div>
+    </CamelotSelect>
 
     <CamelotSteps
       v-model="step"
@@ -174,14 +182,6 @@
         </template>
       </CamelotImage>
     </div>
-
-    <CamelotSelect :data="options" :value="department" options-container-background-color="#FFFFFF">
-      <div
-        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
-      >
-        <span class="flex-1">新竹縣</span>
-      </div>
-    </CamelotSelect>
   </div>
 </template>
 
