@@ -174,6 +174,14 @@
         </template>
       </CamelotImage>
     </div>
+
+    <CamelotSelect :data="options" :value="department" options-container-background-color="#FFFFFF">
+      <div
+        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+      >
+        <span class="flex-1">新竹縣</span>
+      </div>
+    </CamelotSelect>
   </div>
 </template>
 
@@ -235,6 +243,18 @@ const data =
 
 const tabSelected = ref(0)
 
+const department = ref('韓式餐廳')
+
+const options = ref([
+  {
+    label: '韓式餐廳',
+    value: '韓式餐廳'
+  },
+  {
+    label: '港式餐廳',
+    value: '港式餐廳'
+  }
+])
 </script>
 
 <style scoped></style>

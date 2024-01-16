@@ -1,10 +1,13 @@
 <template>
-  <div ref="el" class="container" @click="open = true">
-    <slot :selected-data="selectedData" />
+  <div ref="el" class="container">
+    <div class="container" @click="open = true">
+      <slot :selected-data="selectedData" />
+    </div>
 
     <Transition>
       <div v-if="open" class="background" @click="onBackgroundClick">
         <div
+          ref="optionsContainerEl"
           class="options-container"
           :style="`width:${width}px;max-height:${optionsContainerMaxHeight}px;transform:translate(${x}px, ${optionContainerY}px);`"
         >
@@ -30,7 +33,7 @@
 </template>
 
 <script setup lang="ts" generic="T">
-import type { SelectOption } from '../../type/selectOption'
+import type { SelectOption } from '../../types/selectOption'
 
 const props = withDefaults(defineProps<{
   data:SelectOption<T>[]
@@ -53,6 +56,8 @@ const selectedData = computed(() => {
 
 const el = ref<HTMLElement | null>(null)
 
+const optionsContainerEl = ref<HTMLElement | null>(null)
+
 const selectEl = ref<HTMLElement | null>(null)
 
 watch(el, (nV) => {
@@ -64,7 +69,7 @@ watch(el, (nV) => {
 const { x, y, top, right, bottom, left, width, height } =
         useElementBounding(selectEl)
 
-const optionsContainerBackgroundColorVar = useElCssVar('--material3-background', el, { inherit: false })
+const optionsContainerBackgroundColorVar = useElCssVar('--c-select-background', el, { inherit: false })
 
 watch([el, props], ([el, props]) => {
   if (el && props) {
@@ -81,14 +86,15 @@ watch([el, props], ([el, props]) => {
 const { height: windowHeight } = useWindowSize()
 
 const optionContainerY = computed(() => {
-  if (bottom.value + props.optionsContainerMaxHeight > windowHeight.value) {
-    return top.value - props.optionsContainerMaxHeight
+  const optionsContainerHeight = optionsContainerEl.value?.clientHeight ?? 0
+
+  if (bottom.value + optionsContainerHeight > windowHeight.value) {
+    return top.value - optionsContainerHeight
   }
   return bottom.value
 })
 
 const onBackgroundClick = (e:Event) => {
-  e.stopPropagation()
   open.value = false
 }
 
@@ -97,6 +103,7 @@ const onBackgroundClick = (e:Event) => {
 <style scoped>
 
 .container {
+  --c-select-background: var(--material3-background);
   display: flex;
   justify-content: center;
   width: 100%;
@@ -114,7 +121,7 @@ const onBackgroundClick = (e:Event) => {
 }
 
 .options-container {
-  background: rgba(var(--material3-background),1);
+  background: rgba(var(--c-select-background),1);
   display: flex;
   overflow: auto;
   position: relative;
@@ -144,4 +151,3 @@ const onBackgroundClick = (e:Event) => {
   opacity: 0;
 }
 </style>
-../../types/selectOption
