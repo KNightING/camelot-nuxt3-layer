@@ -1,8 +1,8 @@
 <template>
   <Teleport to="body">
-    <Transition>
-      <CamelotCustomColorSchemeProvider v-if="open">
-        <div :id="hashTag" class="dialog-container">
+    <CamelotCustomColorSchemeProvider>
+      <Transition>
+        <div v-if="open" :id="hashTag" class="dialog-container">
           <div
             class="mask"
             @click="onCloseByMaskClick"
@@ -14,8 +14,8 @@
             <slot />
           </dialog>
         </div>
-      </CamelotCustomColorSchemeProvider>
-    </Transition>
+      </Transition>
+    </CamelotCustomColorSchemeProvider>
   </Teleport>
 </template>
 

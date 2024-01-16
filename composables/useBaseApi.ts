@@ -37,10 +37,14 @@ export type FetchOptions<
   T extends ExtendsFetchOptions = ExtendsFetchOptions
 > = UseFetchOptions<DataT> & T;
 
-abstract class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
-  protected abstract baseFetchOptions<DataT>(): FetchOptions<DataT, T>;
+export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
+  protected baseFetchOptions<DataT>(): FetchOptions<DataT, T> {
+    return <T>{}
+  }
 
-  protected abstract getJwtToken(): Promise<string>;
+  protected async getJwtToken(): Promise<string> {
+    return ''
+  }
 
   private async mergeFetchOptions<DataT>(
     options?: FetchOptions<DataT, T>
@@ -138,4 +142,6 @@ abstract class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
   }
 }
 
-export default BaseApi
+export const useBaseApi = () => {
+  return BaseApi
+}

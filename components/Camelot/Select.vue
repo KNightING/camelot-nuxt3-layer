@@ -2,9 +2,16 @@
   <div ref="el" class="container" @click="open = true">
     <slot :selected-data="selectedData" />
     <Teleport to="body">
-      <Transition>
-        <CamelotCustomColorSchemeProvider v-if="open">
-          <div class="background" @click="onBackgroundClick">
+      <CamelotCustomColorSchemeProvider>
+        <Transition>
+          <div
+            v-if="open"
+            class="background"
+            :style="[
+              `z-index:${zIndex ?? 9990};`
+            ]"
+            @click="onBackgroundClick"
+          >
             <div
               ref="optionsContainerEl"
               class="options-container"
@@ -27,14 +34,13 @@
               </template>
             </div>
           </div>
-        </CamelotCustomColorSchemeProvider>
-      </Transition>
+        </Transition>
+      </CamelotCustomColorSchemeProvider>
     </Teleport>
   </div>
 </template>
 
 <script setup lang="ts" generic="T">
-import type { HTMLAttributes, CSSProperties } from 'vue'
 import type { SelectOption } from '../../types/selectOption'
 
 const props = withDefaults(defineProps<{
@@ -42,6 +48,7 @@ const props = withDefaults(defineProps<{
   optionsContainerMaxHeight?:number,
   optionsContainerBackgroundColor?:string,
   initSelectedKey?:string,
+  zIndex?:number,
 }>(), {
   optionsContainerMaxHeight: 160
 })
@@ -117,7 +124,6 @@ const onBackgroundClick = (e:Event) => {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 9990;
   width: 100vw;
   height: 100dvh;
 }
