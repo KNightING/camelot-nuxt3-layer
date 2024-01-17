@@ -1,5 +1,5 @@
 <template>
-  <CamelotPopup v-model:open="open" :width-with-target="true" :z-index="zIndex">
+  <CamelotPopup v-model:open="open" :z-index="zIndex">
     <slot :selected-data="selectedData" />
     <template #popup>
       <div
@@ -8,7 +8,7 @@
         :style="[ `max-height:${optionsContainerMaxHeight}px;`]"
       >
         <template v-for="(d,index) in data" :key="index">
-          <button type="button" @click="value = d.value">
+          <button type="button" @click="(e)=>onItemClick(e,d.value)">
             <slot name="option" :index="index" :data="d" :is-selected="value === d.value">
               <div class="option">
                 <span class="w-5 text-primary">{{ value === d.value ? '✓' :'' }} </span>
@@ -38,6 +38,7 @@ const props = withDefaults(defineProps<{
   optionsContainerBackgroundColor?:string,
   initSelectedKey?:string,
   zIndex?:number,
+  disableCloseWhenSelected?:boolean,
 }>(), {
   optionsContainerMaxHeight: 160
 })
@@ -67,6 +68,13 @@ watch([optionsContainerEl, props], ([el, props]) => {
     }
   }
 })
+
+const onItemClick = (e:Event, index:string) => {
+  value.value = index
+  if (!props.disableCloseWhenSelected) {
+    open.value = false
+  }
+}
 
 </script>
 

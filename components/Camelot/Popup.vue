@@ -1,5 +1,5 @@
 <template>
-  <div ref="el" @click="onContainerClick">
+  <div ref="el" class="w-fit" @click="onContainerClick">
     <slot />
     <Teleport to="body">
       <CamelotCustomColorSchemeProvider>
@@ -16,8 +16,8 @@
               ref="popupEl"
               class="popup"
               :style="[
-                `height:min-content;transform:translate(${x}px,${popupContainerY}px);`,
-                widthWithTarget?`width:${width}px;`:'width:min-content;',
+                `height:min-content;transform:translate(${popupContainerX}px,${popupContainerY}px);`,
+                disableWidthWithTarget?'width:min-content;':`width:${width}px;`,
               ]"
               @click="(e)=>{e.stopPropagation()}"
             >
@@ -32,15 +32,12 @@
 
 <script setup lang="ts" generic="T">
 
-const props = withDefaults(defineProps<{
-  widthWithTarget?:boolean,
+const props = defineProps<{
   popupBackgroundColor?:string,
   zIndex?:number,
-  openByTarget?:boolean,
-}>(), {
-  widthWithTarget: false,
-  openByTarget: true
-})
+  disableOpenByTarget?:boolean,
+  disableWidthWithTarget?:boolean,
+}>()
 
 const open = defineModel('open', { default: false })
 
@@ -73,19 +70,27 @@ const { x, y, top, right, bottom, left, width, height } =
 //   }
 // })
 
-const { height: windowHeight } = useWindowSize()
+const { height: windowHeight, width: windowWidth } = useWindowSize()
+
+const popupContainerX = computed(() => {
+  const popupContainerClientWidth = popupEl.value?.clientWidth ?? 0
+  if (left.value + popupContainerClientWidth > windowWidth.value) {
+    return windowWidth.value - popupContainerClientWidth
+  }
+  return left.value
+})
 
 const popupContainerY = computed(() => {
-  const popupContainerY = popupEl.value?.clientHeight ?? 0
+  const popupContainerClientHeight = popupEl.value?.clientHeight ?? 0
 
-  if (bottom.value + popupContainerY > windowHeight.value) {
-    return top.value - popupContainerY
+  if (bottom.value + popupContainerClientHeight > windowHeight.value) {
+    return top.value - popupContainerClientHeight
   }
   return bottom.value
 })
 
 const onContainerClick = (e:Event) => {
-  if (props.openByTarget) {
+  if (!props.disableOpenByTarget) {
     open.value = true
   }
 }
