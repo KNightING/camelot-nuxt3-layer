@@ -16,7 +16,7 @@
               ref="popupEl"
               class="popup"
               :style="[
-                `height:min-content;transform:translate(${x}px,${optionContainerY}px);`,
+                `height:min-content;transform:translate(${x}px,${popupContainerY}px);`,
                 widthWithTarget?`width:${width}px;`:'width:min-content;',
               ]"
               @click="(e)=>{e.stopPropagation()}"
@@ -75,11 +75,11 @@ const { x, y, top, right, bottom, left, width, height } =
 
 const { height: windowHeight } = useWindowSize()
 
-const optionContainerY = computed(() => {
-  const optionsContainerHeight = popupEl.value?.clientHeight ?? 0
+const popupContainerY = computed(() => {
+  const popupContainerY = popupEl.value?.clientHeight ?? 0
 
-  if (bottom.value + optionsContainerHeight > windowHeight.value) {
-    return top.value - optionsContainerHeight
+  if (bottom.value + popupContainerY > windowHeight.value) {
+    return top.value - popupContainerY
   }
   return bottom.value
 })
@@ -118,11 +118,11 @@ const onBackgroundClick = (e:Event) => {
   --c-popup-background: var(--material3-background);
   background: transparent;
   display: flex;
+  flex-direction: column;
   overflow: auto;
   position: relative;
   top: 0;
   left: 0;
-  flex-direction: column;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
 }
 

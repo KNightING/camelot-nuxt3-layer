@@ -190,7 +190,7 @@
       </template>
     </CamelotPopup>
 
-    <CamelotSelect :data="options" :value="department" options-container-background-color="#F35F6F">
+    <CamelotSelect class="w-full" :data="options" :value="department" options-container-background-color="#F35F6F">
       <div
         class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
       >

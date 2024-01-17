@@ -1,5 +1,5 @@
 <template>
-  <CamelotPopup :width-with-target="true" :z-index="zIndex" :open="open">
+  <CamelotPopup v-model:open="open" :width-with-target="true" :z-index="zIndex">
     <slot :selected-data="selectedData" />
     <template #popup>
       <div
