@@ -146,6 +146,10 @@ export default defineNuxtConfig({
     ]
   },
 
+  tailwindcss: {
+    viewer: false
+  },
+
   i18n: {
     locales: [
       {

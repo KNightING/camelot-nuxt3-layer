@@ -127,13 +127,13 @@
       display-key="name"
     />
 
-    <CamelotSelect :data="options" :value="department" options-container-background-color="#F35F6F">
+    <CamelotSelectV1 :data="options" :value="department" options-container-background-color="#F35F6F">
       <div
         class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
       >
         <span class="flex-1">新竹縣</span>
       </div>
-    </CamelotSelect>
+    </CamelotSelectV1>
 
     <CamelotSteps
       v-model="step"
@@ -189,6 +189,14 @@
         <n-date-picker panel type="date" />
       </template>
     </CamelotPopup>
+
+    <CamelotSelect :data="options" :value="department" options-container-background-color="#F35F6F">
+      <div
+        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+      >
+        <span class="flex-1">新竹縣</span>
+      </div>
+    </CamelotSelect>
   </div>
 </template>
 
@@ -256,6 +264,22 @@ const options = ref([
   {
     label: '韓式餐廳',
     value: '韓式餐廳'
+  },
+  {
+    label: '港式餐廳',
+    value: '港式餐廳'
+  },
+  {
+    label: '港式餐廳',
+    value: '港式餐廳'
+  },
+  {
+    label: '港式餐廳',
+    value: '港式餐廳'
+  },
+  {
+    label: '港式餐廳',
+    value: '港式餐廳'
   },
   {
     label: '港式餐廳',

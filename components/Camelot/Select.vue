@@ -1,43 +1,32 @@
 <template>
-  <div ref="el" class="container" @click="open = true">
+  <CamelotPopup :width-with-target="true" :z-index="zIndex" :open="open">
     <slot :selected-data="selectedData" />
-    <Teleport to="body">
-      <CamelotCustomColorSchemeProvider>
-        <Transition>
-          <div
-            v-if="open"
-            class="background"
-            :style="[
-              `z-index:${zIndex ?? 9990};`
-            ]"
-            @click="onBackgroundClick"
-          >
-            <div
-              ref="optionsContainerEl"
-              class="options-container"
-              :style="[ `width:${width}px;max-height:${optionsContainerMaxHeight}px;transform:translate(${x}px, ${optionContainerY}px);`]"
-            >
-              <template v-for="(d,index) in data" :key="index">
-                <button type="button" @click="value = d.value">
-                  <slot name="option" :index="index" :data="d" :is-selected="value === d.value">
-                    <div class="option">
-                      <span style="width: 1.5rem">{{ value === d.value ? '✓' :'' }} </span>
-                      <span
-                        style="margin-top: 0.25rem;
-                  margin-bottom: 0.25rem;
-                  font-size: 1rem;
-                  line-height: 1.5rem; "
-                      >{{ d.label }}</span>
-                    </div>
-                  </slot>
-                </button>
-              </template>
-            </div>
-          </div>
-        </Transition>
-      </CamelotCustomColorSchemeProvider>
-    </Teleport>
-  </div>
+    <template #popup>
+      <div
+        ref="optionsContainerEl"
+        class="options-container"
+        :style="[ `max-height:${optionsContainerMaxHeight}px;`]"
+      >
+        <template v-for="(d,index) in data" :key="index">
+          <button type="button" @click="value = d.value">
+            <slot name="option" :index="index" :data="d" :is-selected="value === d.value">
+              <div class="option">
+                <span class="w-5 text-primary">{{ value === d.value ? '✓' :'' }} </span>
+                <span
+                  :class="{
+                    'text-primary':value === d.value
+                  }"
+                  :style="[
+                    'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;'
+                  ]"
+                >{{ d.label }}</span>
+              </div>
+            </slot>
+          </button>
+        </template>
+      </div>
+    </template>
+  </CamelotPopup>
 </template>
 
 <script setup lang="ts" generic="T">
@@ -63,20 +52,7 @@ const selectedData = computed(() => {
   return props.data.find(d => d.value === value.value)
 })
 
-const el = ref<HTMLElement | null>(null)
-
 const optionsContainerEl = ref<HTMLElement | null>(null)
-
-const selectEl = ref<HTMLElement | null>(null)
-
-watch(el, (nV) => {
-  if (nV && nV.children.length > 0) {
-    selectEl.value = nV.children[0] as HTMLElement
-  }
-})
-
-const { x, y, top, right, bottom, left, width, height } =
-        useElementBounding(selectEl)
 
 const optionsContainerBackgroundColorVar = useElCssVar('--c-select-background', optionsContainerEl, { inherit: false })
 
@@ -92,42 +68,9 @@ watch([optionsContainerEl, props], ([el, props]) => {
   }
 })
 
-const { height: windowHeight } = useWindowSize()
-
-const optionContainerY = computed(() => {
-  const optionsContainerHeight = optionsContainerEl.value?.clientHeight ?? 0
-
-  if (bottom.value + optionsContainerHeight > windowHeight.value) {
-    return top.value - optionsContainerHeight
-  }
-  return bottom.value
-})
-
-const onBackgroundClick = (e:Event) => {
-  open.value = false
-  e.stopPropagation()
-}
-
 </script>
 
 <style scoped>
-
-.container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.background {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
-}
-
 .options-container {
   --c-select-background: var(--material3-background);
   background: rgba(var(--c-select-background),1);
