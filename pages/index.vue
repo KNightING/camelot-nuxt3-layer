@@ -182,6 +182,13 @@
         </template>
       </CamelotImage>
     </div>
+
+    <CamelotPopup :scrollable="false" :popup-width-with-target="false">
+      <input type="input">
+      <template #popup>
+        <n-date-picker panel type="date" />
+      </template>
+    </CamelotPopup>
   </div>
 </template>
 
