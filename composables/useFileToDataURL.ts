@@ -11,7 +11,7 @@ const readAsDataURL = (file: File) => {
 }
 
 export const useFileToDataURL = (file: File) => {
-  return useAsyncData(() => {
+  return useAsyncData(useFileKey(file), () => {
     return readAsDataURL(file)
   })
 }
