@@ -7,19 +7,19 @@
         class="options-container"
         :style="[ `max-height:${optionsContainerMaxHeight}px;`]"
       >
-        <template v-for="(d,index) in data" :key="index">
-          <button type="button" @click="(e)=>onItemClick(e,d.value)">
-            <slot name="option" :index="index" :data="d" :is-selected="value === d.value">
+        <template v-for="(option,index) in options" :key="index">
+          <button type="button" @click="(e)=>onItemClick(e,option.value)">
+            <slot name="option" :index="index" :data="option" :is-selected="model === option.value">
               <div class="option">
-                <span class="w-5 text-primary">{{ value === d.value ? '✓' :'' }} </span>
+                <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
                 <span
                   :class="{
-                    'text-primary':value === d.value
+                    'text-primary':model === option.value
                   }"
                   :style="[
                     'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;'
                   ]"
-                >{{ d.label }}</span>
+                >{{ option.label }}</span>
               </div>
             </slot>
           </button>
@@ -33,10 +33,9 @@
 import type { SelectOption } from '../../types/selectOption'
 
 const props = withDefaults(defineProps<{
-  data:SelectOption<T>[]
+  options:SelectOption<T>[]
   optionsContainerMaxHeight?:number,
   optionsContainerBackgroundColor?:string,
-  initSelectedKey?:string,
   zIndex?:number,
   disableCloseWhenSelected?:boolean,
 }>(), {
@@ -45,12 +44,23 @@ const props = withDefaults(defineProps<{
 
 const open = defineModel('open', { default: false })
 
-const value = defineModel<string|null>({ default: null })
+const model = defineModel<string|null>({ default: null })
 
-value.value = props.data.length > 0 ? props.data[0].value : null
+// 檢查model目前的值是否存在options,不存在則設為空值
+if (model.value) {
+  const defaultModel = props.options.find(o => o.value === model.value)
+  if (!defaultModel) {
+    model.value = null
+  }
+}
+
+// 如果model為空值, 則預設為第一個option
+if (!model.value) {
+  model.value = props.options.length > 0 ? props.options[0].value : null
+}
 
 const selectedData = computed(() => {
-  return props.data.find(d => d.value === value.value)
+  return props.options.find(d => d.value === model.value)
 })
 
 const optionsContainerEl = ref<HTMLElement | null>(null)
@@ -70,7 +80,7 @@ watch([optionsContainerEl, props], ([el, props]) => {
 })
 
 const onItemClick = (e:Event, index:string) => {
-  value.value = index
+  model.value = index
   if (!props.disableCloseWhenSelected) {
     open.value = false
   }
