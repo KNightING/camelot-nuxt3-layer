@@ -40,43 +40,39 @@ function onCloseByMaskClick() {
     open.value = false
   }
 }
-
 if (props.tag) {
   const router = useRouter()
 
-  watch(open, (isOpen) => {
-    if (isOpen) {
-      router.push({
-        query: {
-          vTags: props.tag
-        }
-      })
-    } else if (useRouterHistory()) {
-      router.back()
-    } else {
-      router.replace({ hash: '' })
-    }
-  })
-
   const route = useRoute()
 
-  watch(() => route.query, (query) => {
-    if (!query.vTags) {
+  watch(open, (isOpen) => {
+    // console.log('open', useRoute().path, useRoute().hash, isOpen)
+    if (isOpen) {
+      router.push({ hash: `#${props.tag}` })
+    } else if (useRoute().hash === `#${props.tag}`) {
+      if (useRouterHistory()) {
+        router.back()
+      } else {
+        router.replace({ hash: '' })
+      }
+    }
+
+    // if (isOpen) {
+    //   router.push({ hash: `#${props.tag}` })
+    // } else if (useRouterHistory() && useRoute().hash) {
+    //   router.back()
+    // } else if (useRoute().hash === `#${props.tag}`) {
+    //   router.replace({ hash: '' })
+    // }
+  })
+
+  watch(() => [route.path, route.hash], ([path, hash]) => {
+    // console.log('path', path, hash)
+    if (hash === `#${props.tag}`) {
+      open.value = true
+    } else {
       open.value = false
-      return
     }
-
-    if (Array.isArray(query.vTags) && query.vTags.find(tag => tag === props.tag)) {
-      open.value = true
-      return
-    }
-
-    if (query.vTags.toString() === props.tag) {
-      open.value = true
-      return
-    }
-
-    open.value = false
   }, { immediate: true })
 }
 </script>

@@ -15,6 +15,9 @@
     >
       dark
     </div>
+    <button type="button" @click="useRouter().push('/dialog')">
+      go to dialog
+    </button>
 
     <!-- <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme">
       <div
@@ -55,71 +58,6 @@
     >
       open dialog
     </div>
-
-    <CamelotBaseDialog
-      v-model:open="open"
-      tag="dialog"
-    >
-      <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
-        <div class="flex justify-end">
-          <i-material-symbols-close
-            class="text-primary text-lg m-1 cursor-pointer"
-            @click="open = false"
-          />
-        </div>
-        <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
-          <CamelotNumberCounter
-            v-model="v"
-            class="w-4"
-            :max="10"
-            :min="0"
-            min-step-by-value
-            used-min-step-by-value
-          />
-          <div class="h-[600px]" />
-        </div>
-      </div>
-    </CamelotBaseDialog>
-
-    <div
-      class="text-test bg-primary my-4"
-      @click="openBottomSheet = true"
-    >
-      open BottomSheet
-    </div>
-
-    <CamelotBaseBottomSheet
-      v-model:open="openBottomSheet"
-      tag="bottom"
-    >
-      <div class="overflow-hidden rounded-xl shadow flex flex-col w-screen h-[30vh] bg-surface-container ">
-        <div class="flex justify-end">
-          <i-material-symbols-close
-            class="text-primary text-lg m-1 cursor-pointer"
-            @click="openBottomSheet = false"
-          />
-        </div>
-        <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
-          <CamelotNumberCounter
-            v-model="v"
-            class="w-4"
-            :max="10"
-            :min="0"
-            min-step-by-value
-            used-min-step-by-value
-          />
-          <div class="h-[600px]" />
-        </div>
-      </div>
-    </CamelotBaseBottomSheet>
-
-    <div
-      class="text-test bg-primary"
-      @click="openLoading"
-    >
-      open loading
-    </div>
-    <CamelotLoading />
 
     <CamelotTabs
       v-model="tabSelected"
@@ -192,7 +130,7 @@
         </template>
       </CamelotPopup>
     </div>
-    <CamelotSelect class="w-full" :options="options" :value="department" options-container-background-color="#F35F6F">
+    <CamelotSelect v-model="department" class="w-full" :options="options" options-container-background-color="#F35F6F">
       <div
         class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
       >

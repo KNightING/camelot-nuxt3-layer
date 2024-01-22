@@ -20,6 +20,8 @@
 </template>
 
 <script setup lang="ts">
+import type { LocationQueryValue } from 'vue-router'
+
 const props = withDefaults(
   defineProps<{
     closeByMask?: boolean;
@@ -41,39 +43,28 @@ function onCloseByMaskClick() {
 if (props.tag) {
   const router = useRouter()
 
+  const route = useRoute()
+
   watch(open, (isOpen) => {
+    // console.log('open', useRoute().path, useRoute().hash, isOpen)
     if (isOpen) {
-      router.push({
-        query: {
-          vTags: props.tag
-        }
-      })
-    } else if (useRouterHistory()) {
-      router.back()
-    } else {
-      router.replace({ hash: '' })
+      router.push({ hash: `#${props.tag}` })
+    } else if (useRoute().hash === `#${props.tag}`) {
+      if (useRouterHistory()) {
+        router.back()
+      } else {
+        router.replace({ hash: '' })
+      }
     }
   })
 
-  const route = useRoute()
-
-  watch(() => route.query, (query) => {
-    if (!query.vTags) {
+  watch(() => [route.path, route.hash], ([path, hash]) => {
+    // console.log('path', path, hash)
+    if (hash === `#${props.tag}`) {
+      open.value = true
+    } else {
       open.value = false
-      return
     }
-
-    if (Array.isArray(query.vTags) && query.vTags.find(tag => tag === props.tag)) {
-      open.value = true
-      return
-    }
-
-    if (query.vTags.toString() === props.tag) {
-      open.value = true
-      return
-    }
-
-    open.value = false
   }, { immediate: true })
 }
 </script>
