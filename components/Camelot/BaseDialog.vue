@@ -4,7 +4,7 @@
       <Transition>
         <div
           v-if="open"
-          :id="hashTag"
+          :id="tag"
           class="dialog-container"
         >
           <div
@@ -26,7 +26,7 @@
 const props = withDefaults(
   defineProps<{
     closeByMask?: boolean;
-    hashTag?:string;
+    tag?:string;
   }>(),
   {
     closeByMask: true
@@ -41,12 +41,16 @@ function onCloseByMaskClick() {
   }
 }
 
-if (props.hashTag) {
+if (props.tag) {
   const router = useRouter()
 
   watch(open, (isOpen) => {
     if (isOpen) {
-      router.push({ hash: `#${props.hashTag}` })
+      router.push({
+        query: {
+          vTags: props.tag
+        }
+      })
     } else if (useRouterHistory()) {
       router.back()
     } else {
@@ -56,12 +60,23 @@ if (props.hashTag) {
 
   const route = useRoute()
 
-  watch(() => route.hash, (hash) => {
-    if (hash === `#${props.hashTag}`) {
-      open.value = true
-    } else {
+  watch(() => route.query, (query) => {
+    if (!query.vTags) {
       open.value = false
+      return
     }
+
+    if (Array.isArray(query.vTags) && query.vTags.find(tag => tag === props.tag)) {
+      open.value = true
+      return
+    }
+
+    if (query.vTags.toString() === props.tag) {
+      open.value = true
+      return
+    }
+
+    open.value = false
   }, { immediate: true })
 }
 </script>
