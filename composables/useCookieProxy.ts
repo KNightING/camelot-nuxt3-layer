@@ -1,9 +1,11 @@
 import type { CookieOptions, CookieRef } from 'nuxt/app'
 
+type ReadOnlyCookeOptions<T> = CookieOptions<T> & { readonly?: false | undefined; }
+
 class CookieProxy<T> {
   private _cookie: CookieRef<T>
 
-  constructor(key: string, opts?: CookieOptions<T>) {
+  constructor(key: string, opts?: ReadOnlyCookeOptions<T>) {
     this._cookie = useCookie<T>(key, opts)
   }
 
@@ -28,5 +30,5 @@ class CookieProxy<T> {
   }
 }
 
-export const useCookieProxy = <T>(key: string, opts?: CookieOptions<T>) =>
+export const useCookieProxy = <T>(key: string, opts?: ReadOnlyCookeOptions<T>) =>
   new CookieProxy(key, opts)
