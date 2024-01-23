@@ -24,8 +24,10 @@
       :step="step"
       :min="min"
       :max="max"
+      :inputmode="inputmode"
       @blur="isFocus = false"
       @focus="isFocus = true"
+      @click="onInputClick"
     >
 
     <button
@@ -66,6 +68,20 @@ const model = defineModel<number>({ default: 0 })
 const input = ref<HTMLInputElement>()
 
 const isFocus = ref(false)
+
+const inputmode = ref<'none' | 'text' | 'search' | 'email' | 'tel' | 'url' | 'numeric' | 'decimal' | undefined>('none')
+
+const onInputClick = () => {
+  if (isFocus) {
+    inputmode.value = 'numeric'
+  }
+}
+
+watch(isFocus, (isFocus) => {
+  if (!isFocus) {
+    inputmode.value = 'none'
+  }
+})
 
 const absStep = computed(() => {
   if (props.step) {
