@@ -42,7 +42,7 @@
           :value="value"
           :index="index"
           :is-complete="isComplete(index)"
-          :is-working="isDoing(index)"
+          :is-doing="isDoing(index)"
         >
           <span
             class="step-content"
