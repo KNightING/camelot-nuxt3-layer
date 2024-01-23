@@ -16,7 +16,7 @@
               :value="value"
               :index="index"
               :is-complete="isComplete(index)"
-              :is-working="isDoing(index)"
+              :is-doing="isDoing(index)"
             >
               <div
                 class="step-dot"
@@ -54,44 +54,6 @@
       </div>
     </template>
   </div>
-
-  <!-- <div class="w-full flex items-start">
-    <template v-for="(value,index) in steps" :key="index">
-      <div class="flex flex-col flex-1 items-center gap-1" @click="step=index">
-        <div class="relative w-full">
-          <div
-            v-if="index < steps.length - 1"
-            class="transition-colors absolute bg-black-500 w-full h-0.5 left-[50%] top-[50%] -translate-y-[50%]"
-            :class="{
-              '!bg-primary-500': index < step
-            }"
-          />
-          <div
-            class="transition-colors relative left-[50%] -translate-x-[50%] w-6 rounded-full border-2 border-black-500 bg-white aspect-square flex justify-center"
-            :class="{
-              '!border-primary-500 ': isComplete(index) || isWorking(index),
-              '!bg-primary-500':isComplete(index)
-            }"
-          >
-            <span v-if="isComplete(index)" class="text-white">✓</span>
-            <span
-              v-else
-              class="text-black-500"
-              :class="{
-                '!text-primary-500': isComplete(index) || isWorking(index)
-              }"
-            >{{ index + 1 }}</span>
-          </div>
-        </div>
-        <span
-          class="transition-colors text-black-500"
-          :class="{
-            '!text-primary-500': isComplete(index) || isWorking(index)
-          }"
-        >{{ value }}</span>
-      </div>
-    </template>
-  </div> -->
 </template>
 
 <script setup lang="ts">
@@ -165,7 +127,7 @@ const isComplete = (index: number) => {
   position: absolute;
   width: 100%;
   height: 0.125rem;
-  background-color: #9ca3af;
+  background-color:rgba(var(--material3-outline), 1);
   transition-property: color, background-color, border-color, text-decoration-color, fill,
     stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
