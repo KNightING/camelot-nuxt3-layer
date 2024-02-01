@@ -103,15 +103,15 @@ if (props.tag) {
   left: 0;
   z-index: 9999;
   align-items: flex-end;
-  width: 100lvw;
-  height: 100lvh;
+  width: 100dvw;
+  height: 100dvh;
   pointer-events: none;
 }
 
 .mask {
   background-color: rgba(var(--camelot-mask-color), .8);
-  width: 100lvw;
-  height: 100lvh;
+  width: 100dvw;
+  height: 100dvh;
   pointer-events: painted;
 }
 
