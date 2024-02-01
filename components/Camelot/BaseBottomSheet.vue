@@ -70,6 +70,10 @@ if (props.tag) {
 </script>
 
 <style scoped>
+:global(body:has(dialog[open])) {
+  overflow: hidden;
+}
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.4s ease;
@@ -99,15 +103,15 @@ if (props.tag) {
   left: 0;
   z-index: 9999;
   align-items: flex-end;
-  width: 100vw;
-  height: 100dvh;
+  width: 100lvw;
+  height: 100lvh;
   pointer-events: none;
 }
 
 .mask {
   background-color: rgba(var(--camelot-mask-color), .8);
-  width: 100%;
-  height: 100%;
+  width: 100lvw;
+  height: 100lvh;
   pointer-events: painted;
 }
 

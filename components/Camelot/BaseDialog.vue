@@ -102,18 +102,20 @@ if (props.tag) {
   z-index: 9999;
   justify-content: center;
   align-items: center;
-  width: 100dvw;
-  height: 100dvh;
+  width: 100lvw;
+  height: 100lvh;
+  pointer-events: none;
 }
 
 .mask {
   background-color: rgba(var(--camelot-mask-color), .8);
-  width: 100dvw;
-  height: 100dvh;
+  width: 100lvw;
+  height: 100lvh;
   pointer-events: painted;
 }
 
 dialog {
+  pointer-events: painted;
   background-color: transparent;
 }
 </style>
