@@ -73,7 +73,7 @@ const inputmode = ref<'none' | 'text' | 'search' | 'email' | 'tel' | 'url' | 'nu
 
 const onInputClick = () => {
   if (isFocus) {
-    inputmode.value = 'numeric'
+    inputmode.value = 'decimal'
   }
 }
 
