@@ -123,9 +123,9 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
         },
         onRequest: async ({ options: opts }) => {
           const mergeOpts = await this.mergeFetchOptions(options)
-          const mergeHeader = toValue(mergeOpts.headers) as Record<string, string>
-          opts.headers = { ...(opts.headers ?? {}), ...mergeHeader }
-          opts.onRequest?.bind(opts)
+          opts = { ...mergeOpts, ...opts }
+          opts.headers = { ...opts.headers, 'x-now': Date.now().toString() }
+          // opts.onRequest?.bind(opts)
         }
       }
     )
