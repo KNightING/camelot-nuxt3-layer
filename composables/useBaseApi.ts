@@ -13,6 +13,7 @@ export enum ContentType {
 
 export enum AuthorizationType {
   Non,
+  Basic,
   BearerJWT,
 }
 
@@ -23,7 +24,8 @@ export type ExtendsFetchOptions = {
   /**
   * "default" 目前與 "clearNuxtData" 相同: 需先設定key
   */
-  cachePolicy?: 'default' | 'clearNuxtData' | 'useNuxtData'
+  cachePolicy?: 'default' | 'clearNuxtData' | 'useNuxtData',
+  getToken?: () => Promise<string>
 };
 
 const defaultExtendsFetchOptions: ExtendsFetchOptions = {
@@ -42,7 +44,7 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
     return <T>{}
   }
 
-  protected async getJwtToken(): Promise<string> {
+  protected async getBaseToken(): Promise<string> {
     return ''
   }
 
@@ -55,7 +57,7 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
       ...(options ?? {})
     }
 
-    let headers: Record<string, any> = {
+    const headers: Record<string, any> = {
       // 阻止瀏覽器探知檔案的 mime type
       'X-Content-Type-Options': 'nosniff',
       // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
@@ -65,23 +67,28 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
       ...(opt.headers ?? {})
     }
 
+    let token = ''
+    if (opt.getToken) {
+      token = await opt.getToken()
+    } else {
+      token = await this.getBaseToken()
+    }
+
     switch (opt.authorizationType) {
       case AuthorizationType.BearerJWT: {
-        const jwt = await this.getJwtToken()
+        headers.Authorization = `Bearer ${token}`
+        break
+      }
 
-        headers = {
-          ...headers,
-          Authorization: `Bearer ${jwt}`
-        }
+      case AuthorizationType.Basic: {
+        headers.Authorization = `Basic ${token}`
+        break
       }
     }
 
     switch (opt.contentType) {
       case ContentType.Json: {
-        headers = {
-          ...headers,
-          'Content-Type': 'application/json'
-        }
+        headers['Content-Type'] = 'application/json'
       }
     }
 
@@ -102,10 +109,11 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
     method: 'get' | 'post' | 'patch' | 'put' | 'delete',
     options?: FetchOptions<DataT, T>
   ) {
+    const fetchOptions = await this.mergeFetchOptions(options)
     const { data, error, refresh, execute, status, pending } = await useFetch(
       url,
       {
-        ...(await this.mergeFetchOptions(options)),
+        ...fetchOptions,
         method,
         getCachedData(key) {
           if (options?.cachePolicy === 'useNuxtData') {
@@ -140,6 +148,10 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
   protected async delete<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
     return this.useFetchWrapper(url, 'delete', options)
   }
+}
+
+export const useBasicToken = (account: string, pwd: string): string => {
+  return btoa(`${account}:${pwd}`)
 }
 
 export const useBaseApi = () => {
