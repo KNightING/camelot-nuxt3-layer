@@ -126,6 +126,7 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
             ...opts,
             ...context.options
           }
+          console.table(context.options)
           return context.options.onRequest?.bind(context)
         }
       }
