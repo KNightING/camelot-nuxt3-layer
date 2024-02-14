@@ -1,4 +1,5 @@
 import type { UseFetchOptions } from 'nuxt/app'
+import { toValue } from '@vueuse/shared'
 
 export type Url =
   | string
@@ -122,10 +123,8 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
         },
         onRequest: async ({ options: opts }) => {
           const mergeOpts = await this.mergeFetchOptions(options)
-          opts = {
-            ...mergeOpts,
-            ...opts
-          }
+          const mergeHeader = toValue(mergeOpts.headers) as Record<string, string>
+          opts.headers = { ...(opts.headers ?? {}), ...mergeHeader }
           opts.onRequest?.bind(opts)
         }
       }
