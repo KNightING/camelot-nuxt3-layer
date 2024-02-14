@@ -113,6 +113,7 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
     const { data, error, refresh, execute, status, pending } = await useFetch(
       url,
       {
+        ...await this.mergeFetchOptions(options),
         method,
         getCachedData(key) {
           if (options?.cachePolicy === 'useNuxtData') {
