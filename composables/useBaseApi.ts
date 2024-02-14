@@ -25,7 +25,7 @@ export type ExtendsFetchOptions = {
   * "default" 目前與 "clearNuxtData" 相同: 需先設定key
   */
   cachePolicy?: 'default' | 'clearNuxtData' | 'useNuxtData',
-  getToken?: () => Promise<string>
+  getToken?: () => Promise<string> | string
 };
 
 const defaultExtendsFetchOptions: ExtendsFetchOptions = {
@@ -39,14 +39,10 @@ export type FetchOptions<
   T extends ExtendsFetchOptions = ExtendsFetchOptions
 > = UseFetchOptions<DataT> & T;
 
-export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
-  protected baseFetchOptions<DataT>(): FetchOptions<DataT, T> {
-    return <T>{}
-  }
+export abstract class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
+  abstract baseFetchOptions<DataT>(): FetchOptions<DataT, T>;
 
-  protected async getBaseToken(): Promise<string> {
-    return ''
-  }
+  abstract getBaseToken(): Promise<string> | string
 
   private async mergeFetchOptions<DataT>(
     options?: FetchOptions<DataT, T>
@@ -157,3 +153,21 @@ export const useBasicToken = (account: string, pwd: string): string => {
 export const useBaseApi = () => {
   return BaseApi
 }
+
+// class ExampleApi extends BaseApi {
+//   baseFetchOptions<DataT>(): FetchOptions<DataT, ExtendsFetchOptions> {
+//     return {
+//       baseURL: '',
+//       timeout: 30000,
+//       onResponseError(context) {
+//         if (context.response.status === 401) {
+//           clearNuxtData('token')
+//         }
+//       }
+//     }
+//   }
+
+//   async getBaseToken(): Promise<string> {
+//     return await new Promise<string>((resolve, reject) => { })
+//   }
+// }
