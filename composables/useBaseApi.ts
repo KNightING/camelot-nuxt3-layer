@@ -123,7 +123,7 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
         },
         onRequest: async ({ options: opts }) => {
           const mergeOpts = await this.mergeFetchOptions(options)
-          opts = { ...mergeOpts, ...opts }
+          opts = { ...opts, ...mergeOpts }
           opts.headers = { ...opts.headers, 'x-now': Date.now().toString() }
           // opts.onRequest?.bind(opts)
         }
