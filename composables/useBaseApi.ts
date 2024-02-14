@@ -25,7 +25,7 @@ export type ExtendsFetchOptions = {
   * "default" 目前與 "clearNuxtData" 相同: 需先設定key
   */
   cachePolicy?: 'default' | 'clearNuxtData' | 'useNuxtData',
-  getToken?: () => Promise<string> | string
+  getToken?: () => (Promise<string> | string)
 };
 
 const defaultExtendsFetchOptions: ExtendsFetchOptions = {
