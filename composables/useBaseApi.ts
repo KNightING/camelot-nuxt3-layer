@@ -120,20 +120,19 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
             }
           }
         },
-        onRequest: async (context) => {
-          const opts = await this.mergeFetchOptions(options)
-          context.options = {
-            ...opts,
-            ...context.options
+        onRequest: async ({ options: opts }) => {
+          const mergeOpts = await this.mergeFetchOptions(options)
+          opts = {
+            ...mergeOpts,
+            ...opts
           }
-          console.table(context.options)
-          return context.options.onRequest?.bind(context)
+          opts.onRequest?.bind(opts)
         }
       }
     )
     const isSuccess = computed(() => status.value === 'success')
     const isError = computed(() => status.value === 'error')
-    return { data, error, refresh, execute, status, pending, isSuccess, isError }
+    return { data, error, refresh, status, pending, isSuccess, isError }
   }
 
   protected async get<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
