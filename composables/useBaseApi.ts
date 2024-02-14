@@ -109,11 +109,10 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
     method: 'get' | 'post' | 'patch' | 'put' | 'delete',
     options?: FetchOptions<DataT, T>
   ) {
-    const fetchOptions = await this.mergeFetchOptions(options)
     const { data, error, refresh, execute, status, pending } = await useFetch(
       url,
       {
-        ...fetchOptions,
+        ...await this.mergeFetchOptions(options),
         method,
         getCachedData(key) {
           if (options?.cachePolicy === 'useNuxtData') {
@@ -126,7 +125,7 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
     )
     const isSuccess = computed(() => status.value === 'success')
     const isError = computed(() => status.value === 'error')
-    return { data, error, refresh, status, pending, isSuccess, isError }
+    return { data, error, refresh, execute, status, pending, isSuccess, isError }
   }
 
   protected async get<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
