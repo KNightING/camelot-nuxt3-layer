@@ -110,6 +110,10 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
     method: 'get' | 'post' | 'patch' | 'put' | 'delete',
     options?: FetchOptions<DataT, T>
   ) {
+    const getFetchOptions = async () => {
+      return await this.mergeFetchOptions(options)
+    }
+
     const { data, error, refresh, execute, status, pending } = await useFetch(
       url,
       {
@@ -122,11 +126,15 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
             }
           }
         },
-        onRequest: async ({ options: opts }) => {
-          const mergeOpts = await this.mergeFetchOptions(options)
-          opts = { ...opts, ...mergeOpts }
-          opts.headers = { 'X-Date-Now': Date.now().toString() }
+        async onRequest({ options: opts }) {
+          const mergeOpts = await getFetchOptions()
+          opts.headers = { ...opts.headers, ...mergeOpts.headers as Record<string, string> }
+          opts.headers = { ...opts.headers, 'X-Date-Now': Date.now().toString() }
           // opts.onRequest?.bind(opts)
+          console.log(opts)
+        },
+        onRequestError({ error }) {
+          console.error(error)
         }
       }
     )
