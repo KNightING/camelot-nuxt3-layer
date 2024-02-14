@@ -112,7 +112,6 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
     const { data, error, refresh, execute, status, pending } = await useFetch(
       url,
       {
-        ...await this.mergeFetchOptions(options),
         method,
         getCachedData(key) {
           if (options?.cachePolicy === 'useNuxtData') {
@@ -120,6 +119,14 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
               return useNuxtData(key)
             }
           }
+        },
+        onRequest: async (context) => {
+          const opts = await this.mergeFetchOptions(options)
+          context.options = {
+            ...opts,
+            ...context.options
+          }
+          return context.options.onRequest?.bind(context)
         }
       }
     )
