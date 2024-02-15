@@ -134,9 +134,11 @@ export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
         }
       }
     )
+    // when options set immediate is false, pending default is true, but status is idle
+    const isPending = computed(() => status.value === 'pending')
     const isSuccess = computed(() => status.value === 'success')
     const isError = computed(() => status.value === 'error')
-    return { data, error, refresh, status, pending, isSuccess, isError }
+    return { data, error, refresh, status, pending, isSuccess, isError, isPending }
   }
 
   protected async get<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
