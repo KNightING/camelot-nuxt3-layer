@@ -190,7 +190,7 @@ export const useBaseApi = () => {
 //   }
 // }
 
-type OnRequest = (context: FetchContext) => Promise<void> | void;
+export type OnRequest = (context: FetchContext) => Promise<void> | void;
 
 export const useDefaultHeaders = () => {
   return reactive({
