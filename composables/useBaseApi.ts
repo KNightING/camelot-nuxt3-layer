@@ -242,13 +242,13 @@ const useApiFetch = async <DataT>(
   const { data, error, refresh, status, pending } = await useFetch(
     url,
     {
-      ...options as object,
+      ...options,
       method,
-      baseURL: options.baseURL,
       getCachedData(key) {
         if (options.cachePolicy === 'useNuxtData') {
-          if (useNuxtData(key).data.value) {
-            return useNuxtData(key)
+          const data = useNuxtData<DataT>(key).data.value
+          if (data) {
+            return data
           }
         }
       },
