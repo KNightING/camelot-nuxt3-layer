@@ -1,5 +1,5 @@
 import type { UseFetchOptions } from 'nuxt/app'
-import type { FetchContext } from 'ofetch'
+import type { FetchContext, FetchResponse } from 'ofetch'
 import { toValue } from '@vueuse/shared'
 import { resolveOptionsAndHash } from 'naive-ui/es/image/src/utils'
 
@@ -192,6 +192,14 @@ export const useBaseApi = () => {
 
 export type OnRequest = (context: FetchContext) => Promise<void> | void;
 
+export type OnResponse<R> = (context: FetchContext & {
+  response: FetchResponse<R>;
+}) => Promise<void> | void;
+
+export type OnResponseError<R> = (context: FetchContext & {
+  response: FetchResponse<R>;
+}) => Promise<void> | void;
+
 export const useDefaultHeaders = () => {
   return reactive({
     // 阻止瀏覽器探知檔案的 mime type
@@ -202,20 +210,20 @@ export const useDefaultHeaders = () => {
 }
 
 export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRef: MaybeRefOrGetter<string>): OnRequest => {
-  return (context: FetchContext) => {
+  return ({ options }) => {
     const account = toValue(accountRef)
     const pwd = toValue(pwdRef)
     const token = useBasicToken(account, pwd)
-    context.options.headers = { ...context.options.headers, Authorization: `Basic ${token}` }
+    options.headers = { ...options.headers, Authorization: `Basic ${token}` }
   }
 }
 
-export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>) => computed<OnRequest>(() => {
-  const token = toValue(tokenRef)
+export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>): OnRequest => {
   return ({ options }) => {
+    const token = toValue(tokenRef)
     options.headers = { ...options.headers, Authorization: `Bearer ${token}` }
   }
-})
+}
 
 export type ApiFetchOptions<
   DataT = any
@@ -226,6 +234,8 @@ export type ApiFetchOptions<
   */
   cachePolicy?: 'default' | 'clearNuxtData' | 'useNuxtData',
   onRequests?: OnRequest[],
+  onResponses?: OnResponse<DataT>[],
+  onResponseErrors?: OnResponseError<DataT>[]
 };
 
 const useApiFetch = async <DataT>(
@@ -237,6 +247,7 @@ const useApiFetch = async <DataT>(
     options = {}
   }
   options.cachePolicy = options.cachePolicy ?? 'default'
+  options.contentType = ContentType.Json
 
   const statusCode = ref(0)
   const { data, error, refresh, status, pending } = await useFetch(
@@ -261,6 +272,15 @@ const useApiFetch = async <DataT>(
           context.options.headers = {}
         }
 
+        switch (options.contentType) {
+          case ContentType.Json: {
+            context.options.headers = {
+              ...context.options.headers,
+              'Content-Type': 'application/json'
+            }
+          }
+        }
+
         context.options.headers = {
           // 阻止瀏覽器探知檔案的 mime type
           'X-Content-Type-Options': 'nosniff',
@@ -275,11 +295,21 @@ const useApiFetch = async <DataT>(
           }
         }
       },
-      onResponse(context) {
+      async onResponse(context) {
         statusCode.value = context.response.status
+        if (options.onResponses) {
+          for (const onResponse of options.onResponses) {
+            await onResponse(context)
+          }
+        }
       },
-      onResponseError(context) {
+      async onResponseError(context) {
         statusCode.value = context.response.status
+        if (options.onResponseErrors) {
+          for (const onResponseError of options.onResponseErrors) {
+            await onResponseError(context)
+          }
+        }
       }
     }
   )
