@@ -210,7 +210,7 @@ export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRe
   }
 })
 
-const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>) => computed<OnRequest>(() => {
+export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>) => computed<OnRequest>(() => {
   const token = toValue(tokenRef)
   return ({ options }) => {
     options.headers = { ...options.headers, Authorization: `Bearer ${token}` }
@@ -231,16 +231,20 @@ export type ApiFetchOptions<
 const useApiFetch = async <DataT>(
   url: Url,
   method: 'get' | 'post' | 'patch' | 'put' | 'delete',
-  options: ApiFetchOptions<DataT> = {
-    headers: useDefaultHeaders(),
-    cachePolicy: 'default'
-  }
+  options?: ApiFetchOptions<DataT>
 ) => {
+  if (!options) {
+    options = {}
+  }
+  options.cachePolicy = options.cachePolicy ?? 'default'
+
   const statusCode = ref(0)
   const { data, error, refresh, status, pending } = await useFetch(
     url,
-    options && {
+    {
+      ...options as object,
       method,
+      baseURL: options.baseURL,
       getCachedData(key) {
         if (options.cachePolicy === 'useNuxtData') {
           if (useNuxtData(key).data.value) {
@@ -249,12 +253,20 @@ const useApiFetch = async <DataT>(
         }
       },
       async onRequest(context) {
-        if (options.cachePolicy === 'default' || options?.cachePolicy === 'clearNuxtData') {
+        if (options.cachePolicy || options.cachePolicy === 'default' || options?.cachePolicy === 'clearNuxtData') {
           clearNuxtData(options.key)
         }
 
         if (!context.options.headers) {
           context.options.headers = {}
+        }
+
+        context.options.headers = {
+          // 阻止瀏覽器探知檔案的 mime type
+          'X-Content-Type-Options': 'nosniff',
+          // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
+          'Referrer-Policy': 'same-origin',
+          ...context.options.headers
         }
 
         if (options.onRequests) {
@@ -278,35 +290,35 @@ const useApiFetch = async <DataT>(
   return { data, error, refresh, status, pending, isSuccess, isError, isPending, statusCode }
 }
 
-const useGetFetch = <DataT>(
+export const useGetFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'get', options)
 }
 
-const usePostFetch = <DataT>(
+export const usePostFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'post', options)
 }
 
-const usePatchFetch = <DataT>(
+export const usePatchFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'patch', options)
 }
 
-const usePutFetch = <DataT>(
+export const usePutFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'put', options)
 }
 
-const useDeleteFetch = <DataT>(
+export const useDeleteFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
