@@ -201,14 +201,14 @@ export const useDefaultHeaders = () => {
   })
 }
 
-export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRef: MaybeRefOrGetter<string>) => computed<OnRequest>(() => {
-  const account = toValue(accountRef)
-  const pwd = toValue(pwdRef)
-  const token = useBasicToken(account, pwd)
-  return ({ options }) => {
-    options.headers = { ...options.headers, Authorization: `Basic ${token}` }
+export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRef: MaybeRefOrGetter<string>): OnRequest => {
+  return (context: FetchContext) => {
+    const account = toValue(accountRef)
+    const pwd = toValue(pwdRef)
+    const token = useBasicToken(account, pwd)
+    context.options.headers = { ...context.options.headers, Authorization: `Basic ${token}` }
   }
-})
+}
 
 export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>) => computed<OnRequest>(() => {
   const token = toValue(tokenRef)
