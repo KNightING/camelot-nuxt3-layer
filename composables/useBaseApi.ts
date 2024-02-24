@@ -238,7 +238,7 @@ export type ApiFetchOptions<
   onResponseErrors?: OnResponseError<DataT>[]
 };
 
-const useApiFetch = async <DataT>(
+const useApiFetch = <DataT>(
   url: Url,
   method: 'get' | 'post' | 'patch' | 'put' | 'delete',
   options?: ApiFetchOptions<DataT>
@@ -248,9 +248,8 @@ const useApiFetch = async <DataT>(
   }
   options.cachePolicy = options.cachePolicy ?? 'default'
   options.contentType = ContentType.Json
-
   const statusCode = ref(0)
-  const { data, error, refresh, status, pending } = await useFetch(
+  const { data, error, refresh, status, pending } = useFetch(
     url,
     {
       ...options,
