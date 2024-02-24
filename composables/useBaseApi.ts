@@ -168,9 +168,9 @@ export const useBasicToken = (account: string, pwd: string): string => {
   return btoa(`${account}:${pwd}`)
 }
 
-export const useBaseApi = () => {
-  return BaseApi
-}
+// export const useBaseApi = () => {
+//   return BaseApi
+// }
 
 // class ExampleApi extends BaseApi {
 //   baseFetchOptions<DataT>(): FetchOptions<DataT, ExtendsFetchOptions> {
@@ -354,3 +354,61 @@ export const useDeleteFetch = <DataT>(
 ) => {
   return useApiFetch(url, 'delete', options)
 }
+
+export const useBaseApi = (baseOptions: UseFetchOptions<any>) => {
+  const useGet = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useGetFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  const usePost = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    usePostFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  const usePut = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    usePutFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  const usePatch = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    usePatchFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  const useDelete = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useDeleteFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  return {
+    useGet,
+    usePost,
+    usePatch,
+    usePut,
+    useDelete
+  }
+}
+
+// const useBaseApi = useBaseApi({
+//   baseURL: '',
+//   timeout: 30000
+// })
+
+// const login = useBaseApi.usePost<string>('/v1/user/login', {
+//   onRequests: [
+//     useBasicTokenRequest('account', 'pwd')
+//   ],
+//   immediate: false
+// })
+
+// const useApi = () => {
+//   return {
+//     login
+//   }
+// }
