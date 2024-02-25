@@ -1,7 +1,8 @@
 import type { UseFetchOptions } from 'nuxt/app'
-import type { FetchContext, FetchResponse } from 'ofetch'
+import type { FetchContext, FetchResponse, FetchError } from 'ofetch'
 import { toValue } from '@vueuse/shared'
-import { resolveOptionsAndHash } from 'naive-ui/es/image/src/utils'
+import type { AsyncData, AsyncDataExecuteOptions, AsyncDataRequestStatus, KeysOf, PickFrom } from 'nuxt/dist/app/composables/asyncData'
+import type { WatchStopHandle } from 'vue'
 
 export type Url =
   | string
@@ -41,6 +42,24 @@ export type FetchOptions<
   DataT = any,
   T extends ExtendsFetchOptions = ExtendsFetchOptions
 > = UseFetchOptions<DataT> & T;
+
+interface _FetchResult<
+  DataT = any
+> {
+  data: Ref<PickFrom<DataT, any> | null | undefined>;
+  error: Ref<FetchError<any> | null>;
+  refresh: (opts?: AsyncDataExecuteOptions | undefined) => Promise<PickFrom<DataT, KeysOf<DataT>> | null | undefined>;
+  status: Ref<AsyncDataRequestStatus>;
+  pending: Ref<boolean>;
+  isSuccess: ComputedRef<boolean>;
+  isError: ComputedRef<boolean>;
+  isPending: ComputedRef<boolean>;
+  statusCode: Ref<number>;
+}
+
+type FetchResult<
+  DataT = any,
+> = _FetchResult<DataT> | Promise<_FetchResult<DataT>>
 
 export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
   baseFetchOptions<DataT>(): FetchOptions<DataT, T> {
@@ -238,18 +257,18 @@ export type ApiFetchOptions<
   onResponseErrors?: OnResponseError<DataT>[]
 };
 
-const useApiFetch = <DataT>(
+const useApiFetch = async <DataT>(
   url: Url,
   method: 'get' | 'post' | 'patch' | 'put' | 'delete',
   options?: ApiFetchOptions<DataT>
-) => {
+): Promise<_FetchResult<DataT>> => {
   if (!options) {
     options = {}
   }
   options.cachePolicy = options.cachePolicy ?? 'default'
   options.contentType = ContentType.Json
   const statusCode = ref(0)
-  const { data, error, refresh, status, pending } = useFetch(
+  const { data, error, refresh, status, pending } = await useFetch(
     url,
     {
       ...options,
@@ -316,6 +335,7 @@ const useApiFetch = <DataT>(
   const isPending = computed(() => status.value === 'pending')
   const isSuccess = computed(() => status.value === 'success')
   const isError = computed(() => status.value === 'error')
+
   return { data, error, refresh, status, pending, isSuccess, isError, isPending, statusCode }
 }
 
@@ -393,21 +413,3 @@ export const useBaseApi = (baseOptions: UseFetchOptions<any>) => {
     useDelete
   }
 }
-
-// const useBaseApi = useBaseApi({
-//   baseURL: '',
-//   timeout: 30000
-// })
-
-// const login = useBaseApi.usePost<string>('/v1/user/login', {
-//   onRequests: [
-//     useBasicTokenRequest('account', 'pwd')
-//   ],
-//   immediate: false
-// })
-
-// const useApi = () => {
-//   return {
-//     login
-//   }
-// }
