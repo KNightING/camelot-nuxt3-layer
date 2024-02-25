@@ -236,12 +236,11 @@ const ping = () => baseApi.useGet<string>('/ping', {
   // onRequests: [
   //   useBasicTokenRequest('account', 'pwd')
   // ],
-  immediate: false
 })
 
 try {
-  const { data, refresh, isPending, isSuccess, status } = await ping()
-  console.log(data)
+  const { data, refresh, isPending, isSuccess, status } = ping()
+  await refresh()
   watch(data, (nV) => {
     console.log('data', nV)
   }, { immediate: true })
@@ -257,7 +256,7 @@ try {
   watch(isSuccess, (isSuccess) => {
     console.log('isSuccess', isSuccess)
   }, { immediate: true })
-  await refresh()
+  // await refresh()
 } catch (e) {
   console.log('error', e)
 }
