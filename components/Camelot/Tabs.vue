@@ -30,7 +30,6 @@ const props = withDefaults(
   defineProps<{
     data?: T[];
     displayKey?:string;
-    modelValue?: number;
     scrollSmooth?: boolean;
   }>(),
   {
@@ -39,7 +38,6 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  'update:modelValue': [value?: number];
   changedWithClick: [value: number];
 }>()
 
@@ -62,14 +60,7 @@ const isSelected = (index:number) => {
   return index === selectedIndex.value
 }
 
-const selectedIndex = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value) {
-    emit('update:modelValue', value)
-  }
-})
+const selectedIndex = defineModel<number>()
 
 const tabsElRefs = ref<HTMLElement[]>([])
 
@@ -79,9 +70,8 @@ const onSelected = (index: number, data: T) => {
   emit('changedWithClick', index)
 }
 
-watch(selectedIndex, (nV) => {
-  if (nV === undefined) { return }
-  const tabEl = tabsElRefs.value[nV]
+const scrollToTab = (selectedIndex:number)=>{
+  const tabEl = tabsElRefs.value[selectedIndex]
   const parentEl = tabEl.parentElement
   if (!parentEl) { return }
 
@@ -119,7 +109,17 @@ watch(selectedIndex, (nV) => {
     left: scrollLeft,
     behavior: props.scrollSmooth ? 'smooth' : 'auto'
   })
-}, { immediate: true })
+}
+
+watch(selectedIndex, (nV) => {
+  if (nV === undefined) { return }
+  scrollToTab(nV)
+})
+
+onMounted(() => {
+  if (selectedIndex.value === undefined) { return }
+  scrollToTab(selectedIndex.value)
+})
 </script>
 
 <style scoped>

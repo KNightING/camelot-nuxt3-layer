@@ -6,6 +6,22 @@ export default <RouterConfig>{
   scrollBehavior(to, from, savedPosition) {
     if (to.fullPath.replace(/#.*/, '') === from.fullPath.replace(/#.*/, '')) { return }
     // behavior: 'auto' | 'smooth'
+
+    return new Promise((resolve, _reject) => {
+      setTimeout(() => {
+        if (savedPosition) {
+          resolve(savedPosition)
+        } else if (to.hash) {
+          resolve({
+            el: to.hash,
+            behavior: 'smooth',
+            top: 80
+          })
+        } else {
+          resolve({ behavior: 'auto', top: -1 })
+        }
+      }, 100)
+    })
     return savedPosition || { behavior: 'auto', top: 0 }
   }
 }
