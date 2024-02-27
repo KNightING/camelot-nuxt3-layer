@@ -1,3 +1,4 @@
+import { toValue } from '@vueuse/shared';
 <template>
   <ul>
     <li
@@ -70,8 +71,11 @@ const onSelected = (index: number, data: T) => {
   emit('changedWithClick', index)
 }
 
-const scrollToTab = (selectedIndex:number) => {
-  const tabEl = tabsElRefs.value[selectedIndex]
+const scrollToTab = () => {
+  const index = toValue(selectedIndex)
+  if (index === undefined || props.data === undefined || index > props.data.length) { return }
+
+  const tabEl = tabsElRefs.value[index]
   if (!tabEl) { return }
   const parentEl = tabEl.parentElement
   if (!parentEl) { return }
@@ -114,8 +118,12 @@ const scrollToTab = (selectedIndex:number) => {
 
 watch([() => props.data, () => selectedIndex.value, () => tabsElRefs.value], ([data, selectedIndex, tabsElRefs]) => {
   if (data === undefined || selectedIndex === undefined || tabsElRefs === undefined) { return }
-  scrollToTab(selectedIndex)
+  scrollToTab()
 }, { immediate: true })
+
+onMounted(() => {
+  scrollToTab()
+})
 
 </script>
 
