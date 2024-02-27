@@ -19,22 +19,6 @@ export enum AuthorizationType {
   BearerJWT,
 }
 
-export type ExtendsFetchOptions = {
-  authorizationType?: AuthorizationType;
-  contentType?: ContentType;
-
-  /**
-  * "default" 目前與 "clearNuxtData" 相同: 需先設定key
-  */
-  cachePolicy?: 'default' | 'clearNuxtData' | 'useNuxtData',
-  getToken?: () => (Promise<string> | string)
-};
-
-export type FetchOptions<
-  DataT = any,
-  T extends ExtendsFetchOptions = ExtendsFetchOptions
-> = UseFetchOptions<DataT> & T;
-
 export const useBasicToken = (account: string, pwd: string): string => {
   return btoa(`${account}:${pwd}`)
 }
