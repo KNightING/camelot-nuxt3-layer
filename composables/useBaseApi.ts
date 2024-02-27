@@ -81,7 +81,7 @@ export type ApiFetchOptions<
   /**
   * "default" 目前與 "clearNuxtData" 相同: 需先設定key
   */
-  cachePolicy?: 'clear' | 'cache',
+  cachePolicy?: 'none' | 'cache',
   onRequests?: OnRequest[],
   onResponses?: OnResponse<DataT>[],
   onResponseErrors?: OnResponseError<DataT>[]
@@ -95,7 +95,7 @@ const useApiFetch = <DataT>(
   if (!options) {
     options = {}
   }
-  options.cachePolicy = options.cachePolicy ?? 'clear'
+  options.cachePolicy = options.cachePolicy ?? 'none'
   options.contentType = ContentType.Json
   const statusCode = ref(0)
   const { data, error, refresh, status, pending } = useFetch(
@@ -112,10 +112,6 @@ const useApiFetch = <DataT>(
         }
       },
       onRequest(context) {
-        // if (!options.cachePolicy || options.cachePolicy === 'clear') {
-        //   clearNuxtData(options.key)
-        // }
-
         if (!context.options.headers) {
           context.options.headers = {}
         }
