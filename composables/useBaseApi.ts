@@ -1,8 +1,6 @@
 import type { UseFetchOptions } from 'nuxt/app'
 import type { FetchContext, FetchResponse, FetchError } from 'ofetch'
 import { toValue } from '@vueuse/shared'
-import type { AsyncData, AsyncDataExecuteOptions, AsyncDataRequestStatus, KeysOf, PickFrom } from 'nuxt/dist/app/composables/asyncData'
-import type { WatchStopHandle } from 'vue'
 
 export type Url =
   | string
@@ -32,34 +30,10 @@ export type ExtendsFetchOptions = {
   getToken?: () => (Promise<string> | string)
 };
 
-const defaultExtendsFetchOptions: ExtendsFetchOptions = {
-  authorizationType: AuthorizationType.BearerJWT,
-  contentType: ContentType.Json,
-  cachePolicy: 'default'
-}
-
 export type FetchOptions<
   DataT = any,
   T extends ExtendsFetchOptions = ExtendsFetchOptions
 > = UseFetchOptions<DataT> & T;
-
-interface _FetchResult<
-  DataT = any
-> {
-  data: Ref<PickFrom<DataT, any> | null | undefined>;
-  error: Ref<FetchError<any> | null>;
-  refresh: (opts?: AsyncDataExecuteOptions | undefined) => Promise<PickFrom<DataT, KeysOf<DataT>> | null | undefined>;
-  status: Ref<AsyncDataRequestStatus>;
-  pending: Ref<boolean>;
-  isSuccess: ComputedRef<boolean>;
-  isError: ComputedRef<boolean>;
-  isPending: ComputedRef<boolean>;
-  statusCode: Ref<number>;
-}
-
-type FetchResult<
-  DataT = any,
-> = _FetchResult<DataT> | Promise<_FetchResult<DataT>>
 
 export const useBasicToken = (account: string, pwd: string): string => {
   return btoa(`${account}:${pwd}`)
@@ -107,7 +81,7 @@ export type ApiFetchOptions<
   /**
   * "default" 目前與 "clearNuxtData" 相同: 需先設定key
   */
-  cachePolicy?: 'default' | 'clearNuxtData' | 'useNuxtData',
+  cachePolicy?: 'clear' | 'cache',
   onRequests?: OnRequest[],
   onResponses?: OnResponse<DataT>[],
   onResponseErrors?: OnResponseError<DataT>[]
@@ -121,7 +95,7 @@ const useApiFetch = <DataT>(
   if (!options) {
     options = {}
   }
-  options.cachePolicy = options.cachePolicy ?? 'default'
+  options.cachePolicy = options.cachePolicy ?? 'clear'
   options.contentType = ContentType.Json
   const statusCode = ref(0)
   const { data, error, refresh, status, pending } = useFetch(
@@ -130,17 +104,17 @@ const useApiFetch = <DataT>(
       ...options,
       method,
       getCachedData(key) {
-        if (options.cachePolicy === 'useNuxtData') {
+        if (options.cachePolicy === 'cache') {
           const data = useNuxtData<DataT>(key).data.value
           if (data) {
             return data
           }
         }
       },
-      async onRequest(context) {
-        if (options.cachePolicy || options.cachePolicy === 'default' || options?.cachePolicy === 'clearNuxtData') {
-          clearNuxtData(options.key)
-        }
+      onRequest(context) {
+        // if (!options.cachePolicy || options.cachePolicy === 'clear') {
+        //   clearNuxtData(options.key)
+        // }
 
         if (!context.options.headers) {
           context.options.headers = {}
@@ -165,7 +139,7 @@ const useApiFetch = <DataT>(
 
         if (options.onRequests) {
           for (const request of options.onRequests) {
-            await request(context)
+            request(context)
           }
         }
       },
