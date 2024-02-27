@@ -1,13 +1,13 @@
 <template>
   <ul>
     <li
-      v-for="(v, index) in data"
+      v-for="(item, index) in data"
       ref="tabsElRefs"
       :key="index"
-      @click="onSelected(index, v)"
+      @click="onSelected(index, item)"
     >
       <slot
-        :data="v"
+        :item="item"
         :index="index"
         :is-selected="isSelected(index)"
       >
@@ -18,7 +18,7 @@
               isSelected(index),
           }"
         >
-          {{ getDisplayLabel(v) }}
+          {{ getDisplayLabel(item) }}
         </CamelotRippleEffect>
       </slot>
     </li>
@@ -119,7 +119,7 @@ watch(selectedIndex, (nV) => {
     left: scrollLeft,
     behavior: props.scrollSmooth ? 'smooth' : 'auto'
   })
-})
+}, { immediate: true })
 </script>
 
 <style scoped>
