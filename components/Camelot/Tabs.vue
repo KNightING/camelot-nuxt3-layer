@@ -70,8 +70,9 @@ const onSelected = (index: number, data: T) => {
   emit('changedWithClick', index)
 }
 
-const scrollToTab = (selectedIndex:number)=>{
+const scrollToTab = (selectedIndex:number) => {
   const tabEl = tabsElRefs.value[selectedIndex]
+  if (!tabEl) { return }
   const parentEl = tabEl.parentElement
   if (!parentEl) { return }
 
@@ -111,15 +112,11 @@ const scrollToTab = (selectedIndex:number)=>{
   })
 }
 
-watch(selectedIndex, (nV) => {
-  if (nV === undefined) { return }
-  scrollToTab(nV)
-})
+watch([() => props.data, () => selectedIndex.value, () => tabsElRefs.value], ([data, selectedIndex, tabsElRefs]) => {
+  if (data === undefined || selectedIndex === undefined || tabsElRefs === undefined) { return }
+  scrollToTab(selectedIndex)
+}, { immediate: true })
 
-onMounted(() => {
-  if (selectedIndex.value === undefined) { return }
-  scrollToTab(selectedIndex.value)
-})
 </script>
 
 <style scoped>
