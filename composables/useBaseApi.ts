@@ -1,7 +1,8 @@
 import type { UseFetchOptions } from 'nuxt/app'
-import type { FetchContext } from 'ofetch'
+import type { FetchContext, FetchResponse, FetchError } from 'ofetch'
 import { toValue } from '@vueuse/shared'
-import { resolveOptionsAndHash } from 'naive-ui/es/image/src/utils'
+import type { AsyncData, AsyncDataExecuteOptions, AsyncDataRequestStatus, KeysOf, PickFrom } from 'nuxt/dist/app/composables/asyncData'
+import type { WatchStopHandle } from 'vue'
 
 export type Url =
   | string
@@ -42,155 +43,37 @@ export type FetchOptions<
   T extends ExtendsFetchOptions = ExtendsFetchOptions
 > = UseFetchOptions<DataT> & T;
 
-export class BaseApi<T extends ExtendsFetchOptions = ExtendsFetchOptions> {
-  baseFetchOptions<DataT>(): FetchOptions<DataT, T> {
-    return <T>{}
-  }
-
-  getBaseToken(): Promise<string> | string {
-    return ''
-  }
-
-  private async mergeFetchOptions<DataT>(
-    options?: FetchOptions<DataT, T>
-  ): Promise<FetchOptions<DataT, T>> {
-    let opt = {
-      ...defaultExtendsFetchOptions,
-      ...this.baseFetchOptions<DataT>(),
-      ...(options ?? {})
-    }
-
-    const headers: Record<string, any> = {
-      // 阻止瀏覽器探知檔案的 mime type
-      'X-Content-Type-Options': 'nosniff',
-      // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
-      'Referrer-Policy': 'same-origin',
-      Authorization: '',
-      ...(this.baseFetchOptions().headers ?? {}),
-      ...(opt.headers ?? {})
-    }
-
-    let token = ''
-    if (opt.getToken) {
-      token = await opt.getToken()
-    } else {
-      token = await this.getBaseToken()
-    }
-
-    switch (opt.authorizationType) {
-      case AuthorizationType.BearerJWT: {
-        headers.Authorization = `Bearer ${token}`
-        break
-      }
-
-      case AuthorizationType.Basic: {
-        headers.Authorization = `Basic ${token}`
-        break
-      }
-    }
-
-    switch (opt.contentType) {
-      case ContentType.Json: {
-        headers['Content-Type'] = 'application/json'
-      }
-    }
-
-    opt = {
-      ...opt,
-      headers
-    }
-
-    if (opt?.cachePolicy === 'default' || opt?.cachePolicy === 'clearNuxtData') {
-      clearNuxtData(opt.key)
-    }
-
-    return opt
-  }
-
-  private async useFetchWrapper<DataT>(
-    url: Url,
-    method: 'get' | 'post' | 'patch' | 'put' | 'delete',
-    options?: FetchOptions<DataT, T>
-  ) {
-    const getFetchOptions = async () => {
-      return await this.mergeFetchOptions(options)
-    }
-
-    const { data, error, refresh, execute, status, pending } = await useFetch(
-      url,
-      {
-        ...await this.mergeFetchOptions(options),
-        method,
-        getCachedData(key) {
-          if (options?.cachePolicy === 'useNuxtData') {
-            if (useNuxtData(key).data.value) {
-              return useNuxtData(key)
-            }
-          }
-        },
-        async onRequest({ options: opts }) {
-          const mergeOpts = await getFetchOptions()
-          opts.headers = { ...opts.headers, ...mergeOpts.headers as Record<string, string> }
-          opts.body = mergeOpts.body
-          opts.onRequest?.bind(opts)
-        }
-      }
-    )
-    // when options set immediate is false, pending default is true, but status is idle
-    const isPending = computed(() => status.value === 'pending')
-    const isSuccess = computed(() => status.value === 'success')
-    const isError = computed(() => status.value === 'error')
-    return { data, error, refresh, status, pending, isSuccess, isError, isPending }
-  }
-
-  protected async get<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
-    return this.useFetchWrapper(url, 'get', options)
-  }
-
-  protected async post<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
-    return this.useFetchWrapper(url, 'post', options)
-  }
-
-  protected async patch<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
-    return this.useFetchWrapper(url, 'patch', options)
-  }
-
-  protected async put<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
-    return this.useFetchWrapper(url, 'put', options)
-  }
-
-  protected async delete<DataT>(url: Url, options?: FetchOptions<DataT, T>) {
-    return this.useFetchWrapper(url, 'delete', options)
-  }
+interface _FetchResult<
+  DataT = any
+> {
+  data: Ref<PickFrom<DataT, any> | null | undefined>;
+  error: Ref<FetchError<any> | null>;
+  refresh: (opts?: AsyncDataExecuteOptions | undefined) => Promise<PickFrom<DataT, KeysOf<DataT>> | null | undefined>;
+  status: Ref<AsyncDataRequestStatus>;
+  pending: Ref<boolean>;
+  isSuccess: ComputedRef<boolean>;
+  isError: ComputedRef<boolean>;
+  isPending: ComputedRef<boolean>;
+  statusCode: Ref<number>;
 }
+
+type FetchResult<
+  DataT = any,
+> = _FetchResult<DataT> | Promise<_FetchResult<DataT>>
 
 export const useBasicToken = (account: string, pwd: string): string => {
   return btoa(`${account}:${pwd}`)
 }
 
-export const useBaseApi = () => {
-  return BaseApi
-}
+export type OnRequest = (context: FetchContext) => Promise<void> | void;
 
-// class ExampleApi extends BaseApi {
-//   baseFetchOptions<DataT>(): FetchOptions<DataT, ExtendsFetchOptions> {
-//     return {
-//       baseURL: '',
-//       timeout: 30000,
-//       onResponseError(context) {
-//         if (context.response.status === 401) {
-//           clearNuxtData('token')
-//         }
-//       }
-//     }
-//   }
+export type OnResponse<R> = (context: FetchContext & {
+  response: FetchResponse<R>;
+}) => Promise<void> | void;
 
-//   async getBaseToken(): Promise<string> {
-//     return await new Promise<string>((resolve, reject) => { })
-//   }
-// }
-
-type OnRequest = (context: FetchContext) => Promise<void> | void;
+export type OnResponseError<R> = (context: FetchContext & {
+  response: FetchResponse<R>;
+}) => Promise<void> | void;
 
 export const useDefaultHeaders = () => {
   return reactive({
@@ -201,21 +84,21 @@ export const useDefaultHeaders = () => {
   })
 }
 
-export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRef: MaybeRefOrGetter<string>) => computed<OnRequest>(() => {
-  const account = toValue(accountRef)
-  const pwd = toValue(pwdRef)
-  const token = useBasicToken(account, pwd)
+export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRef: MaybeRefOrGetter<string>): OnRequest => {
   return ({ options }) => {
+    const account = toValue(accountRef)
+    const pwd = toValue(pwdRef)
+    const token = useBasicToken(account, pwd)
     options.headers = { ...options.headers, Authorization: `Basic ${token}` }
   }
-})
+}
 
-const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>) => computed<OnRequest>(() => {
-  const token = toValue(tokenRef)
+export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>): OnRequest => {
   return ({ options }) => {
+    const token = toValue(tokenRef)
     options.headers = { ...options.headers, Authorization: `Bearer ${token}` }
   }
-})
+}
 
 export type ApiFetchOptions<
   DataT = any
@@ -226,35 +109,58 @@ export type ApiFetchOptions<
   */
   cachePolicy?: 'default' | 'clearNuxtData' | 'useNuxtData',
   onRequests?: OnRequest[],
+  onResponses?: OnResponse<DataT>[],
+  onResponseErrors?: OnResponseError<DataT>[]
 };
 
-const useApiFetch = async <DataT>(
+const useApiFetch = <DataT>(
   url: Url,
   method: 'get' | 'post' | 'patch' | 'put' | 'delete',
-  options: ApiFetchOptions<DataT> = {
-    headers: useDefaultHeaders(),
-    cachePolicy: 'default'
-  }
+  options?: ApiFetchOptions<DataT>
 ) => {
+  if (!options) {
+    options = {}
+  }
+  options.cachePolicy = options.cachePolicy ?? 'default'
+  options.contentType = ContentType.Json
   const statusCode = ref(0)
-  const { data, error, refresh, status, pending } = await useFetch(
+  const { data, error, refresh, status, pending } = useFetch(
     url,
-    options && {
+    {
+      ...options,
       method,
       getCachedData(key) {
         if (options.cachePolicy === 'useNuxtData') {
-          if (useNuxtData(key).data.value) {
-            return useNuxtData(key)
+          const data = useNuxtData<DataT>(key).data.value
+          if (data) {
+            return data
           }
         }
       },
       async onRequest(context) {
-        if (options.cachePolicy === 'default' || options?.cachePolicy === 'clearNuxtData') {
+        if (options.cachePolicy || options.cachePolicy === 'default' || options?.cachePolicy === 'clearNuxtData') {
           clearNuxtData(options.key)
         }
 
         if (!context.options.headers) {
           context.options.headers = {}
+        }
+
+        switch (options.contentType) {
+          case ContentType.Json: {
+            context.options.headers = {
+              ...context.options.headers,
+              'Content-Type': 'application/json'
+            }
+          }
+        }
+
+        context.options.headers = {
+          // 阻止瀏覽器探知檔案的 mime type
+          'X-Content-Type-Options': 'nosniff',
+          // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
+          'Referrer-Policy': 'same-origin',
+          ...context.options.headers
         }
 
         if (options.onRequests) {
@@ -263,11 +169,21 @@ const useApiFetch = async <DataT>(
           }
         }
       },
-      onResponse(context) {
+      async onResponse(context) {
         statusCode.value = context.response.status
+        if (options.onResponses) {
+          for (const onResponse of options.onResponses) {
+            await onResponse(context)
+          }
+        }
       },
-      onResponseError(context) {
+      async onResponseError(context) {
         statusCode.value = context.response.status
+        if (options.onResponseErrors) {
+          for (const onResponseError of options.onResponseErrors) {
+            await onResponseError(context)
+          }
+        }
       }
     }
   )
@@ -275,40 +191,81 @@ const useApiFetch = async <DataT>(
   const isPending = computed(() => status.value === 'pending')
   const isSuccess = computed(() => status.value === 'success')
   const isError = computed(() => status.value === 'error')
+
   return { data, error, refresh, status, pending, isSuccess, isError, isPending, statusCode }
 }
 
-const useGetFetch = <DataT>(
+export const useGetFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'get', options)
 }
 
-const usePostFetch = <DataT>(
+export const usePostFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'post', options)
 }
 
-const usePatchFetch = <DataT>(
+export const usePatchFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'patch', options)
 }
 
-const usePutFetch = <DataT>(
+export const usePutFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'put', options)
 }
 
-const useDeleteFetch = <DataT>(
+export const useDeleteFetch = <DataT>(
   url: Url,
   options?: ApiFetchOptions<DataT>
 ) => {
   return useApiFetch(url, 'delete', options)
+}
+
+export const useBaseApi = (baseOptions: UseFetchOptions<any>) => {
+  const useGet = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useGetFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  const usePost = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    usePostFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  const usePut = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    usePutFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  const usePatch = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    usePatchFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  const useDelete = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useDeleteFetch<DataT>(url, {
+      ...baseOptions,
+      ...(options ?? {})
+    })
+
+  return {
+    useGet,
+    usePost,
+    usePatch,
+    usePut,
+    useDelete
+  }
 }

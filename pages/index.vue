@@ -226,6 +226,40 @@ const options = ref([
     value: '港式餐廳'
   }
 ])
+
+const baseApi = useBaseApi({
+  baseURL: 'http://localhost:5182',
+  timeout: 30000
+})
+
+const ping = () => baseApi.useGet<string>('/ping', {
+  // onRequests: [
+  //   useBasicTokenRequest('account', 'pwd')
+  // ],
+})
+
+try {
+  const { data, refresh, isPending, isSuccess, status } = ping()
+  await refresh()
+  watch(data, (nV) => {
+    console.log('data', nV)
+  }, { immediate: true })
+
+  watch(isPending, (isPending) => {
+    console.log('isPending', isPending)
+  }, { immediate: true })
+
+  watch(status, (status) => {
+    console.log('status', status)
+  }, { immediate: true })
+
+  watch(isSuccess, (isSuccess) => {
+    console.log('isSuccess', isSuccess)
+  }, { immediate: true })
+  // await refresh()
+} catch (e) {
+  console.log('error', e)
+}
 </script>
 
 <style scoped></style>
