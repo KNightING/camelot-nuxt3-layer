@@ -47,12 +47,12 @@ const open = defineModel('open', { default: false })
 const model = defineModel<string|null>({ default: null })
 
 // 檢查model目前的值是否存在options,不存在則設為空值
-if (model.value) {
-  const defaultModel = props.options.find(o => o.value === model.value)
-  if (!defaultModel) {
-    model.value = null
-  }
-}
+// if (model.value) {
+//   const defaultModel = props.options.find(o => o.value === model.value)
+//   if (!defaultModel) {
+//     model.value = null
+//   }
+// }
 
 // 如果model為空值, 則預設為第一個option
 if (!model.value) {
@@ -79,8 +79,8 @@ watch([optionsContainerEl, props], ([el, props]) => {
   }
 })
 
-const onItemClick = (e:Event, index:string) => {
-  model.value = index
+const onItemClick = (e:Event, value:string) => {
+  model.value = value
   if (!props.disableCloseWhenSelected) {
     open.value = false
   }
