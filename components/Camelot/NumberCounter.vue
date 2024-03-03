@@ -83,9 +83,11 @@ watch(isFocus, (isFocus) => {
   }
 })
 
-const absStep = computed(() => {
+const absStep = ref(0)
+
+watch(props, (props) => {
   if (props.step) {
-    return Math.abs(props.step)
+    absStep.value = Math.abs(props.step)
   }
 
   if (props.minStepByValue) {
@@ -93,19 +95,20 @@ const absStep = computed(() => {
     const stepString = absValue.toString()
     const dotIndex = stepString.indexOf('.')
     const usedStep = absStep.value as number
+
     if (dotIndex > 0) {
       const calcStep = 1 / Math.pow(10, stepString.length - dotIndex - 1)
       if (props.usedMinStepByValue && usedStep && calcStep > usedStep) {
-        return usedStep
+        absStep.value = usedStep
       } else {
-        return calcStep
+        absStep.value = calcStep
       }
     } else if (props.usedMinStepByValue && usedStep) {
-      return usedStep
+      absStep.value = usedStep
     }
   }
-  return 1
-})
+  absStep.value = 1
+}, { immediate: true })
 
 const calc = (value: number, isPlus: boolean) => {
   const step = absStep.value
