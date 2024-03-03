@@ -1,14 +1,29 @@
 <template>
-  <div class="overflow-hidden">
-    <div class="container">
-      <div
-        class="flash"
-      />
+  <template v-if="isLoading">
+    <div class="overflow-hidden w-full" v-bind="$attrs">
+      <div class="container">
+        <div
+          class="flash"
+        />
+      </div>
     </div>
-  </div>
+  </template>
+  <template v-else>
+    <slot />
+  </template>
 </template>
 
+<script>
+</script>
+
 <script setup lang="ts">
+defineOptions({
+  inheritAttrs: false
+})
+
+const props = defineProps<{
+  isLoading?:boolean
+}>()
 </script>
 
 <style scoped>
