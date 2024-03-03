@@ -1,12 +1,15 @@
 <template>
-  <div class="container">
-    <div
-      class="flash"
-    />
+  <div class="overflow-hidden">
+    <div class="container">
+      <div
+        class="flash"
+      />
+    </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <style scoped>
 .container {
@@ -17,7 +20,6 @@
 }
 .flash {
   filter: blur(5px);
-
   position: absolute;
   top: 0px;
   left: 0px;
