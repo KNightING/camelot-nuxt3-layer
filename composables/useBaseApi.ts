@@ -13,12 +13,6 @@ export enum ContentType {
   MultiPartFormData,
 }
 
-export enum AuthorizationType {
-  Non,
-  Basic,
-  BearerJWT,
-}
-
 export const useBasicToken = (account: string, pwd: string): string => {
   return btoa(`${account}:${pwd}`)
 }
@@ -80,9 +74,10 @@ const useApiFetch = <DataT>(
     options = {}
   }
   options.cachePolicy = options.cachePolicy ?? 'none'
-  options.contentType = ContentType.Json
-  const statusCode = ref(0)
-  const { data, error, refresh, status, pending } = useFetch(
+  options.contentType = options.contentType ?? ContentType.Json
+
+  // const statusCode = ref(0)
+  return useFetch(
     url,
     {
       ...options,
@@ -124,7 +119,7 @@ const useApiFetch = <DataT>(
         }
       },
       async onResponse(context) {
-        statusCode.value = context.response.status
+        // statusCode.value = context.response.status
         if (options.onResponses) {
           for (const onResponse of options.onResponses) {
             await onResponse(context)
@@ -132,7 +127,7 @@ const useApiFetch = <DataT>(
         }
       },
       async onResponseError(context) {
-        statusCode.value = context.response.status
+        // statusCode.value = context.response.status
         if (options.onResponseErrors) {
           for (const onResponseError of options.onResponseErrors) {
             await onResponseError(context)
@@ -142,11 +137,10 @@ const useApiFetch = <DataT>(
     }
   )
   // when options set immediate is false, pending default is true, but status is idle
-  const isPending = computed(() => status.value === 'pending')
-  const isSuccess = computed(() => status.value === 'success')
-  const isError = computed(() => status.value === 'error')
-
-  return { data, error, refresh, status, pending, isSuccess, isError, isPending, statusCode }
+  // const isPending = computed(() => status.value === 'pending')
+  // const isSuccess = computed(() => status.value === 'success')
+  // const isError = computed(() => status.value === 'error')
+  // return { data, error, refresh, status, pending, isSuccess, isError, isPending, statusCode }
 }
 
 export const useGetFetch = <DataT>(
