@@ -49,7 +49,7 @@ export const useLoading = () => {
     }
   }
 
-  const toggle = (tag: string, ref: Ref<boolean>, options?: {
+  const watchToggle = (tag: string, ref: Ref<boolean>, options?: {
     immediate?: boolean
   }) => {
     watch(ref, (isOpening) => {
@@ -61,7 +61,7 @@ export const useLoading = () => {
     }, { immediate: options?.immediate ?? true })
   }
 
-  return { state, open, close, isOpening, run, toggle }
+  return { state, open, close, isOpening, run, watchToggle }
 }
 
 export const useLoadingFn = <T, P = void>(
