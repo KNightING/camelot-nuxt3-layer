@@ -117,17 +117,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@vueuse/nuxt',
-    [
-      '@pinia/nuxt',
-      {
-        autoImports: [
-          'defineStore',
-          'acceptHMRUpdate',
-          'definePiniaStore',
-          'storeToRefs'
-        ]
-      }
-    ],
+    '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
     'unplugin-icons/nuxt',

@@ -40,7 +40,28 @@ export const useLoading = () => {
     return state.value.tags.length > 0
   })
 
-  return { state, open, close, isOpening }
+  const run = async (tag: string, fn: () => Promise<void>) => {
+    open(tag)
+    try {
+      await fn()
+    } finally {
+      close(tag)
+    }
+  }
+
+  const toggle = (tag: string, ref: Ref<boolean>, options?: {
+    immediate?: boolean
+  }) => {
+    watch(ref, (isOpening) => {
+      if (isOpening) {
+        open(tag)
+      } else {
+        close(tag)
+      }
+    }, { immediate: options?.immediate ?? true })
+  }
+
+  return { state, open, close, isOpening, run, toggle }
 }
 
 export const useLoadingFn = <T, P = void>(
