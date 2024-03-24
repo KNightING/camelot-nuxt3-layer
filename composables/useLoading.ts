@@ -55,13 +55,13 @@ export const useLoading = () => {
     watch(ref, (isOpening) => {
       if (isOpening) {
         open(tag)
-      } else {
-        close(tag)
+        return
       }
+      close(tag)
     }, { immediate: options?.immediate ?? true })
   }
 
-  return { state, open, close, isOpening, run, watchToggle }
+  return { state, open, close, isOpening, run, watch: watchToggle }
 }
 
 export const useLoadingFn = <T, P = void>(

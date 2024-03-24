@@ -1,5 +1,5 @@
-export const useDelay = async (milliseconds: number) => {
+export const useDelay = async (milliseconds: MaybeRef<number>) => {
   return await new Promise<void>((resolve) => {
-    setTimeout(resolve, milliseconds)
+    setTimeout(resolve, toValue(milliseconds))
   })
 }
