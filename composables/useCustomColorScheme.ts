@@ -88,7 +88,7 @@ export const useCustomColorScheme = <T>(
     )
     : globalDarkColorScheme
 
-  const usedColorScheme = computed(() => {
+  const usedColorScheme = computed<CustomColorScheme<T>>(() => {
     let isDark = true
     if (store.value === 'auto') {
       isDark = system.value === 'dark'
