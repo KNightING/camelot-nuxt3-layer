@@ -1,5 +1,5 @@
 import type { UseFetchOptions } from 'nuxt/app'
-import type { FetchContext, FetchResponse, FetchError } from 'ofetch'
+import type { FetchContext, FetchResponse, FetchError, ResponseType } from 'ofetch'
 import { toValue } from '@vueuse/shared'
 
 export type Url =
@@ -76,13 +76,12 @@ const useApiFetch = <DataT>(
   options.cachePolicy = options.cachePolicy ?? 'none'
   options.contentType = options.contentType ?? ContentType.Json
 
-  // const statusCode = ref(0)
-  return useFetch(
+  const use = () => useFetch(
     url,
     {
       ...options,
       method,
-      getCachedData(key) {
+      getCachedData(key: string) {
         if (options.cachePolicy === 'cache') {
           const data = useNuxtData<DataT>(key).data.value
           if (data) {
@@ -90,7 +89,7 @@ const useApiFetch = <DataT>(
           }
         }
       },
-      onRequest(context) {
+      onRequest(context: FetchContext<any, ResponseType>) {
         if (!context.options.headers) {
           context.options.headers = {}
         }
@@ -118,7 +117,7 @@ const useApiFetch = <DataT>(
           }
         }
       },
-      async onResponse(context) {
+      async onResponse(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT>; }) {
         // statusCode.value = context.response.status
         if (options.onResponses) {
           for (const onResponse of options.onResponses) {
@@ -126,7 +125,7 @@ const useApiFetch = <DataT>(
           }
         }
       },
-      async onResponseError(context) {
+      async onResponseError(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT>; }) {
         // statusCode.value = context.response.status
         if (options.onResponseErrors) {
           for (const onResponseError of options.onResponseErrors) {
@@ -136,84 +135,118 @@ const useApiFetch = <DataT>(
       }
     }
   )
-  // when options set immediate is false, pending default is true, but status is idle
-  // const isPending = computed(() => status.value === 'pending')
-  // const isSuccess = computed(() => status.value === 'success')
-  // const isError = computed(() => status.value === 'error')
-  // return { data, error, refresh, status, pending, isSuccess, isError, isPending, statusCode }
-}
 
-export const useGetFetch = <DataT>(
-  url: Url,
-  options?: ApiFetchOptions<DataT>
-) => {
-  return useApiFetch(url, 'get', options)
-}
+  const fetch = () => {
+    let header: HeadersInit | undefined
 
-export const usePostFetch = <DataT>(
-  url: Url,
-  options?: ApiFetchOptions<DataT>
-) => {
-  return useApiFetch(url, 'post', options)
-}
+    if (isRef(options.headers)) {
+      header = toValue(options.headers) as HeadersInit
+    } else {
+      header = options.headers as HeadersInit
+    }
 
-export const usePatchFetch = <DataT>(
-  url: Url,
-  options?: ApiFetchOptions<DataT>
-) => {
-  return useApiFetch(url, 'patch', options)
-}
+    return $fetch(url,
+      {
+        method,
+        baseURL: toValue(options.baseURL),
+        headers: header,
+        query: toValue(options.query),
+        body: toValue(options.body),
+        cachePolicy: options.cachePolicy,
+        credentials: toValue(options.credentials),
+        mode: toValue(options.mode),
+        redirect: toValue(options.redirect),
+        referrer: toValue(options.referrer),
+        referrerPolicy: toValue(options.referrerPolicy),
+        onRequest(context: FetchContext<any, ResponseType>) {
+          if (!context.options.headers) {
+            context.options.headers = {}
+          }
 
-export const usePutFetch = <DataT>(
-  url: Url,
-  options?: ApiFetchOptions<DataT>
-) => {
-  return useApiFetch(url, 'put', options)
-}
+          switch (options.contentType) {
+            case ContentType.Json: {
+              context.options.headers = {
+                ...context.options.headers,
+                'Content-Type': 'application/json'
+              }
+            }
+          }
 
-export const useDeleteFetch = <DataT>(
-  url: Url,
-  options?: ApiFetchOptions<DataT>
-) => {
-  return useApiFetch(url, 'delete', options)
+          context.options.headers = {
+            // 阻止瀏覽器探知檔案的 mime type
+            'X-Content-Type-Options': 'nosniff',
+            // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
+            'Referrer-Policy': 'same-origin',
+            ...context.options.headers
+          }
+
+          if (options.onRequests) {
+            for (const request of options.onRequests) {
+              request(context)
+            }
+          }
+        },
+        async onResponse(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT>; }) {
+          // statusCode.value = context.response.status
+          if (options.onResponses) {
+            for (const onResponse of options.onResponses) {
+              await onResponse(context)
+            }
+          }
+        },
+        async onResponseError(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT>; }) {
+          // statusCode.value = context.response.status
+          if (options.onResponseErrors) {
+            for (const onResponseError of options.onResponseErrors) {
+              await onResponseError(context)
+            }
+          }
+        }
+      })
+  }
+
+  return {
+    useFetch: use,
+    fetch
+  }
 }
 
 export const useBaseApi = (baseOptions: UseFetchOptions<any>) => {
-  const useGet = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
-    useGetFetch<DataT>(url, {
+  const get = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useApiFetch<DataT>(url, 'get', {
       ...baseOptions,
       ...(options ?? {})
     })
 
-  const usePost = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
-    usePostFetch<DataT>(url, {
+  const post = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useApiFetch<DataT>(url, 'post', {
       ...baseOptions,
       ...(options ?? {})
     })
 
-  const usePut = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
-    usePutFetch<DataT>(url, {
+  const put = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useApiFetch<DataT>(url, 'put', {
       ...baseOptions,
       ...(options ?? {})
     })
 
-  const usePatch = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
-    usePatchFetch<DataT>(url, {
+  const patch = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useApiFetch<DataT>(url, 'patch', {
       ...baseOptions,
       ...(options ?? {})
     })
 
-  const useDelete = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
-    useDeleteFetch<DataT>(url, {
+  const del = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
+    useApiFetch<DataT>(url, 'delete', {
       ...baseOptions,
       ...(options ?? {})
     })
 
   return {
-    useGet,
-    usePost,
-    usePatch,
-    usePut,
-    useDelete
+    get,
+    post,
+    patch,
+    put,
+    del
   }
 }
