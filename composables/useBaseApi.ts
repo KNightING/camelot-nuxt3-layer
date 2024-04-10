@@ -145,7 +145,7 @@ const useApiFetch = <DataT>(
       header = options.headers as HeadersInit
     }
 
-    return $fetch(url,
+    return $fetch<DataT>(url,
       {
         method,
         baseURL: toValue(options.baseURL),
