@@ -2,11 +2,7 @@ import type { UseFetchOptions } from 'nuxt/app'
 import type { FetchContext, FetchResponse, FetchError, ResponseType } from 'ofetch'
 import { toValue } from '@vueuse/shared'
 
-export type Url =
-  | string
-  | Request
-  | Ref<string | Request>
-  | (() => string | Request);
+export type Url = string | Request | Ref<string | Request> | (() => string | Request);
 
 export enum ContentType {
   Json,
@@ -145,14 +141,24 @@ const useApiFetch = <DataT>(
       header = options.headers as HeadersInit
     }
 
-    return $fetch<DataT>(url,
+    let realUrl = url
+    if (isRef(url)) {
+      realUrl = toValue(url)
+    }
+
+    if (realUrl instanceof Request) {
+      realUrl = realUrl.url
+    } else if (realUrl instanceof Function) {
+      realUrl = realUrl()
+    }
+
+    return $fetch<DataT>(realUrl,
       {
         method,
         baseURL: toValue(options.baseURL),
         headers: header,
         query: toValue(options.query),
         body: toValue(options.body),
-        cachePolicy: options.cachePolicy,
         credentials: toValue(options.credentials),
         mode: toValue(options.mode),
         redirect: toValue(options.redirect),
