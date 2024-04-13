@@ -152,7 +152,7 @@ const useApiFetch = <DataT>(
       realUrl = realUrl()
     }
 
-    return $fetch<DataT>(realUrl,
+    return $fetch<DataT>(realUrl as string,
       {
         method,
         baseURL: toValue(options.baseURL),
