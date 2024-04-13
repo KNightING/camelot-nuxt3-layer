@@ -61,7 +61,19 @@ export const useLoading = () => {
     }, { immediate: options?.immediate ?? true })
   }
 
-  return { state, open, close, isOpening, run, watch: watchToggle }
+  const watcher = (tag: string, refs: Ref<boolean> | Ref<boolean>[], options?: {
+    immediate?: boolean
+  }) => {
+    if (Array.isArray(refs)) {
+      refs.forEach((ref, index) => {
+        watchToggle(`tag:${index}`, ref, options)
+      })
+    } else {
+      watchToggle(tag, refs, options)
+    }
+  }
+
+  return { state, open, close, isOpening, run, watch: watcher }
 }
 
 export const useLoadingFn = <T, P = void>(
