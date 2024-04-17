@@ -10,7 +10,7 @@
         <template v-for="(option,index) in options" :key="index">
           <button type="button" @click="(e)=>onItemClick(e,option.value)">
             <slot name="option" :index="index" :data="option" :is-selected="model === option.value">
-              <div class="option">
+              <CamelotFixIOS class="option">
                 <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
                 <span
                   :class="{
@@ -20,7 +20,7 @@
                     'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;'
                   ]"
                 >{{ option.label }}</span>
-              </div>
+              </CamelotFixIOS>
             </slot>
           </button>
         </template>

@@ -4,7 +4,7 @@
     <Teleport to="body">
       <CamelotCustomColorSchemeProvider>
         <Transition>
-          <CamelotFixIOS
+          <div
             v-if="open"
             class="background"
             :style="[
@@ -23,7 +23,7 @@
             >
               <slot name="popup" />
             </div>
-          </CamelotFixIOS>
+          </div>
         </Transition>
       </CamelotCustomColorSchemeProvider>
     </Teleport>
