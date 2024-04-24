@@ -67,13 +67,7 @@ export default defineNuxtConfig({
 
   css: [
     // join(currentDir, "/assets/css/global.css"),
-    join(currentDir, '/assets/css/tailwind-base.css'),
-    join(currentDir, '/assets/css/tailwind-components.css'),
-    join(currentDir, '/assets/css/tailwind-utilities.css')
-    // "@/assets/css/global.css",
-    // "@/assets/css/tailwind-base.css",
-    // "@/assets/css/tailwind-components.css",
-    // "@/assets/css/tailwind-utilities.css",
+    join(currentDir, '/assets/css/tailwind.css')
   ],
 
   vite: {

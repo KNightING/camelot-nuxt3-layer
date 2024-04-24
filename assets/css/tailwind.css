@@ -1,4 +1,6 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /*
 * Noto Sans TC (Chinese_traditional) http://www.google.com/fonts/earlyaccess
@@ -150,5 +152,19 @@
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: var(--material3-on-surface);
+  }
+}
+
+@layer utilities {
+  .clip-rounded-tl-br {
+    clip-path: inset(0px 0px 0px round 20px 0px);
+  }
+
+  .clip-rounded-tr-bl {
+    clip-path: inset(0px 0px 0px round 0px 20px);
+  }
+
+  .clip-rounded {
+    clip-path: inset(0px 0px 0px round 20px);
   }
 }
