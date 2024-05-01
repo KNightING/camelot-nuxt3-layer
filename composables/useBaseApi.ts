@@ -36,6 +36,9 @@ export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRe
   return ({ options }) => {
     const account = toValue(accountRef)
     const pwd = toValue(pwdRef)
+    if (account.length <= 0 || pwd.length <= 0) {
+      return
+    }
     const token = useBasicToken(account, pwd)
     options.headers = { ...options.headers, Authorization: `Basic ${token}` }
   }
@@ -44,6 +47,7 @@ export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRe
 export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>): OnRequest => {
   return ({ options }) => {
     const token = toValue(tokenRef)
+    if (token.length <= 0) { return }
     options.headers = { ...options.headers, Authorization: `Bearer ${token}` }
   }
 }
