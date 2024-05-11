@@ -12,14 +12,19 @@ export default defineNuxtModule({
     // },
   },
   setup(options, nuxt) {
-    nuxt.options.app.head.script = [
-      ...(nuxt.options.app.head.script ?? []),
-      {
+    const config = nuxt.options.runtimeConfig
+    const scripts = nuxt.options.app.head.script ?? []
+    if (config.tappay.addScript) {
+      scripts.push({
         src: 'https://js.tappaysdk.com/sdk/tpdirect/v5.17.0'
-      },
-      {
+      })
+    }
+
+    if (config.googlePay.addScript) {
+      scripts.push({
         src: 'https://pay.google.com/gp/p/js/pay.js'
-      }
-    ]
+      })
+    }
+    nuxt.options.app.head.script = scripts
   }
 })

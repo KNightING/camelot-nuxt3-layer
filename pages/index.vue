@@ -104,6 +104,11 @@ import { isClient } from '@vueuse/core';
       Expanded
     </div>
     <CamelotExpanded :expanded="expanded">
+      <template #header>
+        <div>
+          Expanded
+        </div>
+      </template>
       <div class="bg-gradient-to-b from-red-500 to-blue-500 h-28" />
     </CamelotExpanded>
 

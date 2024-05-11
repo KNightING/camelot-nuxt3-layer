@@ -1,7 +1,12 @@
 <template>
-  <div class="container" :class="{'close':!expanded}">
-    <div style="min-height:0px">
-      <slot />
+  <div class="flex flex-col">
+    <div @click="expanded = !expanded">
+      <slot name="header" />
+    </div>
+    <div class="container" :class="{'close':!expanded}">
+      <div style="min-height:0px">
+        <slot />
+      </div>
     </div>
   </div>
 </template>

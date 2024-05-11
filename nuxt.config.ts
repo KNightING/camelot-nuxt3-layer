@@ -59,6 +59,12 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    tappay: {
+      addScript: false
+    },
+    googlePay: {
+      addScript: false
+    },
     public: {
       version: '1.0.0',
       env: 'development'
