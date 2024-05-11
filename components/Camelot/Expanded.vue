@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  expanded: boolean
-}>()
+const expanded = defineModel<boolean>('expanded', {
+  default: false
+})
 </script>
 
 <style scoped>
