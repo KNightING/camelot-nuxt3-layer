@@ -39,7 +39,7 @@ const props = defineProps<{
   disableWidthWithTarget?:boolean,
 }>()
 
-const open = defineModel('open', { default: false })
+const open = defineModel<boolean>('open', { default: false })
 
 const el = ref<HTMLElement | null>(null)
 
@@ -55,6 +55,9 @@ watch(el, (nV) => {
 
 const { x, y, top, right, bottom, left, width, height } =
         useElementBounding(selectEl)
+
+const { top: popupElTop, left: popupElLeft, width: popupElWidth, height: popupElHeight } =
+        useElementBounding(popupEl)
 
 // const optionsContainerBackgroundColorVar = useElCssVar('--c-popup-background', popupEl, { inherit: false })
 
@@ -73,7 +76,7 @@ const { x, y, top, right, bottom, left, width, height } =
 const { height: windowHeight, width: windowWidth } = useWindowSize()
 
 const popupContainerX = computed(() => {
-  const popupContainerClientWidth = popupEl.value?.clientWidth ?? 0
+  const popupContainerClientWidth = popupElWidth.value ?? 0
   if (left.value + popupContainerClientWidth > windowWidth.value) {
     return windowWidth.value - popupContainerClientWidth
   }
@@ -81,8 +84,7 @@ const popupContainerX = computed(() => {
 })
 
 const popupContainerY = computed(() => {
-  const popupContainerClientHeight = popupEl.value?.clientHeight ?? 0
-
+  const popupContainerClientHeight = popupElHeight.value ?? 0
   if (bottom.value + popupContainerClientHeight > windowHeight.value) {
     return top.value - popupContainerClientHeight
   }
