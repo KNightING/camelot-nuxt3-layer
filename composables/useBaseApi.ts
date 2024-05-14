@@ -23,15 +23,6 @@ export type OnResponseError<R> = (context: FetchContext & {
   response: FetchResponse<R>;
 }) => Promise<void> | void;
 
-export const useDefaultHeaders = () => {
-  return reactive({
-    // 阻止瀏覽器探知檔案的 mime type
-    'X-Content-Type-Options': 'nosniff',
-    // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
-    'Referrer-Policy': 'same-origin'
-  })
-}
-
 export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRef: MaybeRefOrGetter<string>): OnRequest => {
   return ({ options }) => {
     const account = toValue(accountRef)
@@ -52,6 +43,16 @@ export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>): OnReq
   }
 }
 
+export const secureHeaderRequest:OnRequest = ({ options }) => {
+  options.headers = {
+    // 阻止瀏覽器探知檔案的 mime type
+    'X-Content-Type-Options': 'nosniff',
+    // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
+    'Referrer-Policy': 'same-origin',
+    ...(options.headers ?? {})
+  }
+}
+
 export type ApiFetchOptions<
   DataT = any
 > = Omit<UseFetchOptions<DataT>, 'onRequest' | 'onRequestError' | 'onResponse' | 'onResponseError'> & {
@@ -62,7 +63,8 @@ export type ApiFetchOptions<
   cachePolicy?: 'none' | 'cache',
   onRequests?: OnRequest[],
   onResponses?: OnResponse<DataT>[],
-  onResponseErrors?: OnResponseError<DataT>[]
+  onResponseErrors?: OnResponseError<DataT>[],
+  addSecureHeaderRequest?:boolean
 };
 
 const useApiFetch = <DataT>(
@@ -75,6 +77,7 @@ const useApiFetch = <DataT>(
   }
   options.cachePolicy = options.cachePolicy ?? 'none'
   options.contentType = options.contentType ?? ContentType.Json
+  options.addSecureHeaderRequest = options.addSecureHeaderRequest ?? false
 
   const use = () => useFetch(
     url,
@@ -103,12 +106,8 @@ const useApiFetch = <DataT>(
           }
         }
 
-        context.options.headers = {
-          // 阻止瀏覽器探知檔案的 mime type
-          'X-Content-Type-Options': 'nosniff',
-          // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
-          'Referrer-Policy': 'same-origin',
-          ...context.options.headers
+        if (options.addSecureHeaderRequest) {
+          secureHeaderRequest(context)
         }
 
         if (options.onRequests) {
@@ -182,12 +181,8 @@ const useApiFetch = <DataT>(
             }
           }
 
-          context.options.headers = {
-            // 阻止瀏覽器探知檔案的 mime type
-            'X-Content-Type-Options': 'nosniff',
-            // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
-            'Referrer-Policy': 'same-origin',
-            ...context.options.headers
+          if (options.addSecureHeaderRequest) {
+            secureHeaderRequest(context)
           }
 
           if (options.onRequests) {
