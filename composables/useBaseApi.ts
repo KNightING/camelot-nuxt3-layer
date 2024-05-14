@@ -77,7 +77,7 @@ const useApiFetch = <DataT>(
   }
   options.cachePolicy = options.cachePolicy ?? 'none'
   options.contentType = options.contentType ?? ContentType.Json
-  options.addSecureHeaderRequest = options.addSecureHeaderRequest ?? false
+  options.addSecureHeaderRequest = options.addSecureHeaderRequest ?? true
 
   const use = () => useFetch(
     url,
@@ -216,7 +216,7 @@ const useApiFetch = <DataT>(
   }
 }
 
-export const useBaseApi = (baseOptions: UseFetchOptions<any>) => {
+export const useBaseApi = (baseOptions: ApiFetchOptions<any>) => {
   const get = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
     useApiFetch<DataT>(url, 'get', {
       ...baseOptions,
