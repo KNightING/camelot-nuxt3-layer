@@ -1,34 +1,86 @@
+import type { MaybeElementRef } from '@vueuse/core'
+
 export type ValidatorFn = () => boolean
 
+export type Validator = () => {
+  valid: boolean,
+  element?: MaybeElementRef
+} | boolean
+
 export interface InputValidationController {
-  addValidatorComputed:(ref:ComputedRef<boolean>)=>void
-  addValidator: (fn: ValidatorFn) => void
+  addValidatorComputed:(ref:ComputedRef<boolean | string | undefined>)=>void
+  removeValidatorComputed:(ref:ComputedRef<boolean | string | undefined>)=>void
+  addValidator: (fn: Validator) => void
+  removeValidator: (fn: Validator) => void
   validate: () => boolean
   isValidate: ComputedRef<boolean>
 }
 
-export const useInputValidationController = ():InputValidationController => {
-  const validateFnList = ref<(ValidatorFn)[]>([])
-  const validateRefList = ref<ComputedRef<boolean>[]>([])
+export const useInputValidationController = () => {
+  const validateFnList = ref<(Validator)[]>([])
+  const validateRefList = ref<ComputedRef<boolean | string | undefined>[]>([])
 
-  const addValidatorComputed = (ref:ComputedRef<boolean>) => {
+  const addValidatorComputed = (ref:ComputedRef<boolean | string | undefined>) => {
     validateRefList.value.push(ref)
   }
 
-  const addValidator = (fn: ValidatorFn) => {
+  const removeValidatorComputed = (ref:ComputedRef<boolean | string | undefined>) => {
+    validateRefList.value.splice(validateRefList.value.indexOf(ref), 1)
+  }
+
+  const addValidator = (fn: Validator) => {
     validateFnList.value.push(fn)
+  }
+
+  const removeValidator = (fn: Validator) => {
+    validateFnList.value.splice(validateFnList.value.indexOf(fn), 1)
   }
 
   const validate = () => {
     let hasError = false
     validateFnList.value.forEach((fn) => {
       const result = fn()
-      if (!result) {
-        hasError = true
+
+      if (typeof result === 'boolean') {
+        if (!result) {
+          hasError = true
+        }
       }
     })
     return !hasError
-    // return validateFnList.value.every(fn => fn())
+  }
+
+  const hasInvalid = (options:{
+    scrollToFirstElement?:boolean
+  }) => {
+    let hasError = false
+    const scrollToFirstElement = options.scrollToFirstElement ?? true
+    let firstElement : HTMLElement | undefined
+
+    validateFnList.value.forEach((fn) => {
+      const result = fn()
+      if (typeof result === 'boolean') {
+        if (!result) {
+          hasError = true
+        }
+      } else if (!result.valid) {
+        hasError = true
+        if (scrollToFirstElement && result.element) {
+          const element = toValue(result.element)
+          if (element instanceof HTMLElement) {
+            if (!firstElement || (firstElement && element.scrollTop < firstElement.scrollTop)) {
+              firstElement = element
+            }
+          }
+        }
+      }
+    })
+
+    if (firstElement) {
+      firstElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+
+    return hasError
   }
 
   const isValidate = computed(() => {
@@ -37,8 +89,11 @@ export const useInputValidationController = ():InputValidationController => {
 
   return {
     addValidatorComputed,
+    removeValidatorComputed,
     addValidator,
+    removeValidator,
     validate,
+    hasInvalid,
     isValidate
   }
 }
