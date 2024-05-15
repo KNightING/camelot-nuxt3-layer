@@ -37,17 +37,7 @@ export const useInputValidationController = () => {
   }
 
   const validate = () => {
-    let hasError = false
-    validateFnList.value.forEach((fn) => {
-      const result = fn()
-
-      if (typeof result === 'boolean') {
-        if (!result) {
-          hasError = true
-        }
-      }
-    })
-    return !hasError
+    return !hasInvalid()
   }
 
   const hasInvalid = (options?:{
