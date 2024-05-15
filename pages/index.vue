@@ -1,4 +1,3 @@
-import { isClient } from '@vueuse/core';
 <template>
   <div>
     <div class="text-primary">

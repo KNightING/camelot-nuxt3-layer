@@ -50,12 +50,12 @@ export const useInputValidationController = () => {
     return !hasError
   }
 
-  const hasInvalid = (options:{
+  const hasInvalid = (options?:{
     scrollToFirstElement?:boolean
   }) => {
     let hasError = false
-    const scrollToFirstElement = options.scrollToFirstElement ?? true
-    let firstElement : HTMLElement | undefined
+    const scrollToFirstElement = options?.scrollToFirstElement ?? true
+    let firstElement : Element | undefined
 
     validateFnList.value.forEach((fn) => {
       const result = fn()
@@ -66,11 +66,17 @@ export const useInputValidationController = () => {
       } else if (!result.valid) {
         hasError = true
         if (scrollToFirstElement && result.element) {
-          const element = toValue(result.element)
-          if (element instanceof HTMLElement) {
-            if (!firstElement || (firstElement && element.scrollTop < firstElement.scrollTop)) {
-              firstElement = element
-            }
+          const elementValue = toValue(result.element)
+          let element : Element | undefined
+          if (elementValue instanceof Element) {
+            element = elementValue
+          } else {
+            // VueInstance
+            element = elementValue?.$el
+          }
+
+          if (!firstElement || (element && element.scrollTop < firstElement.scrollTop)) {
+            firstElement = element
           }
         }
       }
