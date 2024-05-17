@@ -2,133 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-* Noto Sans TC (Chinese_traditional) http://www.google.com/fonts/earlyaccess
- */
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 100;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.otf)
-      format("opentype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 200;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-ExtraLight.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-ExtraLight.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-ExtraLight.otf)
-      format("opentype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 300;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.otf)
-      format("opentype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 400;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.otf)
-      format("opentype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 500;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.otf)
-      format("opentype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 600;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-SemiBold.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-SemiBold.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-SemiBold.otf)
-      format("opentype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 700;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.otf)
-      format("opentype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 800;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-ExtraBold.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-ExtraBold.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-ExtraBold.otf)
-      format("opentype");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans TC";
-  font-style: normal;
-  font-weight: 900;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.woff2)
-      format("woff2"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.woff)
-      format("woff"),
-    url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.otf)
-      format("opentype");
-  font-display: swap;
-}
-
 @layer base {
   body,
   html {
+    margin: 0;
+    padding: 0;
+    height: 100dvh;
+    width: 100dvw;
     font-family: "Noto Sans TC", sans-serif, system-ui !important;
+    font-optical-sizing: auto;
+    font-style: normal;
   }
 
   html img {
     user-select: none;
-  }
-
-  button,
-  [type="button"],
-  [type="reset"],
-  [type="submit"] {
-    background-color: var(--n-color); /* for naive ui */
   }
 
   /* width */

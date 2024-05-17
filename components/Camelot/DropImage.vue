@@ -31,7 +31,7 @@
           v-if="image === undefined && originImage"
           class="absolute top-0 w-full h-full"
         >
-          <n-skeleton
+          <CamelotSkeleton
             v-if="isLoading"
             height="100%"
             width="100%"
