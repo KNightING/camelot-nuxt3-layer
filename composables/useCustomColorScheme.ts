@@ -1,4 +1,4 @@
-import type { MaybeElementRef } from '@vueuse/core'
+import { isClient, type MaybeElementRef } from '@vueuse/core'
 import { useChangeCase } from '@vueuse/integrations/useChangeCase'
 import { Material3ColorSchemeKeys } from './useMaterial3ColorScheme'
 
@@ -54,6 +54,7 @@ export const useCustomColorScheme = <T>(
     editable?: boolean;
   }
 ) => {
+  if(!isClient)return
   const target = targetRef ?? document.body
 
   if (target === document.body) {

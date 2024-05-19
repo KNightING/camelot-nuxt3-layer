@@ -116,7 +116,11 @@
     </div>
 
     <div class="w-40 h-40">
-      <CamelotImage src="https://cataas.com/cat?v=1" class="w-full h-full object-scale-down" />
+      <CamelotImage src="https://cataas.com/cat?v=1" class="w-full h-full object-scale-down">
+        <template #error>
+          <span class="flex w-full h-full bg-black text-red-600">loading image error</span>
+        </template>
+      </CamelotImage>
     </div>
 
     <div class="w-40 h-40">

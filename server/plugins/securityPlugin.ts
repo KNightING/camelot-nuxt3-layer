@@ -17,6 +17,7 @@ const cspImgSrc:string[] = [
 ]
 
 const cspFontSrc :string[] = [
+  'data:',
   'https://fonts.gstatic.com/',
   'http://fonts.gstatic.com/'
 ]
@@ -32,6 +33,7 @@ const cspScriptSrc:string[] = [
 ]
 
 const cspStyleSrc:string[] = [
+  'https://fonts.googleapis.com',
   '\'unsafe-inline\'',
   '\'unsafe-eval\''
 ]
