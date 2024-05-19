@@ -1,17 +1,7 @@
-import { darkTheme } from 'naive-ui'
 import type { CustomColorScheme } from '../useCustomColorScheme'
-
-const mode = useColorMode()
 
 export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
   const cs = computed(() => unref(csRef))
-
-  const naiveTheme = computed(() => {
-    if (mode.value === 'dark') {
-      return darkTheme
-    }
-    return undefined
-  })
 
   const naiveThemeOverride = computed(() => {
     const color = useColor()
@@ -99,5 +89,5 @@ export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
     }
   })
 
-  return { naiveTheme, naiveThemeOverride }
+  return naiveThemeOverride
 }

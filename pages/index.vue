@@ -135,7 +135,7 @@
       <CamelotPopup disable-width-with-target>
         <input type="input">
         <template #popup>
-          <n-date-picker panel type="date" />
+          <!-- <n-date-picker panel type="date" /> -->
         </template>
       </CamelotPopup>
     </div>

@@ -12,7 +12,6 @@ in `package.json`
     "@nuxtjs/i18n": "8.0.0-rc.5",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "autoprefixer": "^10.4.16",
-    "naive-ui": "^2.35.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
     "unplugin-icons": "^0.17.3",

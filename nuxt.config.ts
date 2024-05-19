@@ -1,7 +1,6 @@
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import {
-  NaiveUiResolver,
   VueUseComponentsResolver
 } from 'unplugin-vue-components/resolvers'
 import Icons from 'unplugin-icons/vite'
@@ -97,7 +96,6 @@ export default defineNuxtConfig({
     plugins: [
       Components({
         resolvers: [
-          NaiveUiResolver(),
           VueUseComponentsResolver(),
           IconsResolver()
         ]
