@@ -17,11 +17,10 @@ const usedColorScheme = ref<CustomColorScheme<T>>()
 
 watchOnce(container, (nV) => {
   const { lightColorScheme, darkColorScheme, usedColorScheme: used } = useCustomColorScheme<T>(
-    container,
+    props.coverGlobal ? document.body : container,
     {
       lightColorScheme: props.lightColorScheme,
-      darkColorScheme: props.darkColorScheme,
-      coverGlobal: props.coverGlobal
+      darkColorScheme: props.darkColorScheme
     }
   )
 

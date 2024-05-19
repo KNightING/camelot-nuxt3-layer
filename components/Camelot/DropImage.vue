@@ -31,7 +31,7 @@
           v-if="image === undefined && originImage"
           class="absolute top-0 w-full h-full"
         >
-          <n-skeleton
+          <CamelotSkeleton
             v-if="isLoading"
             height="100%"
             width="100%"
@@ -49,6 +49,7 @@
 
 <script setup lang="ts">
 import { useImage } from '@vueuse/core'
+import { CamelotSkeleton } from '../../.playground/.nuxt/components'
 
 const props = defineProps<{
   label?: string;

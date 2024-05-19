@@ -1,19 +1,42 @@
 <template>
-  <CamelotSkeleton v-if="isLoading" />
-  <div v-else-if="error">
-    <slot name="error" />
+  <div ref="target">
+    <CamelotSkeleton v-if="isLoading" />
+    <div v-else-if="isError">
+      <slot name="error" />
+    </div>
+    <img v-else :src="src">
   </div>
-  <img v-else :src="src">
 </template>
 
 <script setup lang="ts">
-import { useImage, type UseImageOptions } from '@vueuse/core'
+const props = withDefaults(
+  defineProps<{
+     src: string,
+     immediate?:boolean
+    } >(), {
+    immediate: false
+  })
 
-const props = defineProps<{ src: string, options?:UseImageOptions} >()
+const { isLoading, isError, isReady, load } = useLazyImage({
+  src: props.src
+})
 
-const { isLoading, error, isReady } = useImage({ ...props.options, src: props.src })
+const target = ref(null)
 
-defineExpose({ isLoading, error, isReady })
+const { stop } = useIntersectionObserver(
+  target,
+  ([{ isIntersecting }], observerElement) => {
+    if (isIntersecting && props.immediate === false) {
+      load()
+    }
+  }
+)
+
+onBeforeUnmount(() => {
+  stop()
+})
+
+defineExpose({ isLoading, isError, isReady })
 </script>
 
 <style scoped></style>

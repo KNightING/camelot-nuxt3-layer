@@ -46,16 +46,17 @@ const globalDarkColorScheme = ref<CustomColorScheme<any>>({ ...defaultDarkColorS
  * @returns
  */
 export const useCustomColorScheme = <T>(
-  target?: MaybeElementRef,
+  targetRef?: MaybeElementRef,
   config?: {
     lightColorScheme?: CustomColorScheme<T>;
     darkColorScheme?: CustomColorScheme<T>;
     cssVarKeyPrefix?: string;
     editable?: boolean;
-    coverGlobal?: boolean;
   }
 ) => {
-  if (!target || config?.coverGlobal) {
+  const target = targetRef ?? document.body
+
+  if (target === document.body) {
     if (config?.lightColorScheme) {
       globalLightColorScheme.value = {
         ...globalLightColorScheme.value,

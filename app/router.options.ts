@@ -4,8 +4,7 @@ import type { RouterConfig } from '@nuxt/schema'
 // https://github.com/nuxt/framework/issues/1707#issuecomment-1104540588
 export default <RouterConfig>{
   scrollBehavior(to, from, savedPosition) {
-    if (to.fullPath.replace(/#.*/, '') === from.fullPath.replace(/#.*/, '')) { return }
-    // behavior: 'auto' | 'smooth'
+    if (to.query.isDialog === 'true') { return }
 
     return new Promise((resolve, _reject) => {
       setTimeout(() => {

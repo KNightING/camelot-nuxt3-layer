@@ -65,6 +65,23 @@ export default defineNuxtConfig({
     googlePay: {
       addScript: false
     },
+
+    securityPlugin:{
+      enabled:true,
+      contentSecurityPolicy:{
+        connect:[],
+        font:[],
+        frame:[],
+        img:[],
+        manifest:[],
+        media:[],
+        object:[],
+        script:[],
+        style:[],
+        worker:[]
+      },
+    },
+
     public: {
       version: '1.0.0',
       env: 'development'

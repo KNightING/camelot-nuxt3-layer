@@ -1,11 +1,9 @@
 <template>
   <template v-if="isLoading">
-    <div class="overflow-hidden w-full" v-bind="$attrs">
-      <div class="container">
-        <div
-          class="flash"
-        />
-      </div>
+    <div class="overflow-hidden relative w-full h-full" v-bind="$attrs">
+      <div
+        class="flash"
+      />
     </div>
   </template>
   <template v-else>
@@ -21,18 +19,14 @@ defineOptions({
   inheritAttrs: false
 })
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   isLoading?:boolean
-}>()
+}>(), {
+  isLoading: true
+})
 </script>
 
 <style scoped>
-.container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
 .flash {
   filter: blur(5px);
   position: absolute;
@@ -40,14 +34,14 @@ const props = defineProps<{
   left: 0px;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(to right, #fff, #efefef 50%, #4e4c4c 100%);
-
+  background-image: linear-gradient(to right, #aaa , #888 50%, #4e4c4c 100%);
   transform: translateX(-110%);
-  background-size: 200%;
+  background-size: 150%;
   pointer-events: none;
-  animation: animate 2s ease-out infinite;
+  animation: animate 1.5s ease-out infinite;
   animation-delay: 300ms;
 }
+
 @keyframes animate {
   0% {
     transform: translateX(-110%);

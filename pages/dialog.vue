@@ -10,7 +10,10 @@
 
     <CamelotBaseDialog
       v-model:open="open"
-      tag="dialog"
+      :query="{
+        key:'dialog',
+        value:'test'
+      }"
     >
       <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
         <div class="flex justify-end">

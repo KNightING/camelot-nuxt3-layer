@@ -27,6 +27,10 @@ const props = withDefaults(
   defineProps<{
     closeByMask?: boolean;
     tag?:string;
+    query?:{
+      key:string;
+      value:string;
+    };
   }>(),
   {
     closeByMask: true
@@ -40,41 +44,85 @@ function onCloseByMaskClick() {
     open.value = false
   }
 }
-if (props.tag) {
-  const router = useRouter()
 
-  const route = useRoute()
+const router = useRouter()
 
-  watch(open, (isOpen) => {
-    // console.log('open', useRoute().path, useRoute().hash, isOpen)
-    if (isOpen) {
-      router.push({ hash: `#${props.tag}` })
-    } else if (useRoute().hash === `#${props.tag}`) {
-      if (useRouterHistory()) {
-        router.back()
-      } else {
-        router.replace({ hash: '' })
-      }
+const route = useRoute()
+
+const dialogQueryOptions = computed(() => {
+  if (props.query) { return props.query }
+  if (props.tag) {
+    return {
+      key: 'tag',
+      value: props.tag
     }
+  }
+})
 
-    // if (isOpen) {
-    //   router.push({ hash: `#${props.tag}` })
-    // } else if (useRouterHistory() && useRoute().hash) {
-    //   router.back()
-    // } else if (useRoute().hash === `#${props.tag}`) {
-    //   router.replace({ hash: '' })
-    // }
-  })
+watch(open, (isOpen) => {
+  const queryOptions = dialogQueryOptions.value
+  if (!queryOptions) { return }
 
-  watch(() => [route.path, route.hash], ([path, hash]) => {
-    // console.log('path', path, hash)
-    if (hash === `#${props.tag}`) {
-      open.value = true
+  if (isOpen) {
+    const newQuery = {
+      ...route.query,
+      [queryOptions.key]: queryOptions.value,
+      isDialog: 'true'
+    }
+    router.push({
+      query: newQuery
+    })
+    return
+  }
+
+  if (route.query[queryOptions.key] === queryOptions.value) {
+    if (useRouterHistory()) {
+      router.back()
     } else {
-      open.value = false
+      const newQuery = {
+        ...route.query
+      }
+      delete newQuery[queryOptions.key]
+      delete newQuery.isDialog
+      router.replace({ query: newQuery })
     }
-  }, { immediate: true })
-}
+  }
+})
+
+watch([() => route.path, () => route.query], ([path, query]) => {
+  const queryOptions = dialogQueryOptions.value
+  if (!queryOptions) { return }
+  if (query[queryOptions.key] === queryOptions.value) {
+    open.value = true
+  } else {
+    open.value = false
+  }
+}, { immediate: true })
+
+// if (props.tag) {
+//   watch(open, (isOpen) => {
+//     if (isOpen) {
+//       router.push({ hash: `#${props.tag}` })
+//       return
+//     }
+
+//     if (useRoute().hash === `#${props.tag}`) {
+//       if (useRouterHistory()) {
+//         router.back()
+//       } else {
+//         router.replace({ hash: '' })
+//       }
+//     }
+//   })
+
+//   watch([() => route.path, () => route.hash], ([path, hash]) => {
+//     if (hash === `#${props.tag}`) {
+//       open.value = true
+//     } else {
+//       open.value = false
+//     }
+//   }, { immediate: true })
+// }
 </script>
 
 <style scoped>

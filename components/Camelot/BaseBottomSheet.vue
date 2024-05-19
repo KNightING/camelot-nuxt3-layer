@@ -20,19 +20,21 @@
 </template>
 
 <script setup lang="ts">
-import type { LocationQueryValue } from 'vue-router'
-
 const props = withDefaults(
   defineProps<{
     closeByMask?: boolean;
     tag?:string;
+    query?:{
+      key:string;
+      value:string;
+    };
   }>(),
   {
     closeByMask: true
   }
 )
 
-const open = defineModel('open', { default: false })
+const open = defineModel<boolean>('open', { default: false })
 
 function onCloseByMaskClick() {
   if (props.closeByMask) {
@@ -40,33 +42,59 @@ function onCloseByMaskClick() {
   }
 }
 
-if (props.tag) {
-  const router = useRouter()
+const router = useRouter()
 
-  const route = useRoute()
+const route = useRoute()
 
-  watch(open, (isOpen) => {
-    // console.log('open', useRoute().path, useRoute().hash, isOpen)
-    if (isOpen) {
-      router.push({ hash: `#${props.tag}` })
-    } else if (useRoute().hash === `#${props.tag}`) {
-      if (useRouterHistory()) {
-        router.back()
-      } else {
-        router.replace({ hash: '' })
-      }
+const dialogQueryOptions = computed(() => {
+  if (props.query) { return props.query }
+  if (props.tag) {
+    return {
+      key: 'tag',
+      value: props.tag
     }
-  })
+  }
+})
 
-  watch(() => [route.path, route.hash], ([path, hash]) => {
-    // console.log('path', path, hash)
-    if (hash === `#${props.tag}`) {
-      open.value = true
+watch(open, (isOpen) => {
+  const queryOptions = dialogQueryOptions.value
+  if (!queryOptions) { return }
+
+  if (isOpen) {
+    const newQuery = {
+      ...route.query,
+      [queryOptions.key]: queryOptions.value,
+      isDialog: 'true'
+    }
+    router.push({
+      query: newQuery
+    })
+    return
+  }
+
+  if (route.query[queryOptions.key] === queryOptions.value) {
+    if (useRouterHistory()) {
+      router.back()
     } else {
-      open.value = false
+      const newQuery = {
+        ...route.query
+      }
+      delete newQuery[queryOptions.key]
+      delete newQuery.isDialog
+      router.replace({ query: newQuery })
     }
-  }, { immediate: true })
-}
+  }
+})
+
+watch([() => route.path, () => route.query], ([path, query]) => {
+  const queryOptions = dialogQueryOptions.value
+  if (!queryOptions) { return }
+  if (query[queryOptions.key] === queryOptions.value) {
+    open.value = true
+  } else {
+    open.value = false
+  }
+}, { immediate: true })
 </script>
 
 <style scoped>

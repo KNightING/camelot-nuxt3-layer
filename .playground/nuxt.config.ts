@@ -1,3 +1,12 @@
 export default defineNuxtConfig({
-  extends: ['..']
+  extends: ['..'],
+  runtimeConfig: {
+    tappay: {
+      addScript: false
+    },
+    googlePay: {
+      addScript: false
+    }
+  },
+
 })
