@@ -180,15 +180,6 @@ const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
   rippleColor: '#000FFF'
 })
 
-const changeCustom = () => {
-  elCustomLightColorScheme.value.primary = '#734F41'
-  elCustomLightColorScheme.value.test = '#FF4F4F'
-  globalColorScheme.lightColorScheme.value = {
-    ...globalColorScheme.lightColorScheme.value,
-    maskColor: '#FFFFFF'
-  }
-}
-
 const open = ref(false)
 
 const openBottomSheet = ref(false)

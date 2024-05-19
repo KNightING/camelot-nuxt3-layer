@@ -66,20 +66,20 @@ export default defineNuxtConfig({
       addScript: false
     },
 
-    securityPlugin:{
-      enabled:true,
-      contentSecurityPolicy:{
-        connect:[],
-        font:[],
-        frame:[],
-        img:[],
-        manifest:[],
-        media:[],
-        object:[],
-        script:[],
-        style:[],
-        worker:[]
-      },
+    securityPlugin: {
+      enabled: true,
+      contentSecurityPolicy: {
+        connect: [],
+        font: [],
+        frame: [],
+        img: [],
+        manifest: [],
+        media: [],
+        object: [],
+        script: [],
+        style: [],
+        worker: []
+      }
     },
 
     public: {

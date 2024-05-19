@@ -38,13 +38,19 @@ const props = withDefaults(defineProps<{
   optionsContainerBackgroundColor?:string,
   zIndex?:number,
   disableCloseWhenSelected?:boolean,
+  default?:boolean
 }>(), {
-  optionsContainerMaxHeight: 160
+  optionsContainerMaxHeight: 160,
+  default: true
 })
 
-const open = defineModel('open', { default: false })
+const open = defineModel<boolean>('open', { default: false })
 
-const model = defineModel<string|null>({ default: null })
+const model = defineModel<string>()
+
+const emit = defineEmits<{
+  changed:[SelectOption<T>]
+}>()
 
 // 檢查model目前的值是否存在options,不存在則設為空值
 // if (model.value) {
@@ -54,13 +60,14 @@ const model = defineModel<string|null>({ default: null })
 //   }
 // }
 
-// 如果model為空值, 則預設為第一個option
-if (!model.value) {
-  model.value = props.options.length > 0 ? props.options[0].value : null
-}
-
 const selectedData = computed(() => {
   return props.options.find(d => d.value === model.value)
+})
+
+watch(selectedData, (selectedData) => {
+  if (selectedData) {
+    emit('changed', selectedData)
+  }
 })
 
 const optionsContainerEl = ref<HTMLElement | null>(null)
@@ -85,6 +92,13 @@ const onItemClick = (e:Event, value:string) => {
     open.value = false
   }
 }
+
+onMounted(() => {
+  // 如果model為空值, 則預設為第一個option
+  if (props.default && typeof model.value === 'undefined') {
+    model.value = props.options.length > 0 ? props.options[0].value : undefined
+  }
+})
 
 </script>
 
