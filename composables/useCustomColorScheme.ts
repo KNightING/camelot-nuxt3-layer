@@ -54,7 +54,7 @@ export const useCustomColorScheme = <T>(
     editable?: boolean;
   }
 ) => {
-  if(!isClient)return
+  if (!isClient) { return }
   const target = targetRef ?? document.body
 
   if (target === document.body) {
