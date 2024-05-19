@@ -79,10 +79,11 @@ const useApiFetch = <DataT>(
   options.contentType = options.contentType ?? ContentType.Json
   options.addSecureHeaderRequest = options.addSecureHeaderRequest ?? true
 
-  const use = () => useFetch(
+  const use = (mergeOptions: ApiFetchOptions<DataT> = {}) => useFetch(
     url,
     {
       ...options,
+      ...mergeOptions,
       method,
       getCachedData(key: string) {
         if (options.cachePolicy === 'cache') {
