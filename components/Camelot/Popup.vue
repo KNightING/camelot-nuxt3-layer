@@ -37,6 +37,7 @@ const props = defineProps<{
   zIndex?:number,
   disableOpenByTarget?:boolean,
   disableWidthWithTarget?:boolean,
+  disabled?:boolean
 }>()
 
 const open = defineModel<boolean>('open', { default: false })
@@ -92,6 +93,10 @@ const popupContainerY = computed(() => {
 })
 
 const onContainerClick = (e:Event) => {
+  if (props.disabled) {
+    return
+  }
+
   if (!props.disableOpenByTarget) {
     open.value = true
   }
@@ -101,6 +106,12 @@ const onBackgroundClick = (e:Event) => {
   open.value = false
   e.stopPropagation()
 }
+
+onUpdated(() => {
+  if (props.disabled) {
+    open.value = false
+  }
+})
 
 </script>
 
