@@ -1,9 +1,7 @@
 <template>
   <template v-if="isLoading">
-    <div class="overflow-hidden relative w-full h-full" v-bind="$attrs">
-      <div
-        class="flash"
-      />
+    <div class="overflow-hidden relative w-full h-full skeleton" v-bind="$attrs">
+      <div class="flash" />
     </div>
   </template>
   <template v-else>
@@ -27,19 +25,37 @@ const props = withDefaults(defineProps<{
 </script>
 
 <style scoped>
+.skeleton {
+  --background-color:144, 142, 142;
+  animation: skeleton-animate 3s ease-out infinite;
+}
+
+@keyframes skeleton-animate {
+  0% {
+    background-color: rgba(var(--background-color), 1);
+  }
+
+  75% {
+    background-color: rgba(var(--background-color), .6);
+  }
+
+  100% {
+    background-color: rgba(var(--background-color), 1);
+  }
+}
+
 .flash {
-  filter: blur(5px);
+  filter: blur(30px);
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(to right, #aaa , #888 50%, #4e4c4c 100%);
-  transform: translateX(-110%);
-  background-size: 150%;
+  width: 125%;
+  height: 125%;
+  background-image: linear-gradient(90deg, rgba(var(--background-color), .8) , rgba(var(--background-color), .4));
+  transform: translateX(-110%) ;
   pointer-events: none;
-  animation: animate 1.5s ease-out infinite;
-  animation-delay: 300ms;
+  animation: animate 2s ease-out infinite;
+  animation-delay: .5s;
 }
 
 @keyframes animate {
