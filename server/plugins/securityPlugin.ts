@@ -1,11 +1,17 @@
 export default defineNitroPlugin((nitroApp) => {
-  if(!useRuntimeConfig().securityPlugin.enabled) return
-  nitroApp.hooks.hook('render:response', (response) => {
+  if (!useRuntimeConfig().securityPlugin.enabled) { return }
+  nitroApp.hooks.hook('render:response', (response, { event }) => {
+    let cacheControl = 'max-age=600'
+
+    if (response.headers && response.headers['content-type'] === 'text/html;charset=utf-8') {
+      cacheControl = 'no-store'
+    }
+
     const header = {
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'same-origin',
-      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains;',
-      'Cache-Control': 'max-age=600',
+      'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+      'Cache-Control': cacheControl,
       'Content-Security-Policy': getCspString()
     }
     response.headers = { ...(response.headers ?? {}), ...header }
@@ -13,7 +19,7 @@ export default defineNitroPlugin((nitroApp) => {
 })
 
 const cspImgSrc:string[] = [
-  'data:',
+  'data:'
 ]
 
 const cspFontSrc :string[] = [
@@ -43,6 +49,8 @@ const cspConnectSrc:string[] = [
   '\'unsafe-eval\''
 ]
 
+const cspFrameAncestors:string[] = []
+
 const combineCsp = (origin:string[], add:string[]) => {
   const newCspArray:string[] = [
     ...origin
@@ -52,10 +60,6 @@ const combineCsp = (origin:string[], add:string[]) => {
     try {
       newCspArray.push(new URL(url).origin)
     } catch (e) {
-      console.group('Add To Connect CSP Error')
-      console.error(url)
-      console.error(e)
-      console.groupEnd()
     }
   }
   return newCspArray
@@ -63,7 +67,7 @@ const combineCsp = (origin:string[], add:string[]) => {
 
 const getCspString = () => {
   let result = ''
-  result += `default-src 'self';`
+  result += 'default-src \'self\';'
 
   const config = useRuntimeConfig()
 
@@ -72,6 +76,9 @@ const getCspString = () => {
 
   const frame = combineCsp(cspFrameSrc, config.securityPlugin.contentSecurityPolicy.frame)
   result += `frame-src 'self' ${frame.join(' ')};`
+
+  const frameAncestors = combineCsp(cspFrameAncestors, config.securityPlugin.contentSecurityPolicy.frameAncestors)
+  result += `frame-ancestors 'self' ${frameAncestors.join(' ')};`
 
   const media = combineCsp([], config.securityPlugin.contentSecurityPolicy.media)
   result += `media-src 'self' ${media.join(' ')};`
@@ -91,7 +98,7 @@ const getCspString = () => {
   const style = combineCsp(cspStyleSrc, config.securityPlugin.contentSecurityPolicy.style)
   result += `style-src 'self' ${style.join(' ')};`
 
-  const img = combineCsp(cspImgSrc,  config.securityPlugin.contentSecurityPolicy.img )
+  const img = combineCsp(cspImgSrc, config.securityPlugin.contentSecurityPolicy.img)
   result += `img-src 'self' ${img.join(' ')};`
 
   const connect = combineCsp(cspConnectSrc, config.securityPlugin.contentSecurityPolicy.connect)

@@ -5,7 +5,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
     const path = to.path.substring(0, to.path.length - 1)
     return navigateTo({
       path,
-      params: to.params,
       query: to.query,
       hash: to.hash
     })

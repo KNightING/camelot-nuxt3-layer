@@ -8,10 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     IMaterialSymbolsClose: typeof import('~icons/material-symbols/close')['default']
-    NConfigProvider: typeof import('naive-ui')['NConfigProvider']
-    NDatePicker: typeof import('naive-ui')['NDatePicker']
-    NMessageProvider: typeof import('naive-ui')['NMessageProvider']
-    NNotificationProvider: typeof import('naive-ui')['NNotificationProvider']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

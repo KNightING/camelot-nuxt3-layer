@@ -77,7 +77,8 @@ export default defineNuxtConfig({
         object: [],
         script: [],
         style: [],
-        worker: []
+        worker: [],
+        frameAncestors: []
       }
     },
 
