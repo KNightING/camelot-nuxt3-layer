@@ -44,8 +44,14 @@ const open = defineModel<boolean>('open', { default: false })
 
 const el = ref<HTMLElement | null>(null)
 
+/**
+ * popup 元素
+ */
 const popupEl = ref<HTMLElement | null>(null)
 
+/**
+ * 目標元素
+ */
 const selectEl = ref<HTMLElement | null>(null)
 
 watch(el, (nV) => {
@@ -76,21 +82,50 @@ const { top: popupElTop, left: popupElLeft, width: popupElWidth, height: popupEl
 
 const { height: windowHeight, width: windowWidth } = useWindowSize()
 
-const popupContainerX = computed(() => {
-  const popupContainerClientWidth = popupElWidth.value ?? 0
-  if (left.value + popupContainerClientWidth > windowWidth.value) {
-    return windowWidth.value - popupContainerClientWidth
+const popupContainerX = ref(0)
+const popupContainerY = ref(0)
+
+watch([
+  () => open.value,
+  () => left.value,
+  () => bottom.value,
+  () => popupElWidth.value,
+  () => popupElHeight.value,
+  () => windowWidth.value,
+  () => windowHeight.value],
+([open, left, bottom, popupElWidth, popupElHeight, windowWidth, windowHeight]) => {
+  if (open && popupElWidth && popupElHeight && windowWidth && windowHeight) {
+    const popupContainerClientWidth = popupElWidth ?? 0
+    if (left + popupContainerClientWidth > windowWidth) {
+      popupContainerX.value = windowWidth - popupContainerClientWidth
+    } else {
+      popupContainerX.value = left
+    }
+
+    const popupContainerClientHeight = popupElHeight ?? 0
+    if (bottom + popupContainerClientHeight > windowHeight) {
+      popupContainerY.value = top.value - popupContainerClientHeight
+    } else {
+      popupContainerY.value = bottom
+    }
   }
-  return left.value
 })
 
-const popupContainerY = computed(() => {
-  const popupContainerClientHeight = popupElHeight.value ?? 0
-  if (bottom.value + popupContainerClientHeight > windowHeight.value) {
-    return top.value - popupContainerClientHeight
-  }
-  return bottom.value
-})
+// const popupContainerX = computed(() => {
+//   const popupContainerClientWidth = popupElWidth.value ?? 0
+//   if (left.value + popupContainerClientWidth > windowWidth.value) {
+//     return windowWidth.value - popupContainerClientWidth
+//   }
+//   return left.value
+// })
+
+// const popupContainerY = computed(() => {
+//   const popupContainerClientHeight = popupElHeight.value ?? 0
+//   if (bottom.value + popupContainerClientHeight > windowHeight.value) {
+//     return top.value - popupContainerClientHeight
+//   }
+//   return bottom.value
+// })
 
 const onContainerClick = (e:Event) => {
   if (props.disabled) {

@@ -102,6 +102,7 @@
     <div @click="expanded = !expanded">
       Expanded
     </div>
+
     <CamelotExpanded :expanded="expanded">
       <template #header>
         <div>
@@ -122,6 +123,13 @@
         </template>
       </CamelotImage>
     </div>
+    <CamelotSelect v-model="department" class="w-full" :options="options" options-container-background-color="#F35F6F">
+      <div
+        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+      >
+        <span class="flex-1">新竹縣</span>
+      </div>
+    </CamelotSelect>
 
     <div class="w-40 h-40">
       <CamelotImage src="https://123" class="w-full h-full object-scale-down">
