@@ -16,7 +16,8 @@
               ref="popupEl"
               class="popup"
               :style="[
-                `height:min-content;transform:translate(${popupContainerX}px,${popupContainerY}px);`,
+                `height:min-content;`,
+                `top:${popupContainerY}px;left:${popupContainerX}px`,
                 disableWidthWithTarget?'width:min-content;':`width:${width}px;`,
               ]"
               @click="(e)=>{e.stopPropagation()}"
@@ -87,13 +88,15 @@ const popupContainerY = ref(0)
 
 watch([
   () => open.value,
+  () => x.value,
   () => left.value,
+  () => y.value,
   () => bottom.value,
   () => popupElWidth.value,
   () => popupElHeight.value,
   () => windowWidth.value,
   () => windowHeight.value],
-([open, left, bottom, popupElWidth, popupElHeight, windowWidth, windowHeight]) => {
+([open, x, left, y, bottom, popupElWidth, popupElHeight, windowWidth, windowHeight]) => {
   if (open && popupElWidth && popupElHeight && windowWidth && windowHeight) {
     const popupContainerClientWidth = popupElWidth ?? 0
     if (left + popupContainerClientWidth > windowWidth) {
@@ -104,7 +107,7 @@ watch([
 
     const popupContainerClientHeight = popupElHeight ?? 0
     if (bottom + popupContainerClientHeight > windowHeight) {
-      popupContainerY.value = top.value - popupContainerClientHeight
+      popupContainerY.value = y - popupContainerClientHeight
     } else {
       popupContainerY.value = bottom
     }
@@ -170,12 +173,10 @@ onUpdated(() => {
 .popup {
   --c-popup-background: var(--material3-background);
   background: transparent;
-  display: flex;
+  display: fixed;
   flex-direction: column;
   overflow: auto;
   position: relative;
-  top: 0;
-  left: 0;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
 }
 
