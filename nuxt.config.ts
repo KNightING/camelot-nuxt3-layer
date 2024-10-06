@@ -58,6 +58,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    replaceEndSplash: false,
     tappay: {
       addScript: false
     },
