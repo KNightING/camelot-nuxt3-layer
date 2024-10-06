@@ -58,7 +58,6 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    replaceEndSplash: false,
     tappay: {
       addScript: false
     },
@@ -85,7 +84,8 @@ export default defineNuxtConfig({
 
     public: {
       version: '1.0.0',
-      env: 'development'
+      env: 'development',
+      replaceEndSplash: false
     }
   },
 
