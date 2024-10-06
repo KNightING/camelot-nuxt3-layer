@@ -85,7 +85,7 @@ export default defineNuxtConfig({
     public: {
       version: '1.0.0',
       env: 'development',
-      replaceEndSplash: false
+      replaceEndSplash: true
     }
   },
 
