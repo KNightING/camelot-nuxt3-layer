@@ -6,21 +6,29 @@ in `package.json`
 
 ```json
  "devDependencies": {
-    "@nuxt/eslint-config": "^0.1.1",
-    "@vueuse/core": "^10.7.0",
-    "@vueuse/nuxt": "^10.7.0",
-    "@nuxtjs/i18n": "8.0.0-rc.5",
+    "@iconify-json/material-symbols": "^1.1.62",
+    "@nuxt/eslint-config": "^0.6.1",
+    "@nuxtjs/i18n": "8.5.5",
+    "@nuxtjs/tailwindcss": "^6.10.4",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
+    "@vueuse/core": "^11.2.0",
+    "@vueuse/nuxt": "^11.2.0",
     "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.5",
-    "unplugin-icons": "^0.17.3",
-    "unplugin-vue-components": "^0.25.2"
+    "eslint": "^9.13.0",
+    "nuxt": "^3.13.2",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.3.3",
+    "unplugin-icons": "^0.20.0",
+    "unplugin-vue-components": "^0.27.4",
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "@vueuse/components": "^10.6.0",
-    "@vueuse/integrations": "^10.6.0"
+    "@vueuse/integrations": "^10.6.0",
+    "change-case": "^4.1.2"
   }
 ```
 
