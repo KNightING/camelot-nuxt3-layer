@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@iconify-json/material-symbols": "^1.1.62",
+    "@nuxt/eslint": "^0.6.1",
     "@nuxt/eslint-config": "^0.6.1",
     "@nuxtjs/i18n": "8.5.5",
     "@nuxtjs/tailwindcss": "^6.10.4",
