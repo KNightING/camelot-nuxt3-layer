@@ -142,6 +142,12 @@ export default defineNuxtConfig({
     '@nuxt/eslint'
   ],
 
+  eslint: {
+    config: {
+      stylistic: true // <---
+    }
+  },
+
   experimental: {
     renderJsonPayloads: false
   },
