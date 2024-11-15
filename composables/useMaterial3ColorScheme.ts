@@ -159,7 +159,7 @@ const globalUsedColorScheme = computed(() => {
   }
 })
 
-// const globalChangeCase = useChangeCase("", "paramCase");
+// const globalChangeCase = useChangeCase("", "kebabCase");
 
 // watchImmediate(globalUsedColorScheme, (nV) => {
 //   for (const key in nV) {
@@ -220,7 +220,7 @@ export const useMaterial3ColorScheme = (
     return { ...(isDark ? darkColorScheme.value : lightColorScheme.value) }
   })
 
-  const changeCase = useChangeCase('', 'paramCase')
+  const changeCase = useChangeCase('', 'kebabCase')
 
   watchImmediate(usedColorScheme, (nV) => {
     if (config?.editMode === false) { return }

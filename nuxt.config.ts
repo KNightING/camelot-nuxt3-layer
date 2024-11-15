@@ -135,7 +135,7 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
     'unplugin-icons/nuxt',
     '@nuxtjs/tailwindcss',
@@ -178,7 +178,6 @@ export default defineNuxtConfig({
       }
     ],
     lazy: true,
-    langDir: 'lang',
     defaultLocale: 'zh-tw',
 
     // lang路由 https://v8.i18n.nuxtjs.org/options/routing#strategy

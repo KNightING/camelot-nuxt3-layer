@@ -103,7 +103,7 @@ export const useCustomColorScheme = <T>(
     return { ...cs }
   })
 
-  const changeCase = useChangeCase('', 'paramCase')
+  const changeCase = useChangeCase('', 'kebabCase')
 
   if (target) {
     watchImmediate(usedColorScheme, (nV) => {
