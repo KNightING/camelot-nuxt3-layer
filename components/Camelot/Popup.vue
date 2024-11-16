@@ -43,17 +43,17 @@ const props = defineProps<{
 
 const open = defineModel<boolean>('open', { default: false })
 
-const el = ref<HTMLElement | null>(null)
+const el = ref<HTMLElement>()
 
 /**
  * popup 元素
  */
-const popupEl = ref<HTMLElement | null>(null)
+const popupEl = ref<HTMLElement>()
 
 /**
  * 目標元素
  */
-const selectEl = ref<HTMLElement | null>(null)
+const selectEl = ref<HTMLElement>()
 
 watch(el, (nV) => {
   if (nV && nV.children.length > 0) {
@@ -62,7 +62,7 @@ watch(el, (nV) => {
 })
 
 const { x, y, top, right, bottom, left, width, height } =
-        useElementBounding(selectEl)
+       useElementBounding(selectEl)
 
 const { top: popupElTop, left: popupElLeft, width: popupElWidth, height: popupElHeight } =
         useElementBounding(popupEl)

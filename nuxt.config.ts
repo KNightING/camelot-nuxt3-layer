@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import {
-  VueUseComponentsResolver
+  VueUseComponentsResolver,
 } from 'unplugin-vue-components/resolvers'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
@@ -43,6 +43,23 @@ const currentDir = dirname(fileURLToPath(import.meta.url))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  modules: [
+    '@vueuse/nuxt',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/i18n',
+    'unplugin-icons/nuxt',
+    '@nuxtjs/tailwindcss',
+    '@nuxt/eslint',
+  ],
+
+  imports: {
+    dirs: [
+      // scan all modules within given directory
+      'composables/**',
+      'types/**',
+    ],
+  },
   devtools: { enabled: false },
   app: {
     baseURL: '/',
@@ -51,22 +68,28 @@ export default defineNuxtConfig({
       meta: [
         {
           name: 'viewport',
-          content: 'initial-scale=1, viewport-fit=cover'
-        }
-      ]
-    }
+          content: 'initial-scale=1, viewport-fit=cover',
+        },
+      ],
+    },
   },
+
+  css: [
+    // join(currentDir, "/assets/css/global.css"),
+    join(currentDir, '/assets/css/tailwind.css'),
+  ],
 
   runtimeConfig: {
     tappay: {
-      addScript: false
+      addScript: false,
     },
     googlePay: {
-      addScript: false
+      addScript: false,
     },
 
     securityPlugin: {
       enabled: true,
+      useNonce: true,
       contentSecurityPolicy: {
         connect: [],
         font: [],
@@ -78,31 +101,38 @@ export default defineNuxtConfig({
         script: [],
         style: [],
         worker: [],
-        frameAncestors: []
-      }
+        frameAncestors: [],
+      },
     },
 
     public: {
       version: '1.0.0',
       env: 'development',
-      replaceEndSplash: true
-    }
+      replaceEndSplash: true,
+    },
   },
 
-  css: [
-    // join(currentDir, "/assets/css/global.css"),
-    join(currentDir, '/assets/css/tailwind.css')
-  ],
+  experimental: {
+    renderJsonPayloads: false,
+  },
+
+  nitro: {
+    esbuild: {
+      options: {
+        drop: ['console'],
+      },
+    },
+  },
 
   vite: {
     plugins: [
       Components({
         resolvers: [
           VueUseComponentsResolver(),
-          IconsResolver()
-        ]
+          IconsResolver(),
+        ],
       }),
-      Icons({ autoInstall: true })
+      Icons({ autoInstall: true }),
     ],
     esbuild: {
       drop: dropCode
@@ -110,58 +140,24 @@ export default defineNuxtConfig({
         : [],
       dropLabels: dropCode
         ? ['DEV']
-        : []
+        : [],
     },
     optimizeDeps: {
-      exclude: isMac ? ['fsevents'] : []
-    }
-  },
-
-  nitro: {
-    esbuild: {
-      options: {
-        drop: ['console']
-      }
-    }
+      exclude: isMac ? ['fsevents'] : [],
+    },
   },
 
   postcss: {
     plugins: {
       tailwindcss: {},
-      autoprefixer: {}
-    }
+      autoprefixer: {},
+    },
   },
-
-  modules: [
-    '@vueuse/nuxt',
-    '@pinia/nuxt',
-    'pinia-plugin-persistedstate/nuxt',
-    '@nuxtjs/i18n',
-    'unplugin-icons/nuxt',
-    '@nuxtjs/tailwindcss',
-    '@nuxt/eslint'
-  ],
 
   eslint: {
     config: {
-      stylistic: true // <---
-    }
-  },
-
-  experimental: {
-    renderJsonPayloads: false
-  },
-
-  imports: {
-    dirs: [
-      // scan all modules within given directory
-      'composables/**',
-      'types/**'
-    ]
-  },
-
-  tailwindcss: {
-    viewer: false
+      stylistic: true, // <---
+    },
   },
 
   i18n: {
@@ -169,13 +165,13 @@ export default defineNuxtConfig({
       {
         name: 'English',
         code: 'en-us',
-        file: 'en-us.json'
+        file: 'en-us.json',
       },
       {
         name: '正體中文',
         code: 'zh-tw',
-        file: 'zh-tw.json'
-      }
+        file: 'zh-tw.json',
+      },
     ],
     lazy: true,
     defaultLocale: 'zh-tw',
@@ -188,8 +184,12 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       cookieCrossOrigin: true,
       cookieSecure: true,
-      redirectOn: 'root' // recommended
+      redirectOn: 'root', // recommended
     },
-    vueI18n: './i18n.config.ts'
-  }
+    vueI18n: './i18n.config.ts',
+  },
+
+  tailwindcss: {
+    viewer: false,
+  },
 })

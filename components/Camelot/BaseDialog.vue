@@ -6,6 +6,9 @@
           v-if="open"
           :id="tag"
           class="dialog-container"
+          :style="[
+              `z-index:${zIndex ?? 9999};`
+          ]"
         >
           <div
             class="mask"
@@ -27,6 +30,7 @@ const props = withDefaults(
   defineProps<{
     closeByMask?: boolean;
     tag?:string;
+    zIndex?:number;
     query?:{
       key:string;
       value:string;
@@ -147,7 +151,6 @@ watch([() => route.path, () => route.query], ([path, query]) => {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 9999;
   justify-content: center;
   align-items: center;
   width: 100dvw;

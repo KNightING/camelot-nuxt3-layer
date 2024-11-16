@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   extends: ['..'],
+
   runtimeConfig: {
     tappay: {
       addScript: false
@@ -9,4 +10,5 @@ export default defineNuxtConfig({
     }
   },
 
+  compatibilityDate: '2024-11-16',
 })
