@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { UseFetchOptions } from 'nuxt/app'
 import type { FetchContext, FetchResponse, FetchError, ResponseType } from 'ofetch'
 import { toValue } from '@vueuse/shared'
 
-export type Url = string | Request | Ref<string | Request> | (() => string | Request);
+export type Url = string | Request | Ref<string | Request> | (() => string | Request)
 
 export enum ContentType {
   Json,
@@ -13,15 +14,15 @@ export const useBasicToken = (account: string, pwd: string): string => {
   return btoa(`${account}:${pwd}`)
 }
 
-export type OnRequest = (context: FetchContext) => Promise<void> | void;
+export type OnRequest = (context: FetchContext) => Promise<void> | void
 
 export type OnResponse<R> = (context: FetchContext & {
-  response: FetchResponse<R>;
-}) => Promise<void> | void;
+  response: FetchResponse<R>
+}) => Promise<void> | void
 
 export type OnResponseError<R> = (context: FetchContext & {
-  response: FetchResponse<R>;
-}) => Promise<void> | void;
+  response: FetchResponse<R>
+}) => Promise<void> | void
 
 export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRef: MaybeRefOrGetter<string>): OnRequest => {
   return ({ options }) => {
@@ -31,46 +32,46 @@ export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRe
       return
     }
     const token = useBasicToken(account, pwd)
-    options.headers = { ...options.headers, Authorization: `Basic ${token}` }
+    options.headers.append('Authorization', `Basic ${token}`)
   }
 }
 
 export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>): OnRequest => {
   return ({ options }) => {
     const token = toValue(tokenRef)
-    if (token.length <= 0) { return }
-    options.headers = { ...options.headers, Authorization: `Bearer ${token}` }
+    if (token.length <= 0) {
+      return
+    }
+    options.headers.append('Authorization', `Bearer ${token}`)
   }
 }
 
-export const secureHeaderRequest:OnRequest = ({ options }) => {
-  options.headers = {
-    // 阻止瀏覽器探知檔案的 mime type
-    'X-Content-Type-Options': 'nosniff',
-    // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
-    'Referrer-Policy': 'same-origin',
-    ...(options.headers ?? {})
-  }
+export const secureHeaderRequest: OnRequest = ({ options }) => {
+  // 阻止瀏覽器探知檔案的 mime type
+  options.headers.append('X-Content-Type-Options', 'nosniff')
+
+  // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
+  options.headers.append('Referrer-Policy', 'same-origin')
 }
 
 export type ApiFetchOptions<
-  DataT = any
+  DataT = any,
 > = Omit<UseFetchOptions<DataT>, 'onRequest' | 'onRequestError' | 'onResponse' | 'onResponseError'> & {
-  contentType?: ContentType;
+  contentType?: ContentType
   /**
   * "default" 目前與 "clearNuxtData" 相同: 需先設定key
   */
-  cachePolicy?: 'none' | 'cache',
-  onRequests?: OnRequest[],
-  onResponses?: OnResponse<DataT>[],
-  onResponseErrors?: OnResponseError<DataT>[],
-  addSecureHeaderRequest?:boolean
-};
+  cachePolicy?: 'none' | 'cache'
+  onRequests?: OnRequest[]
+  onResponses?: OnResponse<DataT>[]
+  onResponseErrors?: OnResponseError<DataT>[]
+  addSecureHeaderRequest?: boolean
+}
 
 const useApiFetch = <DataT>(
   url: Url,
   method: 'get' | 'post' | 'patch' | 'put' | 'delete',
-  options?: ApiFetchOptions<DataT>
+  options?: ApiFetchOptions<DataT>,
 ) => {
   if (!options) {
     options = {}
@@ -93,17 +94,10 @@ const useApiFetch = <DataT>(
           }
         }
       },
-      onRequest(context: FetchContext<any, ResponseType>) {
-        if (!context.options.headers) {
-          context.options.headers = {}
-        }
-
+      async onRequest(context: FetchContext<any, ResponseType>) {
         switch (options.contentType) {
           case ContentType.Json: {
-            context.options.headers = {
-              ...context.options.headers,
-              'Content-Type': 'application/json'
-            }
+            context.options.headers.append('Content-Type', 'application/json')
           }
         }
 
@@ -113,11 +107,11 @@ const useApiFetch = <DataT>(
 
         if (options.onRequests) {
           for (const request of options.onRequests) {
-            request(context)
+            await request(context)
           }
         }
       },
-      async onResponse(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT>; }) {
+      async onResponse(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT> }) {
         // statusCode.value = context.response.status
         if (options.onResponses) {
           for (const onResponse of options.onResponses) {
@@ -125,15 +119,15 @@ const useApiFetch = <DataT>(
           }
         }
       },
-      async onResponseError(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT>; }) {
+      async onResponseError(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT> }) {
         // statusCode.value = context.response.status
         if (options.onResponseErrors) {
           for (const onResponseError of options.onResponseErrors) {
             await onResponseError(context)
           }
         }
-      }
-    }
+      },
+    },
   )
 
   const fetch = () => {
@@ -168,17 +162,10 @@ const useApiFetch = <DataT>(
         redirect: toValue(options.redirect),
         referrer: toValue(options.referrer),
         referrerPolicy: toValue(options.referrerPolicy),
-        onRequest(context: FetchContext<any, ResponseType>) {
-          if (!context.options.headers) {
-            context.options.headers = {}
-          }
-
+        async onRequest(context: FetchContext<any, ResponseType>) {
           switch (options.contentType) {
             case ContentType.Json: {
-              context.options.headers = {
-                ...context.options.headers,
-                'Content-Type': 'application/json'
-              }
+              context.options.headers.append('Content-Type', 'application/json')
             }
           }
 
@@ -188,11 +175,11 @@ const useApiFetch = <DataT>(
 
           if (options.onRequests) {
             for (const request of options.onRequests) {
-              request(context)
+              await request(context)
             }
           }
         },
-        async onResponse(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT>; }) {
+        async onResponse(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT> }) {
           // statusCode.value = context.response.status
           if (options.onResponses) {
             for (const onResponse of options.onResponses) {
@@ -200,20 +187,20 @@ const useApiFetch = <DataT>(
             }
           }
         },
-        async onResponseError(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT>; }) {
+        async onResponseError(context: FetchContext<any, ResponseType> & { response: FetchResponse<DataT> }) {
           // statusCode.value = context.response.status
           if (options.onResponseErrors) {
             for (const onResponseError of options.onResponseErrors) {
               await onResponseError(context)
             }
           }
-        }
+        },
       })
   }
 
   return {
     useFetch: use,
-    fetch
+    fetch,
   }
 }
 
@@ -221,31 +208,31 @@ export const useBaseApi = (baseOptions: ApiFetchOptions<any>) => {
   const get = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
     useApiFetch<DataT>(url, 'get', {
       ...baseOptions,
-      ...(options ?? {})
+      ...(options ?? {}),
     })
 
   const post = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
     useApiFetch<DataT>(url, 'post', {
       ...baseOptions,
-      ...(options ?? {})
+      ...(options ?? {}),
     })
 
   const put = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
     useApiFetch<DataT>(url, 'put', {
       ...baseOptions,
-      ...(options ?? {})
+      ...(options ?? {}),
     })
 
   const patch = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
     useApiFetch<DataT>(url, 'patch', {
       ...baseOptions,
-      ...(options ?? {})
+      ...(options ?? {}),
     })
 
   const del = <DataT>(url: Url, options?: ApiFetchOptions<DataT>) =>
     useApiFetch<DataT>(url, 'delete', {
       ...baseOptions,
-      ...(options ?? {})
+      ...(options ?? {}),
     })
 
   return {
@@ -253,6 +240,6 @@ export const useBaseApi = (baseOptions: ApiFetchOptions<any>) => {
     post,
     patch,
     put,
-    del
+    del,
   }
 }
