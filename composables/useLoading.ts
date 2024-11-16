@@ -1,9 +1,9 @@
 import type { DebounceFilterOptions } from '@vueuse/core'
 
-type LoadingCloseable = () => void;
+type LoadingCloseable = () => void
 
 interface LoadingState {
-  tags: string[];
+  tags: string[]
 }
 
 const state = ref<LoadingState>({
@@ -40,10 +40,12 @@ export const useLoading = () => {
     return state.value.tags.length > 0
   })
 
-  const run = async (tag: string, fn: () => Promise<void>) => {
+  const run = async <R = void>(tag: string, fn: () => Promise<R | undefined>) => {
     open(tag)
     try {
-      await fn()
+      return await fn()
+    } catch (ex) {
+      return undefined
     } finally {
       close(tag)
     }

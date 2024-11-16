@@ -160,6 +160,12 @@
 <script setup lang="ts">
 import { isClient } from '@vueuse/core'
 
+const loading = useLoading()
+
+const a = await loading.run('',async ()=>{
+  return ''
+})
+
 const step = ref(0)
 const expanded = ref(false)
 
