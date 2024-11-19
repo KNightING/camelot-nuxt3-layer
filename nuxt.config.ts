@@ -173,6 +173,8 @@ export default defineNuxtConfig({
         file: 'zh-tw.json',
       },
     ],
+    restructureDir: 'i18n',
+    langDir: 'locales',
     lazy: true,
     defaultLocale: 'zh-tw',
 
