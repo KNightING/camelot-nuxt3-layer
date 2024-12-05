@@ -5,28 +5,29 @@
 in `package.json`
 
 ```json
- "devDependencies": {
-    "@nuxt/eslint": "^0.6.1",
-    "@nuxtjs/i18n": "9.0.0",
+  "devDependencies": {
+    "@iconify-json/material-symbols": "^1.2.8",
+    "@nuxt/eslint": "^0.7.2",
+    "@nuxtjs/i18n": "9.1.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "pinia-plugin-persistedstate": "^4.1.3",
-    "@vueuse/core": "^11.2.0",
-    "@vueuse/nuxt": "^11.2.0",
+    "@vueuse/core": "^12.0.0",
+    "@vueuse/nuxt": "^12.0.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.13.0",
-    "nuxt": "3.14.159",
+    "eslint": "^9.16.0",
+    "nuxt": "3.14.1592",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.15",
+    "tailwindcss": "^3.4.16",
     "typescript": "^5.6.3",
-    "unplugin-icons": "^0.20.1",
-    "unplugin-vue-components": "^0.27.4",
-    "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "unplugin-icons": "^0.21.0",
+    "unplugin-vue-components": "^0.27.5",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.7.0",
-    "@vueuse/components": "^11.2.0",
-    "@vueuse/integrations": "^11.2.0",
+    "@pinia/nuxt": "^0.9.0",
+    "@vueuse/components": "^12.0.0",
+    "@vueuse/integrations": "^12.0.0",
     "change-case": "^5.4.4"
   }
 ```

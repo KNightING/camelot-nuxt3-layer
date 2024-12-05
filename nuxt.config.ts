@@ -175,6 +175,8 @@ export default defineNuxtConfig({
     ],
     lazy: true,
     defaultLocale: 'zh-tw',
+    restructureDir: false,
+    langDir: 'lang',
 
     // lang路由 https://v8.i18n.nuxtjs.org/options/routing#strategy
     strategy: 'no_prefix',
