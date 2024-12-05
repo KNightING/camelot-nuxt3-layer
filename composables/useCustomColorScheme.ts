@@ -3,20 +3,20 @@ import { useChangeCase } from '@vueuse/integrations/useChangeCase'
 import { Material3ColorSchemeKeys } from './useMaterial3ColorScheme'
 
 type CamelotColorScheme = {
-  rippleColor: string,
-  maskColor: string,
+  rippleColor: string
+  maskColor: string
 }
 
 export const CamelotColorSchemeKeys = Object.keys(
   <CamelotColorScheme>{
     rippleColor: '',
-    maskColor: ''
-  }
+    maskColor: '',
+  },
 ) as (keyof CamelotColorScheme)[]
 
 export type CustomColorScheme<T = any> = Material3ColorSchemePartial &
   Partial<CamelotColorScheme> &
-  Partial<T>;
+  Partial<T>
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
   useElCssVar(`${key}`, target, { inherit: false })
@@ -25,12 +25,12 @@ const { system, store } = useColorMode()
 
 const defaultCamelotLightColorScheme: CamelotColorScheme = {
   rippleColor: '#111827',
-  maskColor: '#111827'
+  maskColor: '#111827',
 }
 
 const defaultCamelotDarkColorScheme: CamelotColorScheme = {
   rippleColor: '#111827',
-  maskColor: '#111827'
+  maskColor: '#111827',
 }
 
 const globalLightColorScheme = ref<CustomColorScheme<any>>({ ...defaultColorScheme, ...defaultCamelotLightColorScheme })
@@ -48,27 +48,29 @@ const globalDarkColorScheme = ref<CustomColorScheme<any>>({ ...defaultDarkColorS
 export const useCustomColorScheme = <T>(
   targetRef?: MaybeElementRef,
   config?: {
-    lightColorScheme?: CustomColorScheme<T>;
-    darkColorScheme?: CustomColorScheme<T>;
-    cssVarKeyPrefix?: string;
-    editable?: boolean;
-  }
+    lightColorScheme?: CustomColorScheme<T>
+    darkColorScheme?: CustomColorScheme<T>
+    cssVarKeyPrefix?: string
+    editable?: boolean
+  },
 ) => {
-  if (!isClient) { return }
+  if (!isClient) {
+    return
+  }
   const target = targetRef ?? document.body
 
   if (target === document.body) {
     if (config?.lightColorScheme) {
       globalLightColorScheme.value = {
         ...globalLightColorScheme.value,
-        ...config.lightColorScheme
+        ...config.lightColorScheme,
       }
     }
 
     if (config?.darkColorScheme) {
       globalDarkColorScheme.value = {
         ...globalDarkColorScheme.value,
-        ...config.darkColorScheme
+        ...config.darkColorScheme,
       }
     }
   }
@@ -77,16 +79,16 @@ export const useCustomColorScheme = <T>(
     ? ref(
       {
         ...globalLightColorScheme.value,
-        ...(config?.lightColorScheme ? config?.lightColorScheme : {})
-      }
+        ...(config?.lightColorScheme ? config?.lightColorScheme : {}),
+      },
     )
     : globalLightColorScheme
   const darkColorScheme = target
     ? ref(
       {
         ...globalDarkColorScheme.value,
-        ...(config?.darkColorScheme ? config?.darkColorScheme : {})
-      }
+        ...(config?.darkColorScheme ? config?.darkColorScheme : {}),
+      },
     )
     : globalDarkColorScheme
 
@@ -107,7 +109,9 @@ export const useCustomColorScheme = <T>(
 
   if (target) {
     watchImmediate(usedColorScheme, (nV) => {
-      if (config?.editable === false) { return }
+      if (config?.editable === false) {
+        return
+      }
 
       for (const key in nV) {
         if (useIsValidKey(key, nV)) {
