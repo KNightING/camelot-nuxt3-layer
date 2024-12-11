@@ -1,6 +1,6 @@
 import type { CookieOptions, CookieRef } from 'nuxt/app'
 
-type ReadOnlyCookeOptions<T> = CookieOptions<T> & { readonly?: false | undefined; }
+type ReadOnlyCookeOptions<T> = CookieOptions<T> & { readonly?: false | undefined }
 
 class CookieProxy<T> {
   private _cookie: CookieRef<T>

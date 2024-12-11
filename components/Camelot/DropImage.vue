@@ -20,7 +20,7 @@
       <div
         class="aspect-square border border-outline relative pointer-events-none"
         :class="{
-          'aspect-video':isAspectVideo
+          'aspect-video': isAspectVideo,
         }"
       >
         <img
@@ -52,15 +52,15 @@ import { useImage } from '@vueuse/core'
 import { CamelotSkeleton } from '../../.playground/.nuxt/components'
 
 const props = defineProps<{
-  label?: string;
-  modelValue?: File | string;
-  originImage?: string;
-  id?: string;
-  placeholderText?: string;
-  isAspectVideo?:Boolean
+  label?: string
+  modelValue?: File | string
+  originImage?: string
+  id?: string
+  placeholderText?: string
+  isAspectVideo?: boolean
 }>()
 const emit = defineEmits<{
-  'update:modelValue': [value?: File | string];
+  'update:modelValue': [value?: File | string]
 }>()
 
 const imageOptions = ref({ src: props?.originImage ?? '' })
@@ -90,11 +90,11 @@ const image = computed({
     }
 
     emit('update:modelValue', image)
-  }
+  },
 })
 
 const id = ref(
-  props.id ?? `file-selector-${new Date().getTime()}-${useRandom()}-${useRandom()}`
+  props.id ?? `file-selector-${new Date().getTime()}-${useRandom()}-${useRandom()}`,
 )
 
 const itemImageRef = ref<HTMLImageElement>()
@@ -124,7 +124,9 @@ const itemImageRef = ref<HTMLImageElement>()
 const dropZoneRef = ref<HTMLDivElement>()
 
 const setImageRef = (file: File) => {
-  if (!itemImageRef.value) { return }
+  if (!itemImageRef.value) {
+    return
+  }
 
   itemImageRef.value.src = ''
   if (!file.type) {

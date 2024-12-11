@@ -2,9 +2,9 @@ export type PartialRecursive<T> = {
   [P in keyof T]?: T[P] extends Array<infer U>
     ? Array<PartialRecursive<U>>
     : T[P] extends object
-    ? PartialRecursive<T[P]>
-    : T[P];
-};
+      ? PartialRecursive<T[P]>
+      : T[P];
+}
 
 /**
  * 比較出差異的物件
@@ -63,7 +63,7 @@ const diff = <T>(oldObj: T, newObj: T): PartialRecursive<T> => {
 
 const isObjectDiff = (
   oldValue: any,
-  newValue: any
+  newValue: any,
 ): boolean | PartialRecursive<any> => {
   if (newValue !== null && typeof newValue === 'object') {
     if (isDate(oldValue) && isDate(newValue)) {
@@ -94,7 +94,9 @@ const isDate = (val: any): val is Date => {
 }
 
 const deepClone = <T>(source: T): T => {
-  if (source == null || typeof source !== 'object') { return source }
+  if (source == null || typeof source !== 'object') {
+    return source
+  }
 
   if (isDate(source)) {
     const copy = new Date()
@@ -118,7 +120,7 @@ const deepClone = <T>(source: T): T => {
     return copy as T
   }
 
-  throw new Error("Unable to copy obj! Its type isn't supported.")
+  throw new Error('Unable to copy obj! Its type isn\'t supported.')
 }
 
 const isUndefined = (obj: any) => {

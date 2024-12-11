@@ -2,7 +2,7 @@
   <div
     class="container "
     :class="{
-      'container-focus': isFocus
+      'container-focus': isFocus,
     }"
   >
     <button
@@ -44,23 +44,22 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
-  step?: number;
-  min?: number;
-  max?: number;
-  placeholder?: string;
+  step?: number
+  min?: number
+  max?: number
+  placeholder?: string
   /**
    * 是否使用目前value的最小單位當成step, 如果有設定step會優先此設定
    * 例如目前值為0.2, step則會使用0.1
    * 例如目前值為0.03, step則會使用0.01
    **/
-  minStepByValue?: boolean;
+  minStepByValue?: boolean
   /**
    * 是否使用曾經value的最小單位當成step, minStepByValue需為true
    * 例如曾經step為0.01, 現在值為0.2, step不會更新成0.1, 會繼續使用0.01
    **/
-  usedMinStepByValue?: boolean;
+  usedMinStepByValue?: boolean
 }>()
 
 const model = defineModel<number>({ default: 0 })
@@ -72,7 +71,7 @@ const isFocus = ref(false)
 const inputmode = ref<'none' | 'text' | 'search' | 'email' | 'tel' | 'url' | 'numeric' | 'decimal' | undefined>('none')
 
 const onInputClick = () => {
-  if (isFocus) {
+  if (isFocus.value) {
     inputmode.value = 'decimal'
   }
 }
@@ -133,7 +132,6 @@ const onPlusClick = () => {
   model.value = calcValue
   input.value?.focus()
 }
-
 </script>
 
 <style scoped>

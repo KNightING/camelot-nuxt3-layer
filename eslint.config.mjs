@@ -17,6 +17,9 @@ export default withNuxt(
       'no-use-before-define': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       '@stylistic/brace-style': ['error', '1tbs'],
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      'no-empty': 'off',
     },
   },
 )

@@ -5,19 +5,19 @@
       <div
         ref="optionsContainerEl"
         class="options-container"
-        :style="[ `max-height:${optionsContainerMaxHeight}px;`]"
+        :style="[`max-height:${optionsContainerMaxHeight}px;`]"
       >
-        <template v-for="(option,index) in options" :key="index">
-          <button type="button" @click="(e)=>onItemClick(e,option.value)">
+        <template v-for="(option, index) in options" :key="index">
+          <button type="button" @click="(e) => onItemClick(e, option.value)">
             <slot name="option" :index="index" :data="option" :is-selected="model === option.value">
               <CamelotFixIOS class="option">
                 <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
                 <span
                   :class="{
-                    'text-primary':model === option.value
+                    'text-primary': model === option.value,
                   }"
                   :style="[
-                    'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;'
+                    'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;',
                   ]"
                 >{{ option.label }}</span>
               </CamelotFixIOS>
@@ -33,15 +33,15 @@
 import type { SelectOption } from '../../types/selectOption'
 
 const props = withDefaults(defineProps<{
-  options:SelectOption<T>[]
-  optionsContainerMaxHeight?:number,
-  optionsContainerBackgroundColor?:string,
-  zIndex?:number,
-  disableCloseWhenSelected?:boolean,
-  default?:boolean
+  options: SelectOption<T>[]
+  optionsContainerMaxHeight?: number
+  optionsContainerBackgroundColor?: string
+  zIndex?: number
+  disableCloseWhenSelected?: boolean
+  default?: boolean
 }>(), {
   optionsContainerMaxHeight: 160,
-  default: true
+  default: true,
 })
 
 const open = defineModel<boolean>('open', { default: false })
@@ -49,7 +49,7 @@ const open = defineModel<boolean>('open', { default: false })
 const model = defineModel<string>()
 
 const emit = defineEmits<{
-  changed:[SelectOption<T>]
+  changed: [SelectOption<T>]
 }>()
 
 // 檢查model目前的值是否存在options,不存在則設為空值
@@ -86,7 +86,7 @@ watch([optionsContainerEl, props], ([el, props]) => {
   }
 })
 
-const onItemClick = (e:Event, value:string) => {
+const onItemClick = (e: Event, value: string) => {
   model.value = value
   if (!props.disableCloseWhenSelected) {
     open.value = false
@@ -99,7 +99,6 @@ onMounted(() => {
     model.value = props.options.length > 0 ? props.options[0].value : undefined
   }
 })
-
 </script>
 
 <style scoped>

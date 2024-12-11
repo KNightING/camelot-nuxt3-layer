@@ -7,7 +7,7 @@ interface LoadingState {
 }
 
 const state = ref<LoadingState>({
-  tags: []
+  tags: [],
 })
 
 export const useLoading = () => {
@@ -15,7 +15,7 @@ export const useLoading = () => {
     // state.value.tags.push(tag);
     state.value = {
       ...state.value,
-      tags: [...state.value.tags, tag]
+      tags: [...state.value.tags, tag],
     }
 
     return () => close(tag)
@@ -26,12 +26,12 @@ export const useLoading = () => {
       // state.value.tags = state.value.tags.filter((value) => value != tag);
       state.value = {
         ...state.value,
-        tags: state.value.tags.filter(value => value !== tag)
+        tags: state.value.tags.filter(value => value !== tag),
       }
     } else {
       state.value = {
         ...state.value,
-        tags: []
+        tags: [],
       }
     }
   }
@@ -80,7 +80,7 @@ export const useLoading = () => {
 
 export const useLoadingFn = <T, P = void>(
   tag: string,
-  fn: (params?: P) => Promise<T>
+  fn: (params?: P) => Promise<T>,
 ) => {
   return async (params?: P) => {
     const { open, close } = useLoading()
@@ -97,7 +97,7 @@ export const useDebounceLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
   ms?: globalThis.MaybeRefOrGetter<number>,
-  options?: DebounceFilterOptions
+  options?: DebounceFilterOptions,
 ) => {
   return useDebounceFn(useLoadingFn(tag, fn), ms, options)
 }
@@ -108,13 +108,13 @@ export const useThrottleLoadingFn = <T, P = void>(
   ms?: globalThis.MaybeRefOrGetter<number>,
   trailing?: boolean,
   leading?: boolean,
-  rejectOnCancel?: boolean
+  rejectOnCancel?: boolean,
 ) => {
   return useThrottleFn(
     useLoadingFn(tag, fn),
     ms,
     trailing,
     leading,
-    rejectOnCancel
+    rejectOnCancel,
   )
 }

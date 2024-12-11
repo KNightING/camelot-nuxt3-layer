@@ -3,7 +3,10 @@
     <div @click="expanded = !expanded">
       <slot name="header" />
     </div>
-    <div class="container" :class="{'close':!expanded}">
+    <div
+      class="expanded-container"
+      :class="{ close: !expanded }"
+    >
       <div style="min-height:0px">
         <slot />
       </div>
@@ -14,12 +17,12 @@
 
 <script setup lang="ts">
 const expanded = defineModel<boolean>('expanded', {
-  default: false
+  default: false,
 })
 </script>
 
 <style scoped>
-.container{
+.expanded-container{
   display: grid;
   overflow: hidden;
   grid-template-rows: 1fr;

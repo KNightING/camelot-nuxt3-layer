@@ -14,13 +14,13 @@
 
 <script setup lang="ts">
 defineOptions({
-  inheritAttrs: false
+  inheritAttrs: false,
 })
 
 const props = withDefaults(defineProps<{
-  isLoading?:boolean
+  isLoading?: boolean
 }>(), {
-  isLoading: true
+  isLoading: true,
 })
 </script>
 

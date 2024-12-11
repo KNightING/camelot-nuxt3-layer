@@ -5,17 +5,17 @@ import { defaultWindow } from '@vueuse/core'
 import type { ConfigurableWindow, MaybeElementRef } from '@vueuse/core'
 
 export interface UseCssVarOptions extends ConfigurableWindow {
-  initialValue?: string;
+  initialValue?: string
   /**
    * Use MutationObserver to monitor variable changes
    * @default false
    */
-  observe?: boolean;
+  observe?: boolean
 
   /**
    * @default true
    */
-  inherit?: boolean;
+  inherit?: boolean
 }
 
 /**
@@ -29,17 +29,17 @@ export interface UseCssVarOptions extends ConfigurableWindow {
 export function useElCssVar(
   prop: MaybeRefOrGetter<string>,
   target?: MaybeElementRef,
-  options: UseCssVarOptions = {}
+  options: UseCssVarOptions = {},
 ) {
   const {
     window = defaultWindow,
     initialValue = '',
     observe = false,
-    inherit = true
+    inherit = true,
   } = options
   const variable = ref(initialValue)
   const elRef = computed(
-    () => unrefElement(target) ?? window?.document?.documentElement
+    () => unrefElement(target) ?? window?.document?.documentElement,
   )
 
   function updateCssVar() {
@@ -56,14 +56,16 @@ export function useElCssVar(
   if (observe) {
     useMutationObserver(elRef, updateCssVar, {
       attributeFilter: ['style', 'class'],
-      window
+      window,
     })
   }
 
   watch([elRef, () => toValue(prop)], updateCssVar, { immediate: true })
 
   watch(variable, (val) => {
-    if (elRef.value?.style) { elRef.value.style.setProperty(toValue(prop), val) }
+    if (elRef.value?.style) {
+      elRef.value.style.setProperty(toValue(prop), val)
+    }
   })
 
   return variable

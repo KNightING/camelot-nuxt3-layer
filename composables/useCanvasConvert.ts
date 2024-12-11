@@ -9,6 +9,6 @@ export const useCanvasConvert = (canvasRef: MaybeRefOrGetter<HTMLCanvasElement>)
 
   return {
     toBlob: () => toBlob(canvas.value),
-    toDataURL: (type?: string | undefined, quality?: any) => toDataURL(canvas.value, type, quality)
+    toDataURL: (type?: string | undefined, quality?: any) => toDataURL(canvas.value, type, quality),
   }
 }

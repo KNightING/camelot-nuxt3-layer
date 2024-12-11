@@ -5,8 +5,6 @@
       open dialog
     </div>
 
-
-
     <div class="text-test bg-primary my-4" @click="openBottomSheet = true">
       open BottomSheet
     </div>
@@ -28,7 +26,7 @@
 
     <CamelotBaseDialog v-model:open="open" :query="{
       key: 'dialog',
-      value: 'test'
+      value: 'test',
     }">
       <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
         <div class="flex justify-end">
@@ -53,15 +51,15 @@ const v = ref(0.3)
 
 const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined, {
   lightColorScheme: {
-    test: '#F40fFF'
+    test: '#F40fFF',
   },
   darkColorScheme: {
-    test: '#140fF1'
-  }
+    test: '#140fF1',
+  },
 })
 
 const elLightColorScheme = ref<Material3ColorSchemePartial>({
-  primary: 'yellow'
+  primary: 'yellow',
 })
 
 const open = ref(false)
@@ -74,11 +72,11 @@ const openLoading = async () => {
   closeable()
 }
 
-const data =
-  Array.from({ length: 21 }).map((_, rowIndex) => {
+const data
+  = Array.from({ length: 21 }).map((_, rowIndex) => {
     return {
       no: `${rowIndex}`,
-      name: `分類-${rowIndex}`
+      name: `分類-${rowIndex}`,
     }
   })
 
@@ -89,28 +87,28 @@ const department = ref('韓式餐廳')
 const options = ref([
   {
     label: '韓式餐廳',
-    value: '韓式餐廳'
+    value: '韓式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
+    value: '港式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
+    value: '港式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
+    value: '港式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
+    value: '港式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
-  }
+    value: '港式餐廳',
+  },
 ])
 </script>
 

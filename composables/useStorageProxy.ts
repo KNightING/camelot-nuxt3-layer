@@ -2,7 +2,7 @@ import { useStorageAsync } from '@vueuse/core'
 import type {
   StorageLikeAsync,
   UseStorageAsyncOptions,
-  RemovableRef
+  RemovableRef,
 } from '@vueuse/core'
 
 class StorageProxy<T> {
@@ -12,7 +12,7 @@ class StorageProxy<T> {
     key: string,
     initialValue: MaybeRefOrGetter<T>,
     storageLike?: StorageLikeAsync,
-    options?: UseStorageAsyncOptions<T>
+    options?: UseStorageAsyncOptions<T>,
   ) {
     this._storage = useStorageAsync<T>(key, initialValue, storageLike, options)
   }
@@ -42,5 +42,5 @@ export const useStorageProxy = <T>(
   key: string,
   initialValue: MaybeRefOrGetter<T>,
   storageLike?: StorageLikeAsync,
-  options?: UseStorageAsyncOptions<T>
+  options?: UseStorageAsyncOptions<T>,
 ) => new StorageProxy(key, initialValue, storageLike, options)

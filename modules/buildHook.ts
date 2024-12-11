@@ -11,5 +11,5 @@ export default defineNuxtModule({
     //     href: `${config.app.baseURL}favicon.ico?v=${config.public.version}`,
     //   },
     // ];
-  }
+  },
 })

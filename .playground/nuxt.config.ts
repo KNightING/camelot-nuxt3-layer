@@ -3,11 +3,11 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     tappay: {
-      addScript: false
+      addScript: false,
     },
     googlePay: {
-      addScript: false
-    }
+      addScript: false,
+    },
   },
 
   compatibilityDate: '2024-11-16',

@@ -1,8 +1,8 @@
 <template>
   <div
     :class="{
-      'ios-fixed-bug-transform':fixTransform,
-      'ios-fixed-bug-scrolling':fixScrolling
+      'ios-fixed-bug-transform': fixTransform,
+      'ios-fixed-bug-scrolling': fixScrolling,
     }"
   >
     <slot />
@@ -11,14 +11,14 @@
 
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-  fixTransform?:boolean,
-  fixScrolling?:boolean,
+  fixTransform?: boolean
+  fixScrolling?: boolean
 }>(), {
   fixTransform: true,
-  fixScrolling: true
+  fixScrolling: true,
 })
-
 </script>
+
 <!-- https://juejin.cn/post/7085526308460953637#heading-0 -->
 <style scoped>
 .ios-fixed-bug-transform {

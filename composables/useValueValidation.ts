@@ -1,9 +1,9 @@
 export const useValueValidation = (
   target: MaybeRef<string | undefined>,
   options: {
-    type: 'email' | 'mobile' | 'number' | 'phone';
-    allowUndefined?: boolean;
-  }
+    type: 'email' | 'mobile' | 'number' | 'phone'
+    allowUndefined?: boolean
+  },
 ) =>
   computed(() => {
     const value = toValue(target)

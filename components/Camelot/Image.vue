@@ -9,14 +9,14 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-     src: string,
-     immediate?:boolean
-    } >(), {
-    immediate: false
+    src: string
+    immediate?: boolean
+  } >(), {
+    immediate: false,
   })
 
 const { isLoading, isError, isPending, isReady, load } = useLazyImage({
-  src: props.src
+  src: props.src,
 })
 
 const target = ref(null)
@@ -24,13 +24,13 @@ const target = ref(null)
 const { stop } = useIntersectionObserver(
   target,
   ([{ isIntersecting }], observerElement) => {
-    if (isIntersecting &&
-(isReady.value === false &&
-isError.value === false &&
-     isPending.value === false)) {
+    if (isIntersecting
+      && (isReady.value === false
+        && isError.value === false
+        && isPending.value === false)) {
       load()
     }
-  }
+  },
 )
 
 onBeforeUnmount(() => {

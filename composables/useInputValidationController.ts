@@ -3,13 +3,13 @@ import type { MaybeElementRef } from '@vueuse/core'
 export type ValidatorFn = () => boolean
 
 export type Validator = () => {
-  valid: boolean,
+  valid: boolean
   element?: MaybeElementRef
 } | boolean
 
 export interface InputValidationController {
-  addValidatorComputed:(ref:ComputedRef<boolean | string | undefined>)=>void
-  removeValidatorComputed:(ref:ComputedRef<boolean | string | undefined>)=>void
+  addValidatorComputed: (ref: ComputedRef<boolean | string | undefined>) => void
+  removeValidatorComputed: (ref: ComputedRef<boolean | string | undefined>) => void
   addValidator: (fn: Validator) => void
   removeValidator: (fn: Validator) => void
   validate: () => boolean
@@ -20,11 +20,11 @@ export const useInputValidationController = () => {
   const validateFnList = ref<(Validator)[]>([])
   const validateRefList = ref<ComputedRef<boolean | string | undefined>[]>([])
 
-  const addValidatorComputed = (ref:ComputedRef<boolean | string | undefined>) => {
+  const addValidatorComputed = (ref: ComputedRef<boolean | string | undefined>) => {
     validateRefList.value.push(ref)
   }
 
-  const removeValidatorComputed = (ref:ComputedRef<boolean | string | undefined>) => {
+  const removeValidatorComputed = (ref: ComputedRef<boolean | string | undefined>) => {
     validateRefList.value.splice(validateRefList.value.indexOf(ref), 1)
   }
 
@@ -40,12 +40,12 @@ export const useInputValidationController = () => {
     return !hasInvalid()
   }
 
-  const hasInvalid = (options?:{
-    scrollToFirstElement?:boolean
+  const hasInvalid = (options?: {
+    scrollToFirstElement?: boolean
   }) => {
     let hasError = false
     const scrollToFirstElement = options?.scrollToFirstElement ?? true
-    let firstElement : Element | undefined
+    let firstElement: Element | undefined
 
     validateFnList.value.forEach((fn) => {
       const result = fn()
@@ -57,7 +57,7 @@ export const useInputValidationController = () => {
         hasError = true
         if (scrollToFirstElement && result.element) {
           const elementValue = toValue(result.element)
-          let element : Element | undefined
+          let element: Element | undefined
           if (elementValue instanceof Element) {
             element = elementValue
           } else {
@@ -90,6 +90,6 @@ export const useInputValidationController = () => {
     removeValidator,
     validate,
     hasInvalid,
-    isValidate
+    isValidate,
   }
 }

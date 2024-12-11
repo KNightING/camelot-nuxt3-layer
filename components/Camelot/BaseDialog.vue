@@ -7,7 +7,7 @@
           :id="tag"
           class="dialog-container"
           :style="[
-              `z-index:${zIndex ?? 9999};`
+            `z-index:${zIndex ?? 9999};`,
           ]"
         >
           <div
@@ -28,17 +28,17 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    closeByMask?: boolean;
-    tag?:string;
-    zIndex?:number;
-    query?:{
-      key:string;
-      value:string;
-    };
+    closeByMask?: boolean
+    tag?: string
+    zIndex?: number
+    query?: {
+      key: string
+      value: string
+    }
   }>(),
   {
-    closeByMask: true
-  }
+    closeByMask: true,
+  },
 )
 
 const open = defineModel('open', { default: false })
@@ -54,27 +54,32 @@ const router = useRouter()
 const route = useRoute()
 
 const dialogQueryOptions = computed(() => {
-  if (props.query) { return props.query }
+  if (props.query) {
+    return props.query
+  }
   if (props.tag) {
     return {
       key: 'tag',
-      value: props.tag
+      value: props.tag,
     }
   }
+  return undefined
 })
 
 watch(open, (isOpen) => {
   const queryOptions = dialogQueryOptions.value
-  if (!queryOptions) { return }
+  if (!queryOptions) {
+    return
+  }
 
   if (isOpen) {
     const newQuery = {
       ...route.query,
       [queryOptions.key]: queryOptions.value,
-      isDialog: 'true'
+      isDialog: 'true',
     }
     router.push({
-      query: newQuery
+      query: newQuery,
     })
     return
   }
@@ -84,8 +89,9 @@ watch(open, (isOpen) => {
       router.back()
     } else {
       const newQuery = {
-        ...route.query
+        ...route.query,
       }
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete newQuery[queryOptions.key]
       delete newQuery.isDialog
       router.replace({ query: newQuery })
@@ -95,7 +101,9 @@ watch(open, (isOpen) => {
 
 watch([() => route.path, () => route.query], ([path, query]) => {
   const queryOptions = dialogQueryOptions.value
-  if (!queryOptions) { return }
+  if (!queryOptions) {
+    return
+  }
   if (query[queryOptions.key] === queryOptions.value) {
     open.value = true
   } else {

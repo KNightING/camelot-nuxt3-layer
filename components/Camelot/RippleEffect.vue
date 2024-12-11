@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{rippleColor?:string}>()
+const props = defineProps<{ rippleColor?: string }>()
 
 const container = ref<HTMLDivElement>()
 

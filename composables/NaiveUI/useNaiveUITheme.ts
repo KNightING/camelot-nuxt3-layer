@@ -37,7 +37,7 @@ export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
         // * [Select] Arrow Icon的顏色
         iconColor: cs.value.onSurface,
 
-        hoverColor: color.hexToRgba(cs.value.onSurface, 0.1)
+        hoverColor: color.hexToRgba(cs.value.onSurface, 0.1),
       },
       Button: {
         textColor: cs.value.primary,
@@ -69,10 +69,10 @@ export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
         colorError: cs.value.error,
         colorErrorHover: color.lightness(cs.value.error),
         colorErrorPressed: color.darkness(cs.value.error),
-        textColorError: cs.value.onError
+        textColorError: cs.value.onError,
       },
       Layout: {
-        siderColor: cs.value.surfaceContainer
+        siderColor: cs.value.surfaceContainer,
       },
       Menu: {
         // drawer
@@ -84,8 +84,8 @@ export const useNaiveUITheme = (csRef: MaybeRef<CustomColorScheme>) => {
         arrowColor: cs.value.onSurface,
         arrowColorHover: cs.value.onSurface,
         itemColorHover: cs.value.primaryContainer,
-        itemColorActive: cs.value.primaryContainer
-      }
+        itemColorActive: cs.value.primaryContainer,
+      },
     }
   })
 

@@ -1,7 +1,7 @@
 {
   "name": "camelot-nuxt3-layer",
   "type": "module",
-  "version": "3.14.1592.0",
+  "version": "3.14.1592.1",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -10,7 +10,8 @@
     "preview": "nuxt preview .playground",
     "lint": "eslint .",
     "postinstall": "nuxt prepare .playground",
-    "fix": "eslint --fix --ext .js,.jsx,.vue,.ts ."
+    "fix": "eslint . --fix --quiet",
+    "fix-dry-run": "eslint . --fix-dry-run --quiet"
   },
   "devDependencies": {
     "@iconify-json/material-symbols": "^1.2.8",

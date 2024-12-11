@@ -23,6 +23,6 @@ export const useAnchorLink = (url: MaybeRef<string>, options?: MaybeRef<AnchorLi
   }
 
   return {
-    open
+    open,
   }
 }

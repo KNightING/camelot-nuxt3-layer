@@ -8,7 +8,7 @@
             v-if="open"
             class="background"
             :style="[
-              `z-index:${zIndex ?? 9990};`
+              `z-index:${zIndex ?? 9990};`,
             ]"
             @click="onBackgroundClick"
           >
@@ -20,7 +20,7 @@
                 `top:${popupContainerY}px;left:${popupContainerX}px`,
                 disableWidthWithTarget?'width:min-content;':`width:${width}px;`,
               ]"
-              @click="(e)=>{e.stopPropagation()}"
+              @click="(e) => { e.stopPropagation() }"
             >
               <slot name="popup" />
             </div>
@@ -32,13 +32,12 @@
 </template>
 
 <script setup lang="ts" generic="T">
-
 const props = defineProps<{
-  popupBackgroundColor?:string,
-  zIndex?:number,
-  disableOpenByTarget?:boolean,
-  disableWidthWithTarget?:boolean,
-  disabled?:boolean
+  popupBackgroundColor?: string
+  zIndex?: number
+  disableOpenByTarget?: boolean
+  disableWidthWithTarget?: boolean
+  disabled?: boolean
 }>()
 
 const open = defineModel<boolean>('open', { default: false })
@@ -61,11 +60,11 @@ watch(el, (nV) => {
   }
 })
 
-const { x, y, top, right, bottom, left, width, height } =
-       useElementBounding(selectEl)
+const { x, y, top, right, bottom, left, width, height }
+       = useElementBounding(selectEl)
 
-const { top: popupElTop, left: popupElLeft, width: popupElWidth, height: popupElHeight } =
-        useElementBounding(popupEl)
+const { top: popupElTop, left: popupElLeft, width: popupElWidth, height: popupElHeight }
+        = useElementBounding(popupEl)
 
 // const optionsContainerBackgroundColorVar = useElCssVar('--c-popup-background', popupEl, { inherit: false })
 
@@ -130,7 +129,7 @@ watch([
 //   return bottom.value
 // })
 
-const onContainerClick = (e:Event) => {
+const onContainerClick = (e: Event) => {
   if (props.disabled) {
     return
   }
@@ -140,7 +139,7 @@ const onContainerClick = (e:Event) => {
   }
 }
 
-const onBackgroundClick = (e:Event) => {
+const onBackgroundClick = (e: Event) => {
   open.value = false
   e.stopPropagation()
 }
@@ -150,11 +149,9 @@ onUpdated(() => {
     open.value = false
   }
 })
-
 </script>
 
 <style scoped>
-
 .container {
   display: flex;
   justify-content: center;

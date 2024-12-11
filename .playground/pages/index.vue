@@ -79,7 +79,7 @@
       :steps="[
         '確認商品',
         '填寫資料',
-        '訂購完成'
+        '訂購完成',
       ]"
       enable-change-by-click
       disable-click-to-next
@@ -87,9 +87,9 @@
       <template #dot="{ index, isComplete }">
         <div
           class="w-7 aspect-square bg-white rounded-full flex justify-center items-center"
-          :class="{'!bg-yellow-500':isComplete}"
+          :class="{ '!bg-yellow-500': isComplete }"
         >
-          <span class=" text-red-500 " :class="{'!text-blue-500':isComplete}">{{ index }}</span>
+          <span class=" text-red-500 " :class="{ '!text-blue-500': isComplete }">{{ index }}</span>
         </div>
       </template>
       <!-- <template #content="{ value,index }">
@@ -162,7 +162,7 @@ import { isClient } from '@vueuse/core'
 
 const loading = useLoading()
 
-const a = await loading.run('',async ()=>{
+const a = await loading.run('', async () => {
   return ''
 })
 
@@ -173,15 +173,15 @@ const v = ref(0.3)
 
 const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined, {
   lightColorScheme: {
-    test: '#F40fFF'
+    test: '#F40fFF',
   },
   darkColorScheme: {
-    test: '#140fF1'
-  }
+    test: '#140fF1',
+  },
 })
 
 const elLightColorScheme = ref<Material3ColorSchemePartial>({
-  primary: 'yellow'
+  primary: 'yellow',
 })
 
 const change = () => {
@@ -191,7 +191,7 @@ const change = () => {
 const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
   primary: '#44ffFF',
   test: '#F40fFF',
-  rippleColor: '#000FFF'
+  rippleColor: '#000FFF',
 })
 
 const open = ref(false)
@@ -204,11 +204,11 @@ const openLoading = async () => {
   closeable()
 }
 
-const data =
-  Array.from({ length: 21 }).map((_, rowIndex) => {
+const data
+  = Array.from({ length: 21 }).map((_, rowIndex) => {
     return {
       no: `${rowIndex}`,
-      name: `分類-${rowIndex}`
+      name: `分類-${rowIndex}`,
     }
   })
 
@@ -219,28 +219,28 @@ const department = ref('韓式餐廳')
 const options = ref([
   {
     label: '韓式餐廳',
-    value: '韓式餐廳'
+    value: '韓式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
+    value: '港式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
+    value: '港式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
+    value: '港式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
+    value: '港式餐廳',
   },
   {
     label: '港式餐廳',
-    value: '港式餐廳'
-  }
+    value: '港式餐廳',
+  },
 ])
 
 if (isClient) {
@@ -249,7 +249,7 @@ if (isClient) {
 
   const catApi = useBaseApi({
     baseURL: 'https://cataas.com',
-    timeout: 30000
+    timeout: 30000,
   })
 
   const cat = catApi.get<string>(() => `/cat?v=${id.value}`, {
@@ -259,7 +259,7 @@ if (isClient) {
 
 const baseApi = useBaseApi({
   baseURL: 'http://localhost:5182',
-  timeout: 30000
+  timeout: 30000,
 })
 
 const ping = () => baseApi.get<string>('/ping', {

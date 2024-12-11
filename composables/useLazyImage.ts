@@ -1,6 +1,6 @@
 export interface LazyImageOptions {
-  src: string;
-  immediate?: boolean;
+  src: string
+  immediate?: boolean
 }
 
 export const useLazyImage = (options: LazyImageOptions) => {
@@ -40,6 +40,6 @@ export const useLazyImage = (options: LazyImageOptions) => {
     isError,
     isReady,
     isPending,
-    load
+    load,
   }
 }

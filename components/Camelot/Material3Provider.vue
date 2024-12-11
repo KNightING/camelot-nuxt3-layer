@@ -8,8 +8,8 @@
 import type { Material3ColorSchemePartial } from '../../composables/useMaterial3ColorScheme'
 
 const props = defineProps<{
-  lightColorScheme?: Material3ColorSchemePartial;
-  darkColorScheme?: Material3ColorSchemePartial;
+  lightColorScheme?: Material3ColorSchemePartial
+  darkColorScheme?: Material3ColorSchemePartial
 }>()
 
 const container = ref<HTMLElement>()
@@ -19,8 +19,8 @@ onMounted(() => {
     container,
     {
       lightColorScheme: props.lightColorScheme,
-      darkColorScheme: props.darkColorScheme
-    }
+      darkColorScheme: props.darkColorScheme,
+    },
   )
 })
 </script>

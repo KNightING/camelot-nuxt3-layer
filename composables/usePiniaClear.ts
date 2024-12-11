@@ -1,7 +1,7 @@
 import { getActivePinia, type Pinia, type Store } from 'pinia'
 
 interface ExtendedPinia extends Pinia {
-  _s: Map<string, Store>;
+  _s: Map<string, Store>
 }
 export const usePiniaReset = (): Record<string | 'all', () => void> => {
   const pinia = getActivePinia() as ExtendedPinia
@@ -16,7 +16,6 @@ export const usePiniaReset = (): Record<string | 'all', () => void> => {
     try {
       resetStores[name] = () => store.$reset()
     } catch (e) {
-
     }
   })
 

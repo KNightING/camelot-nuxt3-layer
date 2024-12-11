@@ -8,23 +8,23 @@
             v-if="open"
             class="background"
             :style="[
-              `z-index:${zIndex ?? 9990};`
+              `z-index:${zIndex ?? 9990};`,
             ]"
             @click="onBackgroundClick"
           >
             <div
               ref="optionsContainerEl"
               class="options-container"
-              :style="[ `width:${width}px;max-height:${optionsContainerMaxHeight}px;transform:translate(${x}px, ${optionContainerY}px);`]"
+              :style="[`width:${width}px;max-height:${optionsContainerMaxHeight}px;transform:translate(${x}px, ${optionContainerY}px);`]"
             >
-              <template v-for="(d,index) in data" :key="index">
+              <template v-for="(d, index) in data" :key="index">
                 <button type="button" @click="value = d.value">
                   <slot name="option" :index="index" :data="d" :is-selected="value === d.value">
                     <div class="option">
                       <span style="width: 1.5rem">{{ value === d.value ? '✓' :'' }} </span>
                       <span
                         :style="[
-                          'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;'
+                          'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;',
                         ]"
                       >{{ d.label }}</span>
                     </div>
@@ -43,18 +43,18 @@
 import type { SelectOption } from '../../types/selectOption'
 
 const props = withDefaults(defineProps<{
-  data:SelectOption<T>[]
-  optionsContainerMaxHeight?:number,
-  optionsContainerBackgroundColor?:string,
-  initSelectedKey?:string,
-  zIndex?:number,
+  data: SelectOption<T>[]
+  optionsContainerMaxHeight?: number
+  optionsContainerBackgroundColor?: string
+  initSelectedKey?: string
+  zIndex?: number
 }>(), {
-  optionsContainerMaxHeight: 160
+  optionsContainerMaxHeight: 160,
 })
 
 const open = defineModel('open', { default: false })
 
-const value = defineModel<string|null>({ default: null })
+const value = defineModel<string | null>({ default: null })
 
 value.value = props.data.length > 0 ? props.data[0].value : null
 
@@ -74,8 +74,8 @@ watch(el, (nV) => {
   }
 })
 
-const { x, y, top, right, bottom, left, width, height } =
-        useElementBounding(selectEl)
+const { x, y, top, right, bottom, left, width, height }
+        = useElementBounding(selectEl)
 
 const optionsContainerBackgroundColorVar = useElCssVar('--c-select-background', optionsContainerEl, { inherit: false })
 
@@ -102,15 +102,13 @@ const optionContainerY = computed(() => {
   return bottom.value
 })
 
-const onBackgroundClick = (e:Event) => {
+const onBackgroundClick = (e: Event) => {
   open.value = false
   e.stopPropagation()
 }
-
 </script>
 
 <style scoped>
-
 .container {
   display: flex;
   justify-content: center;

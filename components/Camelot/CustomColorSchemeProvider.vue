@@ -6,9 +6,9 @@
 
 <script setup lang="ts" generic="T">
 const props = defineProps<{
-  lightColorScheme?: CustomColorScheme<T>;
-  darkColorScheme?: CustomColorScheme<T>;
-  coverGlobal?:boolean;
+  lightColorScheme?: CustomColorScheme<T>
+  darkColorScheme?: CustomColorScheme<T>
+  coverGlobal?: boolean
 }>()
 
 const container = ref<HTMLElement>()
@@ -20,8 +20,8 @@ watchOnce(container, (nV) => {
     props.coverGlobal ? document.body : container,
     {
       lightColorScheme: props.lightColorScheme,
-      darkColorScheme: props.darkColorScheme
-    }
+      darkColorScheme: props.darkColorScheme,
+    },
   )
 
   watchImmediate(props, (nV) => {

@@ -6,7 +6,7 @@ export class SessionStorageProxy<T> {
   constructor(
     key: string,
     initialValue: MaybeRefOrGetter<T>,
-    options?: UseStorageOptions<T>
+    options?: UseStorageOptions<T>,
   ) {
     this._storage = useSessionStorage<T>(key, initialValue, options)
   }
@@ -31,5 +31,5 @@ export class SessionStorageProxy<T> {
 export const useSessionStorageProxy = <T>(
   key: string,
   initialValue: MaybeRefOrGetter<T>,
-  options?: UseStorageOptions<T>
+  options?: UseStorageOptions<T>,
 ) => new SessionStorageProxy(key, initialValue, options)

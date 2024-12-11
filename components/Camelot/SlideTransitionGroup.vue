@@ -11,7 +11,7 @@
               :style="[
                 `background: hsl(${i * 100}, 50%, 80%)`,
                 `width: ${i * 15}px`,
-                `height: ${300 - i * 15}px`
+                `height: ${300 - i * 15}px`,
               ]"
             >
               <div class="w-full h-full flex justify-center items-center">
@@ -31,17 +31,20 @@ const animeDirection = ref('slide-left')
 const index = ref(1)
 
 const minus = () => {
-  if (index.value <= 1) { return }
+  if (index.value <= 1) {
+    return
+  }
   animeDirection.value = 'slide-right'
   index.value--
 }
 
 const add = () => {
-  if (index.value >= 10) { return }
+  if (index.value >= 10) {
+    return
+  }
   animeDirection.value = 'slide-left'
   index.value++
 }
-
 </script>
 
 <style scoped>

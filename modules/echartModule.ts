@@ -10,7 +10,7 @@ export default defineNuxtModule({
       'echarts',
       'zrender',
       'resize-detector',
-      /echarts/
+      /echarts/,
     )
-  }
+  },
 })

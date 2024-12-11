@@ -6,7 +6,7 @@ class LocalStorageProxy<T> {
   constructor(
     key: string,
     initialValue: MaybeRefOrGetter<T>,
-    options?: UseStorageOptions<T>
+    options?: UseStorageOptions<T>,
   ) {
     this._storage = useLocalStorage(key, initialValue, options)
   }
@@ -31,5 +31,5 @@ class LocalStorageProxy<T> {
 export const useLocalStorageProxy = <T>(
   key: string,
   initialValue: MaybeRefOrGetter<T>,
-  options?: UseStorageOptions<T>
+  options?: UseStorageOptions<T>,
 ) => new LocalStorageProxy(key, initialValue, options)

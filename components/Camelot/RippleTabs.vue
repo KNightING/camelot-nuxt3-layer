@@ -28,29 +28,29 @@
 <script setup lang="ts" generic="T">
 const props = withDefaults(
   defineProps<{
-    data?: T[];
-    displayKey?:string;
-    modelValue?: number;
-    scrollSmooth?: boolean;
+    data?: T[]
+    displayKey?: string
+    modelValue?: number
+    scrollSmooth?: boolean
   }>(),
   {
-    scrollSmooth: true
-  }
+    scrollSmooth: true,
+  },
 )
 
 const emit = defineEmits<{
-  'update:modelValue': [value?: number];
-  changedWithClick: [value: number];
+  'update:modelValue': [value?: number]
+  'changedWithClick': [value: number]
 }>()
 
 const isValidKey = (
   key: string | number | symbol,
-  object: object
+  object: object,
 ): key is keyof typeof object => {
   return key in object
 }
 
-const getDisplayLabel = (data?:T) => {
+const getDisplayLabel = (data?: T) => {
   if (data && props.displayKey && typeof data === 'object' && isValidKey(props.displayKey, data as object)) {
     return data[props.displayKey]
   } else {
@@ -58,7 +58,7 @@ const getDisplayLabel = (data?:T) => {
   }
 }
 
-const isSelected = (index:number) => {
+const isSelected = (index: number) => {
   return index === selectedIndex.value
 }
 
@@ -68,22 +68,28 @@ const selectedIndex = computed({
   },
   set(value) {
     emit('update:modelValue', value)
-  }
+  },
 })
 
 const tabsElRefs = ref<HTMLElement[]>([])
 
 const onSelected = (index: number, data: T) => {
-  if (selectedIndex.value === index) { return }
+  if (selectedIndex.value === index) {
+    return
+  }
   selectedIndex.value = index
   emit('changedWithClick', index)
 }
 
 watch(selectedIndex, (nV) => {
-  if (nV === undefined) { return }
+  if (nV === undefined) {
+    return
+  }
   const tabEl = tabsElRefs.value[nV]
   const parentEl = tabEl.parentElement
-  if (!parentEl) { return }
+  if (!parentEl) {
+    return
+  }
 
   // if (!props.selectedCenter) {
   //   let tabLeft = tabEl.getBoundingClientRect().left - 15;
@@ -117,7 +123,7 @@ watch(selectedIndex, (nV) => {
 
   parentEl.scrollTo({
     left: scrollLeft,
-    behavior: props.scrollSmooth ? 'smooth' : 'auto'
+    behavior: props.scrollSmooth ? 'smooth' : 'auto',
   })
 })
 </script>

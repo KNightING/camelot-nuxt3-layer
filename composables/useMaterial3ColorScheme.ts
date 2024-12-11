@@ -1,47 +1,47 @@
-import { type MaybeElementRef } from '@vueuse/core'
+import type { MaybeElementRef } from '@vueuse/core'
 import { useChangeCase } from '@vueuse/integrations/useChangeCase'
 
 export type Material3ColorScheme = {
-  primary: string;
-  primaryContainer: string;
-  onPrimary: string;
-  onPrimaryContainer: string;
-  inversePrimary: string;
-  secondary: string;
-  secondaryContainer: string;
-  onSecondary: string;
-  onSecondaryContainer: string;
-  tertiary: string;
-  tertiaryContainer: string;
-  onTertiary: string;
-  onTertiaryContainer: string;
-  surface: string;
-  surfaceDim: string;
-  surfaceBright: string;
-  surfaceContainerLowest: string;
-  surfaceContainerLow: string;
-  surfaceContainer: string;
-  surfaceContainerHigh: string;
-  surfaceContainerHighest: string;
-  surfaceVariant: string;
-  onSurface: string;
-  onSurfaceVariant: string;
-  inverseSurface: string;
-  inverseOnSurface: string;
-  background: string;
-  onBackground: string;
-  error: string;
-  errorContainer: string;
-  onError: string;
-  onErrorContainer: string;
-  outline: string;
-  outlineVariant: string;
-  shadow: string;
-  surfaceTint: string;
-  scrim: string;
-};
+  primary: string
+  primaryContainer: string
+  onPrimary: string
+  onPrimaryContainer: string
+  inversePrimary: string
+  secondary: string
+  secondaryContainer: string
+  onSecondary: string
+  onSecondaryContainer: string
+  tertiary: string
+  tertiaryContainer: string
+  onTertiary: string
+  onTertiaryContainer: string
+  surface: string
+  surfaceDim: string
+  surfaceBright: string
+  surfaceContainerLowest: string
+  surfaceContainerLow: string
+  surfaceContainer: string
+  surfaceContainerHigh: string
+  surfaceContainerHighest: string
+  surfaceVariant: string
+  onSurface: string
+  onSurfaceVariant: string
+  inverseSurface: string
+  inverseOnSurface: string
+  background: string
+  onBackground: string
+  error: string
+  errorContainer: string
+  onError: string
+  onErrorContainer: string
+  outline: string
+  outlineVariant: string
+  shadow: string
+  surfaceTint: string
+  scrim: string
+}
 
-export type Material3ColorSchemePartial = Partial<Material3ColorScheme>;
+export type Material3ColorSchemePartial = Partial<Material3ColorScheme>
 
 // Default color scheme
 
@@ -82,7 +82,7 @@ export const defaultColorScheme: Material3ColorScheme = {
   outlineVariant: '#c4c7c5',
   shadow: '#000000',
   surfaceTint: '#6750a4',
-  scrim: '#000000'
+  scrim: '#000000',
 }
 
 export const defaultDarkColorScheme: Material3ColorScheme = {
@@ -122,29 +122,29 @@ export const defaultDarkColorScheme: Material3ColorScheme = {
   outlineVariant: '#444746',
   shadow: '#000000',
   surfaceTint: '#d0bcff',
-  scrim: '#000000'
+  scrim: '#000000',
 }
 
 export const Material3ColorSchemeKeys = Object.keys(
-  defaultColorScheme
+  defaultColorScheme,
 ) as (keyof Material3ColorScheme)[]
 
 type Material3ColorSchemeConfig = {
-  lightColorScheme?: Material3ColorSchemePartial;
-  darkColorScheme?: Material3ColorSchemePartial;
-  editMode?: boolean;
-};
+  lightColorScheme?: Material3ColorSchemePartial
+  darkColorScheme?: Material3ColorSchemePartial
+  editMode?: boolean
+}
 
 const { system, store } = useColorMode()
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
   useElCssVar(`--material3-${key}`, target, { inherit: false })
 
-const globalLightColorScheme =
-  ref<Material3ColorSchemePartial>(defaultColorScheme)
+const globalLightColorScheme
+  = ref<Material3ColorSchemePartial>(defaultColorScheme)
 
 const globalDarkColorScheme = ref<Material3ColorSchemePartial>(
-  defaultDarkColorScheme
+  defaultDarkColorScheme,
 )
 
 const globalUsedColorScheme = computed(() => {
@@ -155,7 +155,7 @@ const globalUsedColorScheme = computed(() => {
     isDark = store.value === 'dark'
   }
   return {
-    ...(isDark ? globalDarkColorScheme.value : globalLightColorScheme.value)
+    ...(isDark ? globalDarkColorScheme.value : globalLightColorScheme.value),
   }
 })
 
@@ -177,7 +177,7 @@ const globalUsedColorScheme = computed(() => {
 // });
 
 export const useGlobalMaterial3ColorScheme = (
-  config?: Material3ColorSchemeConfig
+  config?: Material3ColorSchemeConfig,
 ) => {
   if (config?.lightColorScheme) {
     globalLightColorScheme.value = config?.lightColorScheme
@@ -191,23 +191,23 @@ export const useGlobalMaterial3ColorScheme = (
     mode: store,
     lightColorScheme: globalLightColorScheme,
     darkColorScheme: globalDarkColorScheme,
-    usedColorScheme: globalUsedColorScheme
+    usedColorScheme: globalUsedColorScheme,
   }
 }
 
 export const useMaterial3ColorScheme = (
   target?: MaybeElementRef,
-  config?: Material3ColorSchemeConfig
+  config?: Material3ColorSchemeConfig,
 ) => {
   if (!target) {
     return useGlobalMaterial3ColorScheme(config)
   }
 
   const lightColorScheme = ref<Material3ColorSchemePartial>(
-    config?.lightColorScheme ?? globalLightColorScheme.value
+    config?.lightColorScheme ?? globalLightColorScheme.value,
   )
   const darkColorScheme = ref<Material3ColorSchemePartial>(
-    config?.darkColorScheme ?? globalDarkColorScheme.value
+    config?.darkColorScheme ?? globalDarkColorScheme.value,
   )
 
   const usedColorScheme = computed(() => {
@@ -223,7 +223,9 @@ export const useMaterial3ColorScheme = (
   const changeCase = useChangeCase('', 'kebabCase')
 
   watchImmediate(usedColorScheme, (nV) => {
-    if (config?.editMode === false) { return }
+    if (config?.editMode === false) {
+      return
+    }
 
     for (const key in nV) {
       if (useIsValidKey(key, nV)) {
