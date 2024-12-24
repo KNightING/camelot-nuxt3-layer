@@ -10,7 +10,6 @@ in `package.json`
     "@nuxt/eslint": "^0.7.2",
     "@nuxtjs/i18n": "9.1.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
-    "pinia-plugin-persistedstate": "^4.1.3",
     "@vueuse/core": "^12.0.0",
     "@vueuse/nuxt": "^12.0.0",
     "autoprefixer": "^10.4.20",
@@ -26,9 +25,10 @@ in `package.json`
   },
   "dependencies": {
     "@pinia/nuxt": "^0.9.0",
+    "pinia-plugin-persistedstate": "^4.2.0",
     "@vueuse/components": "^12.0.0",
     "@vueuse/integrations": "^12.0.0",
-    "change-case": "^5.4.4"
+    "change-case": "^5.4.4"    
   }
 ```
 
