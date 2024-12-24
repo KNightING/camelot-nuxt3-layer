@@ -112,9 +112,9 @@ export default defineNuxtConfig({
     },
   },
 
-  experimental: {
-    renderJsonPayloads: false,
-  },
+  // experimental: {
+  //   renderJsonPayloads: false,
+  // },
 
   nitro: {
     esbuild: {
