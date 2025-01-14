@@ -53,7 +53,7 @@
         value: 'test',
       }"
     >
-      <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
+      <div class="overflow-hidden rounded-xl shadow-xs flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
         <div class="flex justify-end">
           <i-material-symbols-close
             class="text-primary text-lg m-1 cursor-pointer"

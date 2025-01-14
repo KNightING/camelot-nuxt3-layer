@@ -197,7 +197,7 @@ onUpdated(() => {
 
 <!-- .popup {
   --c-popup-background: var(--cml-m3-background);
-  background: rgba(var(--c-popup-background),1);
+  background: color-mix(in oklab, var(--c-popup-background) 100%, transparent);
   display: flex;
   overflow: auto;
   position: relative;

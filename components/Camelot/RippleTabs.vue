@@ -166,13 +166,13 @@ ul {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
   user-select: none;
-  background-color: rgba(var(--cml-m3-surface), 1);
-  color: rgba(var(--cml-m3-on-surface), 1);
+  background-color: color-mix(in oklab, var(--cml-m3-surface) 100%, transparent);
+  color: color-mix(in oklab, var(--cml-m3-on-surface) 100%, transparent);
 }
 
 .tab-selected {
-  background-color: rgba(var(--cml-m3-primary-container), 1) !important;
-  color: rgba(var(--cml-m3-on-primary-container), 1) !important;
-  border-color: rgba(var(--cml-m3-primary-container), 1) !important;
+  background-color: color-mix(in oklab, var(--cml-m3-primary-container) 100%, white) !important;
+  color: color-mix(in oklab, var(--cml-m3-on-primary-container) 100%, white) !important;
+  border-color: color-mix(in oklab, var(--cml-m3-primary-container) 100%, white) !important;
 }
 </style>

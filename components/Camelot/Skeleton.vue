@@ -35,15 +35,15 @@ const props = withDefaults(defineProps<{
 
 @keyframes skeleton-animate {
   0% {
-    background-color: rgba(var(--background-color), 1);
+    background-color: color-mix(in oklab, var(--background-color) 100%, transparent);
   }
 
   75% {
-    background-color: rgba(var(--background-color), .6);
+    background-color: color-mix(in oklab, var(--background-color) 60%, transparent);
   }
 
   100% {
-    background-color: rgba(var(--background-color), 1);
+    background-color: color-mix(in oklab, var(--background-color) 100%, transparent);
   }
 }
 
@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<{
   left: 0px;
   width: 125%;
   height: 125%;
-  background-image: linear-gradient(90deg, rgba(var(--background-color), .8) , rgba(var(--background-color), .4));
+  background-image: linear-gradient(90deg, color-mix(in oklab, var(--background-color) 80%, white) , color-mix(in oklab, var(--background-color) 40%, white));
   transform: translateX(-110%) ;
   pointer-events: none;
   animation: animate 2s ease-out infinite;

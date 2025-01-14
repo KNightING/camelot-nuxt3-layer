@@ -118,7 +118,7 @@ onMounted(() => {
 <style scoped>
 .options-container {
   --c-select-background: var(--cml-m3-background);
-  background: rgba(var(--c-select-background),1);
+  background: color-mix(in oklab, var(--c-select-background) 100%, transparent);
   display: flex;
   overflow: auto;
   position: relative;
