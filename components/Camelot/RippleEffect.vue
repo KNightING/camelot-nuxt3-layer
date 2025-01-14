@@ -20,7 +20,7 @@ const { height, width, x, y } = useElementBounding(container)
 
 const rippleSizeCss = useElCssVar('--ripple-size', container)
 
-const rippleColorCss = useElCssVar('--camelot-ripple-color', container, { inherit: false })
+const rippleColorCss = useElCssVar('--cml-c-ripple-color', container, { inherit: false })
 
 watchOnce(container, (nV) => {
   if (props.rippleColor) {
@@ -73,7 +73,7 @@ const onMouseDown = (e: MouseEvent) => {
 
 :deep(.ripple) {
   position: absolute;
-  background: radial-gradient(#0000, rgba(var(--camelot-ripple-color),1));
+  background: radial-gradient(#0000, rgba(var(--cml-c-ripple-color),1));
   transform: translate(-50%, -50%);
   pointer-events: none;
   border-radius: 50%;

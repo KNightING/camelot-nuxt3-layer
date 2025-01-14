@@ -1,22 +1,44 @@
 <template>
   <div>
     <div class="h-[1000px]" />
-    <div class="text-test bg-primary" @click="open = true">
+    <div
+      class="text-test"
+      @click="open = true"
+    >
       open dialog
     </div>
 
-    <div class="text-test bg-primary my-4" @click="openBottomSheet = true">
+    <div
+      class="text-test bg-primary my-4"
+      @click="openBottomSheet = true"
+    >
       open BottomSheet
     </div>
 
-    <CamelotBaseBottomSheet v-model:open="openBottomSheet" tag="bottom">
-      <div class="overflow-hidden rounded-xl shadow flex flex-col w-screen h-[30vh] bg-surface-container ">
+    <CamelotBaseBottomSheet
+      v-model:open="openBottomSheet"
+      tag="bottom"
+    >
+      <div class="overflow-hidden rounded-xl shadow-xs flex flex-col w-screen h-[30vh] bg-surface-container ">
         <div class="flex justify-end">
-          <i-material-symbols-close class="text-primary text-lg m-1 cursor-pointer" @click="openBottomSheet = false" />
+          <i-material-symbols-close
+            class="text-primary text-lg m-1 cursor-pointer"
+            @click="openBottomSheet = false"
+          />
         </div>
         <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
-          <CamelotNumberCounter v-model="v" class="w-4" :max="10" :min="0" min-step-by-value used-min-step-by-value />
-          <div class="text-test bg-primary" @click="open = true">
+          <CamelotNumberCounter
+            v-model="v"
+            class="w-4"
+            :max="10"
+            :min="0"
+            min-step-by-value
+            used-min-step-by-value
+          />
+          <div
+            class="text-test bg-primary"
+            @click="open = true"
+          >
             open dialog
           </div>
           <div class="h-[600px]" />
@@ -24,22 +46,38 @@
       </div>
     </CamelotBaseBottomSheet>
 
-    <CamelotBaseDialog v-model:open="open" :query="{
-      key: 'dialog',
-      value: 'test',
-    }">
+    <CamelotBaseDialog
+      v-model:open="open"
+      :query="{
+        key: 'dialog',
+        value: 'test',
+      }"
+    >
       <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
         <div class="flex justify-end">
-          <i-material-symbols-close class="text-primary text-lg m-1 cursor-pointer" @click="open = false" />
+          <i-material-symbols-close
+            class="text-primary text-lg m-1 cursor-pointer"
+            @click="open = false"
+          />
         </div>
         <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
-          <CamelotNumberCounter v-model="v" class="w-4" :max="10" :min="0" min-step-by-value used-min-step-by-value />
+          <CamelotNumberCounter
+            v-model="v"
+            class="w-4"
+            :max="10"
+            :min="0"
+            min-step-by-value
+            used-min-step-by-value
+          />
           <div class="h-[600px]" />
         </div>
       </div>
     </CamelotBaseDialog>
 
-    <div class="text-test bg-primary" @click="openLoading">
+    <div
+      class="text-test bg-primary"
+      @click="openLoading"
+    >
       open loading
     </div>
     <CamelotLoading />

@@ -148,11 +148,11 @@ const onPlusClick = () => {
 }
 
 .container:active {
-  border-color: rgba(var(--material3-primary), 1);
+  border-color: rgba(var(--cml-m3-primary), 1);
 }
 
 .container-focus {
-  border-color: rgba(var(--material3-primary), 1);
+  border-color: rgba(var(--cml-m3-primary), 1);
 }
 
 input {

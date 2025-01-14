@@ -14,7 +14,7 @@
         :for="id"
         class="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center text-xl px-4 whitespace-pre-wrap text-center"
         :class="{
-          'z-10 bg-blue-300 bg-opacity-80 font-bold border-4 border-primary border-dashed': isOverDropZone,
+          'z-10 bg-blue-300/80 font-bold border-4 border-primary border-dashed': isOverDropZone,
         }"
       >{{ image || originImage ? "" : placeholderText }}</label>
       <div

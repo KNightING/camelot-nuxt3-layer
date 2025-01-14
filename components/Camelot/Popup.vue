@@ -172,7 +172,7 @@ onUpdated(() => {
   height: 100dvh;
 }
 .popup {
-  --c-popup-background: var(--material3-background);
+  --c-popup-background: var(--cml-m3-background);
   background: transparent;
   display: fixed;
   flex-direction: column;
@@ -196,7 +196,7 @@ onUpdated(() => {
 </style>
 
 <!-- .popup {
-  --c-popup-background: var(--material3-background);
+  --c-popup-background: var(--cml-m3-background);
   background: rgba(var(--c-popup-background),1);
   display: flex;
   overflow: auto;

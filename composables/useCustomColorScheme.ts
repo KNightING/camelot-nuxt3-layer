@@ -77,19 +77,19 @@ export const useCustomColorScheme = <T>(
 
   const lightColorScheme = target
     ? ref(
-      {
-        ...globalLightColorScheme.value,
-        ...(config?.lightColorScheme ? config?.lightColorScheme : {}),
-      },
-    )
+        {
+          ...globalLightColorScheme.value,
+          ...(config?.lightColorScheme ? config?.lightColorScheme : {}),
+        },
+      )
     : globalLightColorScheme
   const darkColorScheme = target
     ? ref(
-      {
-        ...globalDarkColorScheme.value,
-        ...(config?.darkColorScheme ? config?.darkColorScheme : {}),
-      },
-    )
+        {
+          ...globalDarkColorScheme.value,
+          ...(config?.darkColorScheme ? config?.darkColorScheme : {}),
+        },
+      )
     : globalDarkColorScheme
 
   const usedColorScheme = computed<CustomColorScheme<T>>(() => {
@@ -118,13 +118,16 @@ export const useCustomColorScheme = <T>(
           changeCase.value = key
           let cssVarKey = changeCase.value
           if (Material3ColorSchemeKeys.includes(key)) {
-            cssVarKey = `--material3-${cssVarKey}`
+            // cssVarKey = `--cml-m3-${cssVarKey}`
+            cssVarKey = `--cml-m3-${cssVarKey}`
           } else if (CamelotColorSchemeKeys.includes(key)) {
-            cssVarKey = `--camelot-${cssVarKey}`
+            // cssVarKey = `--cml-${cssVarKey}`
+            cssVarKey = `--cml-c-${cssVarKey}`
           } else if (config?.cssVarKeyPrefix) {
             cssVarKey = `--${config.cssVarKeyPrefix}-${cssVarKey}`
           } else {
-            cssVarKey = `--custom-${cssVarKey}`
+            // cssVarKey = `--custom-${cssVarKey}`
+            cssVarKey = `--cml-x-${cssVarKey}`
           }
           const cssVar = getCssVar(cssVarKey, target)
           const rgba = useColor().hexToRgbaArray(nV[key])

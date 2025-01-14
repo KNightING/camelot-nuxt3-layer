@@ -6,6 +6,7 @@ import {
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
+import tailwindcss from '@tailwindcss/vite'
 
 const osPlatform = process.platform
 let isWindows = false
@@ -49,7 +50,6 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
     'unplugin-icons/nuxt',
-    '@nuxtjs/tailwindcss',
     '@nuxt/eslint',
   ],
 
@@ -112,10 +112,6 @@ export default defineNuxtConfig({
     },
   },
 
-  // experimental: {
-  //   renderJsonPayloads: false,
-  // },
-
   nitro: {
     esbuild: {
       options: {
@@ -126,6 +122,7 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [
+      tailwindcss(),
       Components({
         resolvers: [
           VueUseComponentsResolver(),
@@ -144,13 +141,6 @@ export default defineNuxtConfig({
     },
     optimizeDeps: {
       exclude: isMac ? ['fsevents'] : [],
-    },
-  },
-
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
     },
   },
 
@@ -189,9 +179,5 @@ export default defineNuxtConfig({
       redirectOn: 'root', // recommended
     },
     vueI18n: './i18n.config.ts',
-  },
-
-  tailwindcss: {
-    viewer: false,
   },
 })

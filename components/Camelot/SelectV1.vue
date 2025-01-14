@@ -1,5 +1,9 @@
 <template>
-  <div ref="el" class="" @click="open = true">
+  <div
+    ref="el"
+    class=""
+    @click="open = true"
+  >
     <slot :selected-data="selectedData" />
     <Teleport to="body">
       <CamelotCustomColorSchemeProvider>
@@ -17,9 +21,20 @@
               class="options-container"
               :style="[`width:${width}px;max-height:${optionsContainerMaxHeight}px;transform:translate(${x}px, ${optionContainerY}px);`]"
             >
-              <template v-for="(d, index) in data" :key="index">
-                <button type="button" @click="value = d.value">
-                  <slot name="option" :index="index" :data="d" :is-selected="value === d.value">
+              <template
+                v-for="(d, index) in data"
+                :key="index"
+              >
+                <button
+                  type="button"
+                  @click="value = d.value"
+                >
+                  <slot
+                    name="option"
+                    :index="index"
+                    :data="d"
+                    :is-selected="value === d.value"
+                  >
                     <div class="option">
                       <span style="width: 1.5rem">{{ value === d.value ? '✓' :'' }} </span>
                       <span
@@ -126,7 +141,7 @@ const onBackgroundClick = (e: Event) => {
 }
 
 .options-container {
-  --c-select-background: var(--material3-background);
+  --c-select-background: var(--cml-m3-background);
   background: rgba(var(--c-select-background),1);
   display: flex;
   overflow: auto;
