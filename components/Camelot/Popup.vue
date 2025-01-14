@@ -1,5 +1,9 @@
 <template>
-  <div ref="el" class="w-fit" @click="onContainerClick">
+  <div
+    ref="el"
+    class="w-fit"
+    @click="onContainerClick"
+  >
     <slot />
     <Teleport to="body">
       <CamelotCustomColorSchemeProvider>

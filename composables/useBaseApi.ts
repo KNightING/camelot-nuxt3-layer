@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { UseFetchOptions } from 'nuxt/app'
 import type { FetchContext, FetchResponse, FetchError, ResponseType } from 'ofetch'
-import { toValue } from '@vueuse/shared'
 
 export type Url = string | Request | Ref<string | Request> | (() => string | Request)
 

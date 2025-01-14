@@ -1,5 +1,8 @@
 <template>
-  <CamelotPopup v-model:open="open" :z-index="zIndex">
+  <CamelotPopup
+    v-model:open="open"
+    :z-index="zIndex"
+  >
     <slot :selected-data="selectedData" />
     <template #popup>
       <div
@@ -7,9 +10,20 @@
         class="options-container"
         :style="[`max-height:${optionsContainerMaxHeight}px;`]"
       >
-        <template v-for="(option, index) in options" :key="index">
-          <button type="button" @click="(e) => onItemClick(e, option.value)">
-            <slot name="option" :index="index" :data="option" :is-selected="model === option.value">
+        <template
+          v-for="(option, index) in options"
+          :key="index"
+        >
+          <button
+            type="button"
+            @click="(e) => onItemClick(e, option.value)"
+          >
+            <slot
+              name="option"
+              :index="index"
+              :data="option"
+              :is-selected="model === option.value"
+            >
               <CamelotFixIOS class="option">
                 <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
                 <span

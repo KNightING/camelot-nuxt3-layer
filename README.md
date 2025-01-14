@@ -6,29 +6,25 @@ in `package.json`
 
 ```json
   "devDependencies": {
-    "@iconify-json/material-symbols": "^1.2.8",
-    "@nuxt/eslint": "^0.7.2",
-    "@nuxtjs/i18n": "9.1.0",
-    "@nuxtjs/tailwindcss": "^6.12.2",
-    "@vueuse/core": "^12.0.0",
-    "@vueuse/nuxt": "^12.0.0",
+    "@nuxt/eslint": "^0.7.5",
+    "@nuxtjs/i18n": "9.1.1",
+    "@nuxtjs/tailwindcss": "^6.13.1",
+    "@vueuse/core": "^12.4.0",
+    "@vueuse/nuxt": "^12.4.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.16.0",
-    "nuxt": "3.14.1592",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.16",
-    "typescript": "^5.6.3",
-    "unplugin-icons": "^0.21.0",
-    "unplugin-vue-components": "^0.27.5",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "eslint": "^9.18.0",
+    "nuxt": "3.15.1",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^3.4.17",
+    "unplugin-icons": "^22.0.0",
+    "unplugin-vue-components": "^28.0.0"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.9.0",
     "pinia-plugin-persistedstate": "^4.2.0",
-    "@vueuse/components": "^12.0.0",
-    "@vueuse/integrations": "^12.0.0",
-    "change-case": "^5.4.4"    
+    "@vueuse/components": "^12.4.0",
+    "@vueuse/integrations": "^12.4.0",
+    "change-case": "^5.4.4"
   }
 ```
 
@@ -43,7 +39,10 @@ export default defineNuxtConfig({
 });
 ```
 
-## TailwindCSS
+## TailwindCSS v3
+
+> [!WARNING]  
+> Tailwind CSS V3 only works with Camelot versions 3.15.1.0 or older.
 
 1. copy `tailwind.config.js` to root folder
 2. copy `assets` folder to root folder
@@ -70,31 +69,32 @@ export default defineNuxtConfig({
   i18n: {
     locales: [
       {
-        name: "English",
-        code: "en-us",
-        file: "en-us.json",
+        name: 'English',
+        code: 'en-us',
+        file: 'en-us.json',
       },
       {
-        name: "正體中文",
-        code: "zh-tw",
-        file: "zh-tw.json",
+        name: '正體中文',
+        code: 'zh-tw',
+        file: 'zh-tw.json',
       },
     ],
     lazy: true,
-    langDir: "lang",
-    defaultLocale: "zh-tw",
+    defaultLocale: 'zh-tw',
+    restructureDir: false,
+    langDir: 'lang',
 
     // lang路由 https://v8.i18n.nuxtjs.org/options/routing#strategy
-    strategy: "no_prefix",
+    strategy: 'no_prefix',
 
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: "i18n_redirected",
+      cookieKey: 'i18n_redirected',
       cookieCrossOrigin: true,
       cookieSecure: true,
-      redirectOn: "root", // recommended
+      redirectOn: 'root', // recommended
     },
-    vueI18n: "./i18n.config.ts",
+    vueI18n: './i18n.config.ts',
   },
 })
 ```

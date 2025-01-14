@@ -1,6 +1,9 @@
 <template>
   <template v-if="isLoading">
-    <div class="overflow-hidden relative w-full h-full skeleton" v-bind="$attrs">
+    <div
+      class="overflow-hidden relative w-full h-full skeleton"
+      v-bind="$attrs"
+    >
       <div class="flash" />
     </div>
   </template>
