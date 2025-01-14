@@ -123,8 +123,8 @@ onMounted(() => {
 
 <style scoped>
 .options-container {
-  --c-select-background: var(--camelot-m3-surface);
-  background: rgba(var(--c-select-background),1);
+  --c-select-background: var(--camelot-m3-background);
+  background: color-mix(in oklab, var(--camelot-c-select-background) 100%, transparent);
   display: flex;
   overflow: auto;
   position: relative;

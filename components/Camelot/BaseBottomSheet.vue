@@ -149,7 +149,7 @@ watch([() => route.path, () => route.query], ([path, query]) => {
 }
 
 .mask {
-  background-color: rgba(var(--cml-c-mask-color), .8);
+  background-color: color-mix(in oklab, var(--cml-c-mask-color) 80%, transparent);
   width: 100dvw;
   height: 100dvh;
   pointer-events: painted;

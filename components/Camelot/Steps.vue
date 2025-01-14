@@ -136,7 +136,7 @@ const isComplete = (index: number) => {
   position: absolute;
   width: 100%;
   height: 0.125rem;
-  background-color:rgba(var(--camelot-m3-outline), 1);
+  background-color:color-mix(in oklab, var(--camelot-m3-outline) 100%, transparent);
   transition-property: color, background-color, border-color, text-decoration-color, fill,
     stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -147,7 +147,7 @@ const isComplete = (index: number) => {
 }
 
 .step-line-complete {
-  background-color: rgba(var(--camelot-m3-primary), 1) !important;
+  background-color: color-mix(in oklab, var(--camelot-m3-primary) 100%, white) !important;
 }
 
 .step-dot-container {
@@ -170,16 +170,16 @@ const isComplete = (index: number) => {
     stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
-  background-color: rgba(var(--camelot-m3-surface), 1);
+  background-color: color-mix(in oklab, var(--camelot-m3-surface) 100%, transparent);
 }
 
 .step-dot-doing {
-  border-color: rgba(var(--camelot-m3-primary), 1) !important;
+  border-color: color-mix(in oklab, var(--camelot-m3-primary) 100%, white) !important;
 }
 
 .step-dot-complete {
-  border-color: rgba(var(--camelot-m3-primary), 1) !important;
-  background-color: rgba(var(--camelot-m3-primary), 1) !important;
+  border-color: color-mix(in oklab, var(--camelot-m3-primary) 100%, white) !important;
+  background-color: color-mix(in oklab, var(--camelot-m3-primary) 100%, white) !important;
 }
 
 .step-dot-text {
@@ -188,12 +188,12 @@ const isComplete = (index: number) => {
 }
 
 .step-dot-text-doing {
-  color: rgba(var(--camelot-m3-primary), 1) !important;
+  color: color-mix(in oklab, var(--camelot-m3-primary) 100%, white) !important;
 }
 
 .step-dot-text-complete {
   user-select: none;
-  color: rgba(var(--camelot-m3-on-primary), 1);
+  color: color-mix(in oklab, var(--camelot-m3-on-primary) 100%, transparent);
 }
 
 .step-content {
@@ -205,6 +205,6 @@ const isComplete = (index: number) => {
 }
 
 .step-content-complete {
-  color: rgba(var(--camelot-m3-primary), 1) !important;
+  color: color-mix(in oklab, var(--camelot-m3-primary) 100%, white) !important;
 }
 </style>

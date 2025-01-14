@@ -79,7 +79,7 @@ onUpdated(() => {
 
 :deep(.ripple) {
   position: absolute;
-  background: radial-gradient(#0000, rgba(var(--cml-c-ripple-color),1));
+  background: radial-gradient(#0000, color-mix(in oklab, var(--cml-c-ripple-color) 100%, white));
   transform: translate(-50%, -50%);
   pointer-events: none;
   border-radius: 50%;

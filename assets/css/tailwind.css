@@ -49,8 +49,7 @@
   --color-surface-tint: var(--cml-m3-surface-tint);
   --color-scrim: var(--cml-m3-scrim);
 
-  --cml-x-test: var(--cml-x-test);
-  --color-test: theme(--cml-x-test);
+  --color-test: var(--cml-x-test);
 
   --spacing-header: 3rem;
   --spacing-footer: 30px;

@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<{
   }
 
   75% {
-    background-color: rgba(var(--background-color), .6);
+    background-color: color-mix(in oklab, var(--background-color) 60%, transparent);
   }
 
   100% {
