@@ -39,6 +39,12 @@ export default defineNuxtConfig({
 });
 ```
 
+## TailwindCSS v4
+
+Tailwind v4 不適用於 Safari 15
+
+Tailwind v4 使用 css color-mix 目前 webview on safari 尚未支援
+
 ## TailwindCSS v3
 
 > [!WARNING]  
