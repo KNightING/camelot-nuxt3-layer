@@ -1,4 +1,3 @@
-import { toValue } from '@vueuse/shared';
 <template>
   <ul>
     <li

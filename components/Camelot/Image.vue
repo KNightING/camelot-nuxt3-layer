@@ -1,15 +1,25 @@
 <template>
-  <CamelotSkeleton v-if="isLoading" ref="target" />
-  <div v-else-if="isError" v-bind="$attrs">
+  <CamelotSkeleton
+    v-if="isLoading"
+    ref="target"
+  />
+  <div
+    v-else-if="isError"
+    v-bind="$attrs"
+  >
     <slot name="error" />
   </div>
-  <img v-else :src="src" v-bind="$attrs">
+  <img
+    v-else
+    :src="src"
+    v-bind="$attrs"
+  >
 </template>
 
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    src: string
+    src?: string
     immediate?: boolean
   } >(), {
     immediate: false,

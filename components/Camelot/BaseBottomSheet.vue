@@ -141,7 +141,7 @@ watch([() => route.path, () => route.query], ([path, query]) => {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 1000;
   align-items: flex-end;
   width: 100dvw;
   height: 100dvh;

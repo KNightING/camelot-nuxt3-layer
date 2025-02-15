@@ -7,7 +7,7 @@
           :id="tag"
           class="dialog-container"
           :style="[
-            `z-index:${zIndex ?? 9999};`,
+            `z-index:${zIndex ?? 1000};`,
           ]"
         >
           <div

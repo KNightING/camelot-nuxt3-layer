@@ -1,5 +1,5 @@
 export interface LazyImageOptions {
-  src: string
+  src?: string
   immediate?: boolean
 }
 
