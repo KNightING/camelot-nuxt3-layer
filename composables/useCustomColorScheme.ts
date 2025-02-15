@@ -77,19 +77,19 @@ export const useCustomColorScheme = <T>(
 
   const lightColorScheme = target
     ? ref(
-      {
-        ...globalLightColorScheme.value,
-        ...(config?.lightColorScheme ? config?.lightColorScheme : {}),
-      },
-    )
+        {
+          ...globalLightColorScheme.value,
+          ...(config?.lightColorScheme ? config?.lightColorScheme : {}),
+        },
+      )
     : globalLightColorScheme
   const darkColorScheme = target
     ? ref(
-      {
-        ...globalDarkColorScheme.value,
-        ...(config?.darkColorScheme ? config?.darkColorScheme : {}),
-      },
-    )
+        {
+          ...globalDarkColorScheme.value,
+          ...(config?.darkColorScheme ? config?.darkColorScheme : {}),
+        },
+      )
     : globalDarkColorScheme
 
   const usedColorScheme = computed<CustomColorScheme<T>>(() => {
