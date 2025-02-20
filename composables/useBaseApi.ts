@@ -30,7 +30,7 @@ export const useBasicTokenRequest = (accountRef: MaybeRefOrGetter<string>, pwdRe
       return
     }
     const token = useBasicToken(account, pwd)
-    options.headers.append('Authorization', `Basic ${token}`)
+    options.headers.set('Authorization', `Basic ${token}`)
   }
 }
 
@@ -40,16 +40,16 @@ export const useBearerTokenRequest = (tokenRef: MaybeRefOrGetter<string>): OnReq
     if (token.length <= 0) {
       return
     }
-    options.headers.append('Authorization', `Bearer ${token}`)
+    options.headers.set('Authorization', `Bearer ${token}`)
   }
 }
 
 export const secureHeaderRequest: OnRequest = ({ options }) => {
   // 阻止瀏覽器探知檔案的 mime type
-  options.headers.append('X-Content-Type-Options', 'nosniff')
+  options.headers.set('X-Content-Type-Options', 'nosniff')
 
   // 對 same-origin 的 URL 正常送出 Referer，但不對 cross-origin 送出
-  options.headers.append('Referrer-Policy', 'same-origin')
+  options.headers.set('Referrer-Policy', 'same-origin')
 }
 
 export type ApiFetchOptions<
@@ -95,7 +95,7 @@ const useApiFetch = <DataT>(
       async onRequest(context: FetchContext<any, ResponseType>) {
         switch (options.contentType) {
           case ContentType.Json: {
-            context.options.headers.append('Content-Type', 'application/json')
+            context.options.headers.set('Content-Type', 'application/json')
           }
         }
 
@@ -163,7 +163,7 @@ const useApiFetch = <DataT>(
         async onRequest(context: FetchContext<any, ResponseType>) {
           switch (options.contentType) {
             case ContentType.Json: {
-              context.options.headers.append('Content-Type', 'application/json')
+              context.options.headers.set('Content-Type', 'application/json')
             }
           }
 
