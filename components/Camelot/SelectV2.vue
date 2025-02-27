@@ -1,5 +1,5 @@
 <template>
-  <AppInput
+  <CamelotInput
     ref="target"
     v-model:is-open="isOpen"
     :selected-value="selected?.value"
@@ -22,7 +22,7 @@
           '!text-app-disabled-text': disabled }"
       />
     </template>
-  </AppInput>
+  </CamelotInput>
 </template>
 
 <script setup lang="ts" generic="T">

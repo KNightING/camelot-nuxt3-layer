@@ -43,7 +43,7 @@
         <slot name="after" />
       </div>
       <template v-if="isSelectMode">
-        <div class="absolute top-[110%] left-0 min-w-full w-fit z-10">
+        <div class="absolute top-[110%] left-0 min-w-full w-fit z-[1]">
           <div
             :class="{
               close: !isOpen,

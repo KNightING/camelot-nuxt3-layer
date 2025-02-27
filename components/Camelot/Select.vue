@@ -33,7 +33,7 @@
                   :style="[
                     'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;',
                   ]"
-                >{{ option.label }}</span>
+                >{{ option.label ?? option.name }}</span>
               </CamelotFixIOS>
             </slot>
           </button>
@@ -44,10 +44,10 @@
 </template>
 
 <script setup lang="ts" generic="T">
-import type { SelectOption } from '../../types/selectOption'
+import type { SelectOptions, SelectOption } from '../../models/selectOptions'
 
 const props = withDefaults(defineProps<{
-  options: SelectOption<T>[]
+  options: SelectOptions<T>
   optionsContainerMaxHeight?: number
   optionsContainerBackgroundColor?: string
   zIndex?: number
@@ -60,7 +60,7 @@ const props = withDefaults(defineProps<{
 
 const open = defineModel<boolean>('open', { default: false })
 
-const model = defineModel<string>()
+const model = defineModel<string | number>()
 
 const emit = defineEmits<{
   changed: [SelectOption<T>]
@@ -100,7 +100,7 @@ watch([optionsContainerEl, props], ([el, props]) => {
   }
 })
 
-const onItemClick = (e: Event, value: string) => {
+const onItemClick = (e: Event, value: string | number) => {
   model.value = value
   if (!props.disableCloseWhenSelected) {
     open.value = false

@@ -9,6 +9,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        radial: 'radial-gradient(circle, var(--tw-gradient-stops))',
+      },
       spacing: {
         header: '3rem',
         footer: '30px',
