@@ -1,5 +1,5 @@
 <template>
-  <label class="flex items-center w-full min-w-[16ch]">
+  <label class="flex items-center w-full min-w-10">
     <slot name="label">
       <template v-if="label">
         <span class="textarea-md text-app-secondary-gray w-[14ch]">{{ label }}<span
@@ -29,6 +29,7 @@
           </template>
         </slot>
         <input
+          ref="input"
           v-model="model"
           class="flex-1 outline-none border-none min-w-0 w-full"
           :class="{
@@ -43,7 +44,13 @@
         <slot name="after" />
       </div>
       <template v-if="isSelectMode">
-        <div class="absolute top-[110%] left-0 min-w-full w-fit z-[1]">
+        <div
+          class="absolute left-0 min-w-full w-fit z-10"
+          :class="{
+            'bottom-[110%]': isBottom,
+            'top-[110%]': !isBottom,
+          }"
+        >
           <div
             :class="{
               close: !isOpen,
@@ -75,7 +82,7 @@
                         <span
                           class="text-nowrap text-base font-normal"
                         >
-                          {{ option.name }}
+                          {{ option.label }}
                         </span>
                       </slot>
                     </button>
@@ -100,7 +107,8 @@
 </template>
 
 <script setup lang="ts"  generic="T">
-import type { SelectOptions, SelectOption } from '../../models/selectOptions'
+import { isClient } from '@vueuse/core'
+import type { SelectOption, SelectOptions } from '../../models/selectOptions'
 
 const props = withDefaults(defineProps<{
   border?: boolean
@@ -132,6 +140,17 @@ const emit = defineEmits<{
 
 const target = useTemplateRef('target')
 onClickOutside(target, event => isOpen.value = false)
+
+const isBottom = computed(() => {
+  if (isClient) {
+    return bottom.value + 250 > window.innerHeight
+  }
+  return false
+})
+
+const { bottom } = useElementBounding(target)
+
+const inputEl = useTemplateRef('input')
 
 const placeholder = computed(() => {
   if (props.placeholder) {
@@ -177,10 +196,14 @@ const onInput = useDebounceFn(() => {
 }, 300)
 
 const onOptionSelected = (option: SelectOption<T>) => {
-  model.value = option.name
+  model.value = option.label
   isOpen.value = false
   emit('optionSelected', option)
 }
+
+defineExpose({
+  inputEl,
+})
 </script>
 
 <style scoped>

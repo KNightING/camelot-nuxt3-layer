@@ -144,6 +144,13 @@
       </div>
     </CamelotSelect>
 
+    <CamelotPopupV2>
+      <div>Open Popup 123</div>
+      <template #popup>
+        <div class="h-80 !w-80 bg-blue-400" />
+      </template>
+    </CamelotPopupV2>
+
     <div class="w-40 h-40">
       <CamelotImage
         src="https://123"
@@ -155,14 +162,6 @@
       </CamelotImage>
     </div>
 
-    <div class="flex">
-      <CamelotPopup disable-width-with-target>
-        <input type="input">
-        <template #popup>
-          <!-- <n-date-picker panel type="date" /> -->
-        </template>
-      </CamelotPopup>
-    </div>
     <CamelotSelect
       v-model="department"
       class="w-full"

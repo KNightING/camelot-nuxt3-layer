@@ -1,28 +1,14 @@
 <template>
-  <Teleport to="body">
-    <CamelotCustomColorSchemeProvider>
-      <Transition>
-        <div
-          v-if="open"
-          :id="tag"
-          class="dialog-container"
-          :style="[
-            `z-index:${zIndex ?? 1000};`,
-          ]"
-        >
-          <div
-            class="mask"
-            @click="onCloseByMaskClick"
-          />
-          <dialog
-            :open="open"
-          >
-            <slot />
-          </dialog>
-        </div>
-      </Transition>
-    </CamelotCustomColorSchemeProvider>
-  </Teleport>
+  <Transition>
+    <dialog
+      v-if="open"
+      :id="tag"
+      ref="dialog"
+      @pointerup="onDialogClick"
+    >
+      <slot />
+    </dialog>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -30,7 +16,6 @@ const props = withDefaults(
   defineProps<{
     closeByMask?: boolean
     tag?: string
-    zIndex?: number
     query?: {
       key: string
       value: string
@@ -43,14 +28,15 @@ const props = withDefaults(
 
 const open = defineModel<boolean>('open', { default: false })
 
-function onCloseByMaskClick() {
-  if (props.closeByMask) {
+const dialogRef = useTemplateRef('dialog')
+
+const onDialogClick = (e: PointerEvent) => {
+  if (props.closeByMask && e.target === dialogRef.value) {
     open.value = false
   }
 }
 
 const router = useRouter()
-
 const route = useRoute()
 
 const dialogQueryOptions = computed(() => {
@@ -64,6 +50,19 @@ const dialogQueryOptions = computed(() => {
     }
   }
   return undefined
+})
+
+watch([dialogRef, open], ([dialogEl, open]) => {
+  if (!dialogEl) {
+    return
+  }
+
+  if (open) {
+    // showModal才會有背景遮罩
+    dialogEl.showModal()
+  } else {
+    // dialogEl.close()
+  }
 })
 
 watch(open, (isOpen) => {
@@ -110,31 +109,6 @@ watch([() => route.path, () => route.query], ([path, query]) => {
     open.value = false
   }
 }, { immediate: true })
-
-// if (props.tag) {
-//   watch(open, (isOpen) => {
-//     if (isOpen) {
-//       router.push({ hash: `#${props.tag}` })
-//       return
-//     }
-
-//     if (useRoute().hash === `#${props.tag}`) {
-//       if (useRouterHistory()) {
-//         router.back()
-//       } else {
-//         router.replace({ hash: '' })
-//       }
-//     }
-//   })
-
-//   watch([() => route.path, () => route.hash], ([path, hash]) => {
-//     if (hash === `#${props.tag}`) {
-//       open.value = true
-//     } else {
-//       open.value = false
-//     }
-//   }, { immediate: true })
-// }
 </script>
 
 <style scoped>
@@ -144,37 +118,36 @@ watch([() => route.path, () => route.query], ([path, query]) => {
 
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+  transform: translateY(100dvh);
 }
 
-.dialog-container {
-  display: flex;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  justify-content: center;
-  align-items: center;
-  width: 100dvw;
-  height: 100dvh;
-  pointer-events: none;
+.v-enter-active::backdrop ,
+.v-leave-active::backdrop  {
+  transition: opacity 0.4s ease;
 }
 
-.mask {
-  background-color: rgba(var(--camelot-mask-color), .8);
-  width: 100dvw;
-  height: 100dvh;
-  pointer-events: painted;
+.v-enter-from::backdrop ,
+.v-leave-to::backdrop  {
+  opacity: 0;
 }
 
 dialog {
   pointer-events: painted;
   background-color: transparent;
+  margin: 0;
+  padding: 0;
+  width: 100dvw; /* 宽度占满 */
+  max-width: 100dvw;
+  transform: translateY(calc(100dvh - 100%)); /* 默认隐藏在底部 */
+}
+
+dialog::backdrop {
+  background-color: rgba(var(--camelot-mask-color), .8); /* 深一点的背景，可调整透明度 */
 }
 </style>

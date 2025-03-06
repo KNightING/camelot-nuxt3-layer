@@ -7,8 +7,12 @@
       class="expanded-container"
       :class="{ close: !expanded }"
     >
-      <div style="min-height:0px">
-        <slot />
+      <div
+        style="min-height:0px"
+      >
+        <div ref="contentRef">
+          <slot />
+        </div>
       </div>
     </div>
     <slot name="footer" />
@@ -18,6 +22,14 @@
 <script setup lang="ts">
 const expanded = defineModel<boolean>('expanded', {
   default: false,
+})
+
+const contentRef = useTemplateRef('contentRef')
+
+const { height: contentHeight } = useElementBounding(contentRef)
+
+defineExpose({
+  contentHeight,
 })
 </script>
 
