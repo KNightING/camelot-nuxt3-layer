@@ -21,7 +21,7 @@ const props = withDefaults(
   defineProps<{
     src?: string
     immediate?: boolean
-  } >(), {
+  }>(), {
     immediate: false,
   })
 
