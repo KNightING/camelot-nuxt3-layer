@@ -1,27 +1,44 @@
 import { isClient } from '@vueuse/core'
+import { useScrollOnBottom } from './useScrollOnBottom'
 
 export const useInfinitePage = (options: {
   nextPage: VoidFunction
   isPending: Ref<boolean | null | undefined>
   isEnd?: Ref<boolean | null | undefined>
+  target?: MaybeRefOrGetter<HTMLElement | SVGElement | null | undefined>
+  offset?: MaybeRefOrGetter<number>
 }) => {
-  const nextPage = useThrottleFn(() => {
-    if (options.isEnd && options.isEnd.value) {
+  if (!isClient) {
+    return
+  }
+
+  const {
+    nextPage,
+    isPending,
+    isEnd,
+    target = document.documentElement,
+    offset = 20,
+  } = options
+
+  const { isOnBottom } = useScrollOnBottom({ target, offset })
+
+  const nextPageThrottleFn = useThrottleFn(() => {
+    if (isEnd && isEnd.value) {
       return
     }
 
-    if (options.isPending.value) {
+    if (isPending.value) {
       return
     }
 
-    options.nextPage()
+    nextPage()
   })
 
-  const { arrivedState } = useScroll(document, { offset: { bottom: 20 } })
+  // const { arrivedState } = useScroll(document, { offset: { bottom: 20 } })
 
-  watch(arrivedState, (arrivedState) => {
-    if (arrivedState.bottom) {
-      nextPage()
+  watch(isOnBottom, (isOnBottom) => {
+    if (isOnBottom) {
+      nextPageThrottleFn()
     }
   }, { immediate: true })
 
@@ -29,7 +46,7 @@ export const useInfinitePage = (options: {
     let timeout: NodeJS.Timeout | undefined = undefined
 
     // 如果資料異動, 但是頁面不能滾動則測試呼叫下一頁
-    watch(options.isPending, (isPending) => {
+    watch(isPending, (isPending) => {
       if (timeout) {
         clearTimeout(timeout)
       }
@@ -38,7 +55,7 @@ export const useInfinitePage = (options: {
           if (document.documentElement
             && document.documentElement.scrollHeight <= document.documentElement.clientHeight
           ) {
-            nextPage()
+            nextPageThrottleFn()
           }
         }, 100)
       }
