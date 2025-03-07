@@ -3,15 +3,18 @@
     ref="targetRef"
     class="w-fit relative"
   >
-    <div @click="() => open=true">
+    <div @click="onTargetClick">
       <slot />
     </div>
 
     <div
-      class="absolute left-0 min-w-full w-fit z-30"
+      class="absolute left-0 min-w-full w-fit"
       :class="{
-        'bottom-[110%]': isBottom,
-        'top-[110%]': !isBottom,
+        'bottom-[105%]': isBottom,
+        'top-[105%]': !isBottom,
+      }"
+      :style="{
+        zIndex: props.zIndex || 10,
       }"
     >
       <CamelotExpanded
@@ -48,6 +51,12 @@ const isBottom = computed(() => {
   }
   return false
 })
+
+const onTargetClick = () => {
+  if (!props.disabled) {
+    open.value = !open.value
+  }
+}
 
 onUpdated(() => {
   if (props.disabled) {

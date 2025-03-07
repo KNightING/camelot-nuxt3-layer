@@ -55,13 +55,6 @@
 
     <input v-model="v">
 
-    <div
-      class="text-test bg-primary"
-      @click="open = true"
-    >
-      open dialog
-    </div>
-
     <CamelotTabs
       v-model="tabSelected"
       class="top-0 sticky bg-surface py-2 px-2  z-10 drop-shadow"
@@ -134,7 +127,7 @@
 
     isOnBottom: {{ isOnBottom }}
 
-    <CamelotSelect
+    <CamelotSelectV2
       v-model="department"
       class="w-full"
       :options="options"
@@ -143,14 +136,16 @@
       <div
         class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
       >
-        <span class="flex-1">新竹縣</span>
+        <span class="flex-1">{{ department }}</span>
       </div>
-    </CamelotSelect>
+    </CamelotSelectV2>
 
-    <CamelotPopupV2>
-      <div>Open Popup 123</div>
+    <CamelotPopupV2 class="ml-10">
+      <div>
+        Open Popup 123
+      </div>
       <template #popup>
-        <div class="h-80 !w-80 bg-blue-400" />
+        <div class="h-[100px] bg-blue-400" />
       </template>
     </CamelotPopupV2>
 
@@ -165,7 +160,7 @@
       </CamelotImage>
     </div>
 
-    <CamelotSelect
+    <CamelotSelectV2
       v-model="department"
       class="w-full"
       :options="options"
@@ -174,32 +169,32 @@
       <div
         class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
       >
-        <span class="flex-1">新竹縣</span>
+        <span class="flex-1">{{ department }}</span>
       </div>
-    </CamelotSelect>
+
+      <template #option="{ data: itemData }">
+        <span class="flex-1">{{ itemData.name }}~~</span>
+      </template>
+
+      <template #option-中式餐廳>
+        <span class="flex-1">中式餐~~廳</span>
+      </template>
+    </CamelotSelectV2>
   </div>
 </template>
 
 <script setup lang="ts">
-import { isClient } from '@vueuse/core'
-
 const loading = useLoading()
 
-const a = await loading.run('', async () => {
-  return ''
-})
-
-const isPending = ref(false)
-
 const { isOnBottom } = useScrollOnBottom()
-useInfinitePage({
-  nextPage: () => {
-    const newDiv = document.createElement('div')
-    newDiv.style.height = '1000px'
-    document.documentElement.appendChild(newDiv)
-  },
-  isPending: isPending,
-})
+// useInfinitePage({
+//   nextPage: () => {
+//     const newDiv = document.createElement('div')
+//     newDiv.style.height = '1000px'
+//     document.documentElement.appendChild(newDiv)
+//   },
+//   isPending: isPending,
+// })
 
 const step = ref(0)
 const expanded = ref(false)
@@ -218,26 +213,6 @@ const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined, {
 const elLightColorScheme = ref<Material3ColorSchemePartial>({
   primary: 'yellow',
 })
-
-const change = () => {
-  elLightColorScheme.value.primary = 'green'
-}
-
-const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
-  primary: '#44ffFF',
-  test: '#F40fFF',
-  rippleColor: '#000FFF',
-})
-
-const open = ref(false)
-
-const openBottomSheet = ref(false)
-
-const openLoading = async () => {
-  const closeable = useLoading().open('test')
-  await useDelay(3000)
-  closeable()
-}
 
 const data
   = Array.from({ length: 21 }).map((_, rowIndex) => {
