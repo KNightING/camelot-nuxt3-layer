@@ -131,6 +131,9 @@
         </template>
       </CamelotImage>
     </div>
+
+    isOnBottom: {{ isOnBottom }}
+
     <CamelotSelect
       v-model="department"
       class="w-full"
@@ -184,6 +187,18 @@ const loading = useLoading()
 
 const a = await loading.run('', async () => {
   return ''
+})
+
+const isPending = ref(false)
+
+const { isOnBottom } = useScrollOnBottom()
+useInfinitePage({
+  nextPage: () => {
+    const newDiv = document.createElement('div')
+    newDiv.style.height = '1000px'
+    document.documentElement.appendChild(newDiv)
+  },
+  isPending: isPending,
 })
 
 const step = ref(0)
@@ -258,43 +273,6 @@ const options = ref([
     value: '中式餐廳',
   },
 ])
-
-if (isClient) {
-  const v = ref('1')
-  const id = computed(() => toValue(v))
-
-  const catApi = useBaseApi({
-    baseURL: 'https://cataas.com',
-    timeout: 30000,
-  })
-
-  const cat = catApi.get<string>(() => `/cat?v=${id.value}`, {
-
-  }).fetch()
-}
-
-const baseApi = useBaseApi({
-  baseURL: 'http://localhost:5182',
-  timeout: 30000,
-})
-
-const ping = () => baseApi.get<string>('/ping', {
-  // onRequests: [
-  //   useBasicTokenRequest('account', 'pwd')
-  // ],
-}).useFetch()
-
-try {
-  const { data, refresh, status } = ping()
-  await refresh()
-  watch(data, (nV) => {
-    console.log('data', nV)
-  }, { immediate: true })
-
-  // await refresh()
-} catch (e) {
-  console.log('error', e)
-}
 </script>
 
 <style scoped></style>

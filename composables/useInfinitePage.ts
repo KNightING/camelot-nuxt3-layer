@@ -8,15 +8,11 @@ export const useInfinitePage = (options: {
   target?: MaybeRefOrGetter<HTMLElement | SVGElement | null | undefined>
   offset?: MaybeRefOrGetter<number>
 }) => {
-  if (!isClient) {
-    return
-  }
-
   const {
     nextPage,
     isPending,
     isEnd,
-    target = document.documentElement,
+    target = window,
     offset = 20,
   } = options
 
@@ -37,6 +33,7 @@ export const useInfinitePage = (options: {
   // const { arrivedState } = useScroll(document, { offset: { bottom: 20 } })
 
   watch(isOnBottom, (isOnBottom) => {
+    console.log('test', isOnBottom)
     if (isOnBottom) {
       nextPageThrottleFn()
     }
