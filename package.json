@@ -1,7 +1,7 @@
 {
   "name": "camelot-nuxt3-layer",
   "type": "module",
-  "version": "3.15.4.3",
+  "version": "3.15.4.4",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -36,7 +36,6 @@
     "change-case": "^5.4.4",
     "pinia-plugin-persistedstate": "^4.2.0"
   },
-  "packageManager": "pnpm@10.5.2",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",

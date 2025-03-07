@@ -180,6 +180,59 @@
         <span class="flex-1">中式餐~~廳</span>
       </template>
     </CamelotSelectV2>
+
+    <span>向下相容</span>
+    <CamelotBreakpoints>
+      <template
+        #default="{
+          isMobile,
+          isTablet,
+          isLaptop,
+          isDesktop,
+        }"
+      >
+        <div class="flex flex-col gap-4">
+          <span>isMobile:{{ isMobile }}</span>
+          <span>isTablet:{{ isTablet }}</span>
+          <span>isLaptop:{{ isLaptop }}</span>
+          <span>isDesktop:{{ isDesktop }}</span>
+        </div>
+      </template>
+
+      <template #mobile>
+        mobile
+      </template>
+
+      <template #laptop>
+        laptop
+      </template>
+    </CamelotBreakpoints>
+
+    <CamelotBreakpoints disabled-downward>
+      <template
+        #default="{
+          isMobile,
+          isTablet,
+          isLaptop,
+          isDesktop,
+        }"
+      >
+        <div class="flex flex-col gap-4">
+          <span>isMobile:{{ isMobile }}</span>
+          <span>isTablet:{{ isTablet }}</span>
+          <span>isLaptop:{{ isLaptop }}</span>
+          <span>isDesktop:{{ isDesktop }}</span>
+        </div>
+      </template>
+
+      <template #mobile>
+        mobile
+      </template>
+
+      <template #laptop>
+        laptop
+      </template>
+    </CamelotBreakpoints>
   </div>
 </template>
 
