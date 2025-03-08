@@ -124,8 +124,9 @@ onMounted(() => {
 
 <style scoped>
 .options-container {
-  --c-select-background: var(--material3-background);
+  --c-select-background: var(--material3-surface);
   background: rgba(var(--c-select-background),1);
+  background: white;
   display: flex;
   overflow: auto;
   position: relative;
@@ -134,24 +135,10 @@ onMounted(() => {
   padding: 0.5rem;
   flex-direction: column;
   border-radius: 0.5rem;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
 }
 
 .option {
   display: flex;
   align-items: center;
-}
-
-.v-enter-active {
-  transition: all 0.4s ease;
-}
-
-.v-leave-active {
-  transition: all 0.2s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
 }
 </style>

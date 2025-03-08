@@ -1,7 +1,7 @@
 export const useValueValidation = (
   target: MaybeRef<string | undefined>,
   options: {
-    type: 'email' | 'mobile' | 'number' | 'phone' | 'taiwanIdNumber' | 'taiwanUniformNumber'
+    type: 'email' | 'mobile' | 'internationalMobile' | 'number' | 'phone' | 'phoneCanExtension' | 'taiwanIdNumber' | 'taiwanUniformNumber'
     allowUndefined?: boolean
   },
 ) =>
@@ -17,8 +17,12 @@ export const useValueValidation = (
         return /^[\w\\-\\.]+@([\w\\-]+\.)+[\w\\-]{2,4}$/.test(value)
       case 'mobile':
         return /^[0-9]+$/.test(value)
+      case 'internationalMobile':
+        return /^\+\d{1,3}\d{8,9}$/.test(value)
       case 'phone':
         return /^0\d{8,9}$/.test(value)
+      case 'phoneCanExtension':
+        return /^0\d{8,9}(#\d+)?$/.test(value)
       case 'number':
         return /^[0-9]+$/.test(value)
       case 'taiwanIdNumber':

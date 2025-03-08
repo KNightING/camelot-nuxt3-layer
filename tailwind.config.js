@@ -21,39 +21,59 @@ module.exports = {
         'primary-container': 'rgba(var(--material3-primary-container), <alpha-value>)',
         'on-primary': 'rgba(var(--material3-on-primary), <alpha-value>)',
         'on-primary-container': 'rgba(var(--material3-on-primary-container), <alpha-value>)',
-        'inverse-primary': 'rgba(var(--material3-inverse-primary), <alpha-value>)',
+
+        'primary-fixed': 'rgba(var(--material3-primary-fixed), <alpha-value>)',
+        'primary-fixed-dim': 'rgba(var(--material3-primary-fixed-dim), <alpha-value>)',
+        'on-primary-fixed': 'rgba(var(--material3-on-primary-fixed), <alpha-value>)',
+        'on-primary-fixed-variant': 'rgba(var(--material3-on-primary-fixed-variant), <alpha-value>)',
+
         'secondary': 'rgba(var(--material3-secondary), <alpha-value>)',
         'secondary-container': 'rgba(var(--material3-secondary-container), <alpha-value>)',
         'on-secondary': 'rgba(var(--material3-on-secondary), <alpha-value>)',
         'on-secondary-container': 'rgba(var(--material3-on-secondary-container), <alpha-value>)',
+
+        'secondary-fixed': 'rgba(var(--material3-secondary-fixed), <alpha-value>)',
+        'secondary-fixed-dim': 'rgba(var(--material3-secondary-fixed-dim), <alpha-value>)',
+        'on-secondary-fixed': 'rgba(var(--material3-on-secondary-fixed), <alpha-value>)',
+        'on-secondary-fixed-variant': 'rgba(var(--material3-on-secondary-fixed-variant), <alpha-value>)',
+
         'tertiary': 'rgba(var(--material3-tertiary), <alpha-value>)',
         'tertiary-container': 'rgba(var(--material3-tertiary-container), <alpha-value>)',
         'on-tertiary': 'rgba(var(--material3-on-tertiary), <alpha-value>)',
         'on-tertiary-container': 'rgba(var(--material3-on-tertiary-container), <alpha-value>)',
-        'surface': 'rgba(var(--material3-surface), <alpha-value>)',
+
+        'tertiary-fixed': 'rgba(var(--material3-tertiary-fixed), <alpha-value>)',
+        'tertiary-fixed-dim': 'rgba(var(--material3-tertiary-fixed-dim), <alpha-value>)',
+        'on-tertiary-fixed': 'rgba(var(--material3-on-tertiary-fixed), <alpha-value>)',
+        'on-tertiary-fixed-variant': 'rgba(var(--material3-on-tertiary-fixed-variant), <alpha-value>)',
+
         'surface-dim': 'rgba(var(--material3-surface-dim), <alpha-value>)',
+        'surface': 'rgba(var(--material3-surface), <alpha-value>)',
         'surface-bright': 'rgba(var(--material3-surface-bright), <alpha-value>)',
+
         'surface-container-lowest': 'rgba(var(--material3-surface-container-lowest), <alpha-value>)',
         'surface-container-low': 'rgba(var(--material3-surface-container-low), <alpha-value>)',
         'surface-container': 'rgba(var(--material3-surface-container), <alpha-value>)',
         'surface-container-high': 'rgba(var(--material3-surface-container-high), <alpha-value>)',
         'surface-container-highest': 'rgba(var(--material3-surface-container-highest), <alpha-value>)',
-        'surface-variant': 'rgba(var(--material3-surface-variant), <alpha-value>)',
+
         'on-surface': 'rgba(var(--material3-on-surface), <alpha-value>)',
         'on-surface-variant': 'rgba(var(--material3-on-surface-variant), <alpha-value>)',
-        'inverse-surface': 'rgba(var(--material3-inverse-surface), <alpha-value>)',
-        'inverse-on-surface': 'rgba(var(--material3-inverse-on-surface), <alpha-value>)',
-        'background': 'rgba(var(--material3-background), <alpha-value>)',
-        'on-background': 'rgba(var(--material3-on-background), <alpha-value>)',
+        'outline': 'rgba(var(--material3-outline), <alpha-value>)',
+        'outline-variant': 'rgba(var(--material3-outline-variant), <alpha-value>)',
+
         'error': 'rgba(var(--material3-error), <alpha-value>)',
         'error-container': 'rgba(var(--material3-error-container), <alpha-value>)',
         'on-error': 'rgba(var(--material3-on-error), <alpha-value>)',
         'on-error-container': 'rgba(var(--material3-on-error-container), <alpha-value>)',
-        'outline': 'rgba(var(--material3-outline), <alpha-value>)',
-        'outline-variant': 'rgba(var(--material3-outline-variant), <alpha-value>)',
-        'shadow': 'rgba(var(--material3-shadow), <alpha-value>)',
-        'surface-tint': 'rgba(var(--material3-surface-tint), <alpha-value>)',
+
+        'inverse-surface': 'rgba(var(--material3-inverse-surface), <alpha-value>)',
+        'inverse-on-surface': 'rgba(var(--material3-inverse-on-surface), <alpha-value>)',
+        'inverse-primary': 'rgba(var(--material3-inverse-primary), <alpha-value>)',
+
         'scrim': 'rgba(var(--material3-scrim), <alpha-value>)',
+        'shadow': 'rgba(var(--material3-shadow), <alpha-value>)',
+
         'test': 'rgba(var(--custom-test), <alpha-value>)',
       },
       transitionTimingFunction: {

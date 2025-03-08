@@ -6,39 +6,58 @@ export type Material3ColorScheme = {
   primaryContainer: string
   onPrimary: string
   onPrimaryContainer: string
-  inversePrimary: string
+
+  primaryFixed: string
+  primaryFixedDim: string
+  onPrimaryFixed: string
+  onPrimaryFixedVariant: string
+
   secondary: string
   secondaryContainer: string
   onSecondary: string
   onSecondaryContainer: string
+
+  secondaryFixed: string
+  secondaryFixedDim: string
+  onSecondaryFixed: string
+  onSecondaryFixedVariant: string
+
   tertiary: string
   tertiaryContainer: string
   onTertiary: string
   onTertiaryContainer: string
-  surface: string
+
+  tertiaryFixed: string
+  tertiaryFixedDim: string
+  onTertiaryFixed: string
+  onTertiaryFixedVariant: string
+
   surfaceDim: string
+  surface: string
   surfaceBright: string
+
   surfaceContainerLowest: string
   surfaceContainerLow: string
   surfaceContainer: string
   surfaceContainerHigh: string
   surfaceContainerHighest: string
-  surfaceVariant: string
+
   onSurface: string
   onSurfaceVariant: string
-  inverseSurface: string
-  inverseOnSurface: string
-  background: string
-  onBackground: string
+  outline: string
+  outlineVariant: string
+
   error: string
   errorContainer: string
   onError: string
   onErrorContainer: string
-  outline: string
-  outlineVariant: string
-  shadow: string
-  surfaceTint: string
+
+  inverseSurface: string
+  inverseOnSurface: string
+  inversePrimary: string
+
   scrim: string
+  shadow: string
 }
 
 export type Material3ColorSchemePartial = Partial<Material3ColorScheme>
@@ -50,39 +69,58 @@ export const defaultColorScheme: Material3ColorScheme = {
   primaryContainer: '#eaddff',
   onPrimary: '#ffffff',
   onPrimaryContainer: '#21005e',
-  inversePrimary: '#d0bcff',
+
+  primaryFixed: '#4f378b',
+  primaryFixedDim: '#3b2a6b',
+  onPrimaryFixed: '#ffffff',
+  onPrimaryFixedVariant: '#21005e',
+
   secondary: '#625b71',
   secondaryContainer: '#e8def8',
   onSecondary: '#ffffff',
   onSecondaryContainer: '#1e192b',
+
+  secondaryFixed: '#4a4458',
+  secondaryFixedDim: '#36343b',
+  onSecondaryFixed: '#ffffff',
+  onSecondaryFixedVariant: '#1e192b',
+
   tertiary: '#7d5260',
   tertiaryContainer: '#ffd8e4',
   onTertiary: '#ffffff',
   onTertiaryContainer: '#370b1e',
-  surface: '#fef7ff',
+
+  tertiaryFixed: '#633b48',
+  tertiaryFixedDim: '#492532',
+  onTertiaryFixed: '#ffffff',
+  onTertiaryFixedVariant: '#370b1e',
+
   surfaceDim: '#ded8e1',
+  surface: '#fef7ff',
   surfaceBright: '#fef7ff',
+
   surfaceContainerLowest: '#ffffff',
   surfaceContainerLow: '#f7f2fa',
   surfaceContainer: '#f3edf7',
   surfaceContainerHigh: '#ece6f0',
   surfaceContainerHighest: '#e6e0e9',
-  surfaceVariant: '#e7e0ec',
+
   onSurface: '#1c1b1f',
   onSurfaceVariant: '#49454e',
-  inverseSurface: '#313033',
-  inverseOnSurface: '#f4eff4',
-  background: '#fef7ff',
-  onBackground: '#1c1b1f',
+  outline: '#79747e',
+  outlineVariant: '#c4c7c5',
+
   error: '#b3261e',
   errorContainer: '#f9dedc',
   onError: '#ffffff',
   onErrorContainer: '#410e0b',
-  outline: '#79747e',
-  outlineVariant: '#c4c7c5',
-  shadow: '#000000',
-  surfaceTint: '#6750a4',
+
+  inverseSurface: '#313033',
+  inverseOnSurface: '#f4eff4',
+  inversePrimary: '#d0bcff',
+
   scrim: '#000000',
+  shadow: '#000000',
 }
 
 export const defaultDarkColorScheme: Material3ColorScheme = {
@@ -90,39 +128,58 @@ export const defaultDarkColorScheme: Material3ColorScheme = {
   primaryContainer: '#4f378b',
   onPrimary: '#371e73',
   onPrimaryContainer: '#eaddff',
-  inversePrimary: '#6750a4',
+
+  primaryFixed: '#bca0ff',
+  primaryFixedDim: '#8c6eff',
+  onPrimaryFixed: '#371e73',
+  onPrimaryFixedVariant: '#eaddff',
+
   secondary: '#ccc2dc',
   secondaryContainer: '#4a4458',
   onSecondary: '#332d41',
   onSecondaryContainer: '#e8def8',
+
+  secondaryFixed: '#b8b2c1',
+  secondaryFixedDim: '#938f99',
+  onSecondaryFixed: '#332d41',
+  onSecondaryFixedVariant: '#e8def8',
+
   tertiary: '#efb8c8',
   tertiaryContainer: '#633b48',
   onTertiary: '#492532',
   onTertiaryContainer: '#ffd8e4',
-  surface: '#141218',
+
+  tertiaryFixed: '#e6a1b0',
+  tertiaryFixedDim: '#b26d7e',
+  onTertiaryFixed: '#492532',
+  onTertiaryFixedVariant: '#ffd8e4',
+
   surfaceDim: '#141218',
+  surface: '#141218',
   surfaceBright: '#3b383e',
+
   surfaceContainerLowest: '#0f0d13',
   surfaceContainerLow: '#1d1b20',
   surfaceContainer: '#211f26',
   surfaceContainerHigh: '#2b2930',
   surfaceContainerHighest: '#36343b',
-  surfaceVariant: '#49454f',
+
   onSurface: '#e6e1e5',
   onSurfaceVariant: '#cac4d0',
-  inverseSurface: '#e6e1e5',
-  inverseOnSurface: '#313033',
-  background: '#141218',
-  onBackground: '#e6e1e5',
+  outline: '#938f99',
+  outlineVariant: '#444746',
+
   error: '#f2b8b5',
   errorContainer: '#8c1d18',
   onError: '#601410',
   onErrorContainer: '#f9dedc',
-  outline: '#938f99',
-  outlineVariant: '#444746',
-  shadow: '#000000',
-  surfaceTint: '#d0bcff',
+
+  inverseSurface: '#e6e1e5',
+  inverseOnSurface: '#313033',
+  inversePrimary: '#6750a4',
+
   scrim: '#000000',
+  shadow: '#000000',
 }
 
 export const Material3ColorSchemeKeys = Object.keys(
@@ -158,23 +215,6 @@ const globalUsedColorScheme = computed(() => {
     ...(isDark ? globalDarkColorScheme.value : globalLightColorScheme.value),
   }
 })
-
-// const globalChangeCase = useChangeCase("", "kebabCase");
-
-// watchImmediate(globalUsedColorScheme, (nV) => {
-//   for (const key in nV) {
-//     if (useIsValidKey(key, nV)) {
-//       globalChangeCase.value = key;
-//       const cssVar = getCssVar(globalChangeCase.value);
-//       const rbga = useColor().hexToRgbaArray(nV[key]);
-//       if (!rbga) {
-//         cssVar.value = nV[key];
-//       } else {
-//         cssVar.value = `${rbga[0]},${rbga[1]},${rbga[2]}`;
-//       }
-//     }
-//   }
-// });
 
 export const useGlobalMaterial3ColorScheme = (
   config?: Material3ColorSchemeConfig,

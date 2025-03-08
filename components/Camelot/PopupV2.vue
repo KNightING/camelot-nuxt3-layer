@@ -12,6 +12,7 @@
       :class="{
         'bottom-[105%]': isBottom,
         'top-[105%]': !isBottom,
+        'drop-shadow': !disabledShadow,
       }"
       :style="{
         zIndex: props.zIndex || 10,
@@ -34,6 +35,7 @@ import type { CamelotExpanded } from '#components'
 const props = defineProps<{
   zIndex?: number
   disabled?: boolean
+  disabledShadow?: boolean
 }>()
 
 const open = defineModel<boolean>('open', { default: false })
