@@ -1,13 +1,15 @@
 <template>
   <ClientOnly>
-    <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme" :cover-global="true">
+    <CamelotColorSchemeProvider
+      :light-color-scheme="elCustomLightColorScheme"
+    >
       <div class="min-h-screen bg-surface transition-all duration-300 flex flex-col">
         <NuxtLoadingIndicator />
         <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>
       </div>
-    </CamelotCustomColorSchemeProvider>
+    </CamelotColorSchemeProvider>
   </ClientOnly>
 </template>
 

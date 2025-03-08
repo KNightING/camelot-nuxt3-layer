@@ -1,7 +1,5 @@
 <template>
-  <div ref="provider">
-    <slot />
-  </div>
+  <slot />
 </template>
 
 <script setup lang="ts" generic="T">
@@ -10,10 +8,8 @@ const props = defineProps<{
   darkColorScheme?: CustomColorScheme<T>
 }>()
 
-const provider = useTemplateRef('provider')
-
 const { lightColorScheme, darkColorScheme, usedColorScheme } = useCustomColorScheme<T>(
-  provider,
+  document.documentElement,
   {
     lightColorScheme: props.lightColorScheme,
     darkColorScheme: props.darkColorScheme,

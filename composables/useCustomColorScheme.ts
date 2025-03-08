@@ -46,7 +46,7 @@ const globalDarkColorScheme = ref<CustomColorScheme<any>>({ ...defaultDarkColorS
  * @returns
  */
 export const useCustomColorScheme = <T>(
-  targetRef?: MaybeElementRef,
+  targetRef: MaybeElementRef,
   config?: {
     lightColorScheme?: CustomColorScheme<T>
     darkColorScheme?: CustomColorScheme<T>
@@ -55,11 +55,16 @@ export const useCustomColorScheme = <T>(
   },
 ) => {
   if (!isClient) {
-    return
-  }
-  const target = targetRef ?? document.body
+    const lightColorScheme = globalDarkColorScheme
+    const darkColorScheme = globalDarkColorScheme
+    const usedColorScheme = globalDarkColorScheme
 
-  if (target === document.body) {
+    return { mode: store, lightColorScheme, darkColorScheme, usedColorScheme }
+  }
+
+  const isGlobal = targetRef === document.documentElement
+
+  if (isGlobal) {
     if (config?.lightColorScheme) {
       globalLightColorScheme.value = {
         ...globalLightColorScheme.value,
@@ -75,22 +80,23 @@ export const useCustomColorScheme = <T>(
     }
   }
 
-  const lightColorScheme = target
-    ? ref(
+  const lightColorScheme = isGlobal
+    ? globalLightColorScheme
+    : ref(
         {
           ...globalLightColorScheme.value,
           ...(config?.lightColorScheme ? config?.lightColorScheme : {}),
         },
       )
-    : globalLightColorScheme
-  const darkColorScheme = target
-    ? ref(
+
+  const darkColorScheme = isGlobal
+    ? globalDarkColorScheme
+    : ref(
         {
           ...globalDarkColorScheme.value,
           ...(config?.darkColorScheme ? config?.darkColorScheme : {}),
         },
       )
-    : globalDarkColorScheme
 
   const usedColorScheme = computed<CustomColorScheme<T>>(() => {
     let isDark = true
@@ -99,55 +105,50 @@ export const useCustomColorScheme = <T>(
     } else {
       isDark = store.value === 'dark'
     }
+
     const cs = <CustomColorScheme<T>>(
-      (isDark ? darkColorScheme.value : lightColorScheme.value)
-    )
-    return { ...cs }
+        (isDark ? darkColorScheme.value : lightColorScheme.value)
+      )
+    console.log(isGlobal, 'cs', cs, lightColorScheme.value)
+    return cs
   })
 
   const changeCase = useChangeCase('', 'kebabCase')
 
-  if (target) {
-    watchImmediate(usedColorScheme, (nV) => {
-      if (config?.editable === false) {
-        return
-      }
+  watchImmediate([usedColorScheme, () => unrefElement(targetRef)], ([colorScheme, target]) => {
+    if (!target) {
+      return
+    }
 
-      for (const key in nV) {
-        if (useIsValidKey(key, nV)) {
-          changeCase.value = key
-          let cssVarKey = changeCase.value
-          if (Material3ColorSchemeKeys.includes(key)) {
-            cssVarKey = `--material3-${cssVarKey}`
-          } else if (CamelotColorSchemeKeys.includes(key)) {
-            cssVarKey = `--camelot-${cssVarKey}`
-          } else if (config?.cssVarKeyPrefix) {
-            cssVarKey = `--${config.cssVarKeyPrefix}-${cssVarKey}`
-          } else {
-            cssVarKey = `--custom-${cssVarKey}`
-          }
-          const cssVar = getCssVar(cssVarKey, target)
-          const rgba = useColor().hexToRgbaArray(nV[key])
-          if (!rgba) {
-            cssVar.value = nV[key]
-          } else {
-            cssVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
-          }
+    if (config?.editable === false) {
+      return
+    }
+
+    console.log('target', target, colorScheme)
+
+    for (const key in colorScheme) {
+      if (useIsValidKey(key, colorScheme)) {
+        changeCase.value = key
+        let cssVarKey = changeCase.value
+        if (Material3ColorSchemeKeys.includes(key)) {
+          cssVarKey = `--material3-${cssVarKey}`
+        } else if (CamelotColorSchemeKeys.includes(key)) {
+          cssVarKey = `--camelot-${cssVarKey}`
+        } else if (config?.cssVarKeyPrefix) {
+          cssVarKey = `--${config.cssVarKeyPrefix}-${cssVarKey}`
+        } else {
+          cssVarKey = `--custom-${cssVarKey}`
+        }
+        const cssVar = getCssVar(cssVarKey, targetRef)
+        const rgba = useColor().hexToRgbaArray(colorScheme[key])
+        if (!rgba) {
+          cssVar.value = colorScheme[key]
+        } else {
+          cssVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
         }
       }
-    })
-  }
-
-  // if (config) {
-  //   if (config.lightColorScheme) {
-  //     const a = config.lightColorScheme
-  //     lightColorScheme.value =  config.lightColorScheme;
-  //   }
-
-  //   if (config.darkColorScheme) {
-  //     darkColorScheme.value = config.darkColorScheme;
-  //   }
-  // }
+    }
+  })
 
   return { mode: store, lightColorScheme, darkColorScheme, usedColorScheme }
 }

@@ -7,7 +7,9 @@
       :style="[
         `z-index:${zIndex};`,
       ]"
+      class="outline-none"
       @pointerup="onDialogClick"
+      @keydown.esc="onEsc"
     >
       <slot />
     </dialog>
@@ -30,6 +32,10 @@ const props = withDefaults(
   },
 )
 
+const emits = defineEmits<{
+  cancel: []
+}>()
+
 const open = defineModel<boolean>('open', { default: false })
 
 const dialogRef = useTemplateRef('dialog')
@@ -37,6 +43,7 @@ const dialogRef = useTemplateRef('dialog')
 const onDialogClick = (e: PointerEvent) => {
   if (props.closeByMask && e.target === dialogRef.value) {
     open.value = false
+    emits('cancel')
   }
 }
 
@@ -65,7 +72,9 @@ watch([dialogRef, open], ([dialogEl, open]) => {
     // showModal才會有背景遮罩
     dialogEl.showModal()
   } else {
-    // dialogEl.close()
+    setTimeout(() => {
+      dialogEl.close()
+    }, 400)
   }
 })
 
@@ -113,6 +122,16 @@ watch([() => route.path, () => route.query], ([path, query]) => {
     open.value = false
   }
 }, { immediate: true })
+
+const onEsc = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    if (props.closeByMask) {
+      open.value = false
+      emits('cancel')
+    }
+    event.preventDefault()
+  }
+}
 </script>
 
 <style scoped>
@@ -141,6 +160,9 @@ watch([() => route.path, () => route.query], ([path, query]) => {
 }
 
 dialog {
+  max-width: 100dvw;
+  max-height: 100dvh;
+  display: flex;
   pointer-events: painted;
   background-color: transparent;
 }

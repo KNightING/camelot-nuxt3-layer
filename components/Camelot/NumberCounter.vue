@@ -115,22 +115,24 @@ const calc = (value: number, isPlus: boolean) => {
   return useFloat().plus(value, plusStep).value
 }
 
-const onMinusClick = () => {
-  let calcValue = calc(model.value, false)
-  if (props.min !== undefined && calcValue <= props.min) {
+const doCalc = (isPlus: boolean) => {
+  let calcValue = calc(model.value, isPlus)
+  if (isPlus && props.max !== undefined && calcValue >= props.max) {
+    calcValue = props.max
+  }
+  if (!isPlus && props.min !== undefined && calcValue <= props.min) {
     calcValue = props.min
   }
   model.value = calcValue
   input.value?.focus()
 }
 
+const onMinusClick = () => {
+  doCalc(false)
+}
+
 const onPlusClick = () => {
-  let calcValue = calc(model.value, true)
-  if (props.max !== undefined && calcValue >= props.max) {
-    calcValue = props.max
-  }
-  model.value = calcValue
-  input.value?.focus()
+  doCalc(true)
 }
 </script>
 

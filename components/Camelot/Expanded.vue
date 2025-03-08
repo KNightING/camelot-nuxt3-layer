@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <div @click="expanded = !expanded">
+    <div @pointerup="expanded = !expanded">
       <slot name="header" />
     </div>
     <div

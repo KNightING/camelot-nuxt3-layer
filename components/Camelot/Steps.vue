@@ -1,7 +1,13 @@
 <template>
   <div class="container">
-    <template v-for="(value, index) in steps" :key="index">
-      <div class="step" @click="onStepClick(index)">
+    <template
+      v-for="(value, index) in steps"
+      :key="index"
+    >
+      <div
+        class="step"
+        @click="onStepClick(index)"
+      >
         <div class="step-icon-line-group">
           <div
             v-if="index < steps.length - 1"
@@ -25,7 +31,10 @@
                   'step-dot-complete': isComplete(index),
                 }"
               >
-                <span v-if="isComplete(index)" class="step-dot-text-complete">✓</span>
+                <span
+                  v-if="isComplete(index)"
+                  class="step-dot-text-complete"
+                >✓</span>
                 <span
                   v-else
                   class="step-dot-text"
