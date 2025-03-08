@@ -109,7 +109,6 @@ export const useCustomColorScheme = <T>(
     const cs = <CustomColorScheme<T>>(
         (isDark ? darkColorScheme.value : lightColorScheme.value)
       )
-    console.log(isGlobal, 'cs', cs, lightColorScheme.value)
     return cs
   })
 
@@ -124,20 +123,18 @@ export const useCustomColorScheme = <T>(
       return
     }
 
-    console.log('target', target, colorScheme)
-
     for (const key in colorScheme) {
       if (useIsValidKey(key, colorScheme)) {
         changeCase.value = key
         let cssVarKey = changeCase.value
         if (Material3ColorSchemeKeys.includes(key)) {
-          cssVarKey = `--material3-${cssVarKey}`
+          cssVarKey = `--camelot-m3-${cssVarKey}`
         } else if (CamelotColorSchemeKeys.includes(key)) {
           cssVarKey = `--camelot-${cssVarKey}`
         } else if (config?.cssVarKeyPrefix) {
           cssVarKey = `--${config.cssVarKeyPrefix}-${cssVarKey}`
         } else {
-          cssVarKey = `--custom-${cssVarKey}`
+          cssVarKey = `--camelot-c-${cssVarKey}`
         }
         const cssVar = getCssVar(cssVarKey, targetRef)
         const rgba = useColor().hexToRgbaArray(colorScheme[key])

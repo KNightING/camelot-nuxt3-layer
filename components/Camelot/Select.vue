@@ -117,7 +117,7 @@ onMounted(() => {
 
 <style scoped>
 .options-container {
-  --c-select-background: var(--material3-surface);
+  --c-select-background: var(--camelot-m3-surface);
   background: rgba(var(--c-select-background),1);
   display: flex;
   overflow: auto;

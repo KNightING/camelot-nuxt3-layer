@@ -195,7 +195,7 @@ type Material3ColorSchemeConfig = {
 const { system, store } = useColorMode()
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
-  useElCssVar(`--material3-${key}`, target, { inherit: false })
+  useElCssVar(`--camelot-m3-${key}`, target, { inherit: false })
 
 const globalLightColorScheme
   = ref<Material3ColorSchemePartial>(defaultColorScheme)

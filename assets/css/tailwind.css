@@ -27,18 +27,18 @@
   /* Track */
   ::-webkit-scrollbar-track {
     -webkit-box-shadow: none !important;
-    background: var(--material3-surface);
+    background: var(--camelot-m3-surface);
   }
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: var(--material3-on-surface-variant);
+    background: var(--camelot-m3-on-surface-variant);
     border-radius: 10px;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--material3-on-surface);
+    background: var(--camelot-m3-on-surface);
   }
 }
 

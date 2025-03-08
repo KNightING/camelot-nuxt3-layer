@@ -5,278 +5,278 @@
   md.sys.color.primary
   md.ref.palette.primary40
 */
-  --material3-primary: #6750a4;
+  --camelot-m3-primary: #6750a4;
 
   /*
   md.sys.color.primary-container
   md.ref.palette.primary90
 */
-  --material3-primary-container: #eaddff;
+  --camelot-m3-primary-container: #eaddff;
 
   /*
   md.sys.color.on-primary
   md.ref.palette.primary100
 */
-  --material3-on-primary: #ffffff;
+  --camelot-m3-on-primary: #ffffff;
 
   /*
   md.sys.color.on-primary-container
   md.ref.palette.primary10
 */
-  --material3-on-primary-container: #21005e;
+  --camelot-m3-on-primary-container: #21005e;
 
   /*
   md.sys.color.inverse-primary
   md.ref.palette.primary80
 */
-  --material3-inverse-primary: #d0bcff;
+  --camelot-m3-inverse-primary: #d0bcff;
 
   /*
   md.sys.color.secondary
   md.ref.palette.secondary40
 */
-  --material3-secondary: #625b71;
+  --camelot-m3-secondary: #625b71;
 
   /*
   md.sys.color.secondary-container
   md.ref.palette.secondary90
 */
-  --material3-secondary-container: #e8def8;
+  --camelot-m3-secondary-container: #e8def8;
 
   /*
   md.sys.color.on-secondary
   md.ref.palette.secondary100
 */
-  --material3-on-secondary: #ffffff;
+  --camelot-m3-on-secondary: #ffffff;
 
   /*
   md.sys.color.on-secondary-container
   md.ref.palette.secondary10
 */
-  --material3-on-secondary-container: #1e192b;
+  --camelot-m3-on-secondary-container: #1e192b;
 
   /*
   md.sys.color.tertiary
   md.ref.palette.tertiary40
 */
-  --material3-tertiary: #7d5260;
+  --camelot-m3-tertiary: #7d5260;
 
   /*
   md.sys.color.tertiary-container
   md.ref.palette.tertiary90
 */
-  --material3-tertiary-container: #ffd8e4;
+  --camelot-m3-tertiary-container: #ffd8e4;
 
   /*
   md.sys.color.on-tertiary
   md.ref.palette.tertiary100
 */
-  --material3-on-tertiary: #ffffff;
+  --camelot-m3-on-tertiary: #ffffff;
 
   /*
   md.sys.color.on-tertiary-container
   md.ref.palette.tertiary10
 */
-  --material3-on-tertiary-container: #370b1e;
+  --camelot-m3-on-tertiary-container: #370b1e;
 
   /*
   md.sys.color.surface
   md.ref.palette.neutral98
 */
-  --material3-surface: #fef7ff;
+  --camelot-m3-surface: #fef7ff;
 
   /*
   md.sys.color.surface-dim
   md.ref.palette.neutral87
 */
-  --material3-surface-dim: #ded8e1;
+  --camelot-m3-surface-dim: #ded8e1;
 
   /*
   md.sys.color.surface-bright
   md.ref.palette.neutral98
 */
-  --material3-surface-bright: #fef7ff;
+  --camelot-m3-surface-bright: #fef7ff;
 
   /*
   md.sys.color.surface-container-lowest
   md.ref.palette.neutral100
 */
-  --material3-surface-container-lowest: #ffffff;
+  --camelot-m3-surface-container-lowest: #ffffff;
 
   /*
   md.sys.color.surface-container-low
   md.ref.palette.neutral96
 */
-  --material3-surface-container-low: #f7f2fa;
+  --camelot-m3-surface-container-low: #f7f2fa;
 
   /*
   md.sys.color.surface-container
   md.ref.palette.neutral94
 */
-  --material3-surface-container: #f3edf7;
+  --camelot-m3-surface-container: #f3edf7;
 
   /*
   md.sys.color.surface-container-high
   md.ref.palette.neutral92
 */
-  --material3-surface-container-high: #ece6f0;
+  --camelot-m3-surface-container-high: #ece6f0;
 
   /*
   md.sys.color.surface-container-highest
   md.ref.palette.neutral90
 */
-  --material3-surface-container-highest: #e6e0e9;
+  --camelot-m3-surface-container-highest: #e6e0e9;
 
   /*
   md.sys.color.on-surface
   md.ref.palette.neutral10
 */
-  --material3-on-surface: #1c1b1f;
+  --camelot-m3-on-surface: #1c1b1f;
 
   /*
   md.sys.color.on-surface-variant
   md.ref.palette.neutral-variant30
 */
-  --material3-on-surface-variant: #49454e;
+  --camelot-m3-on-surface-variant: #49454e;
 
   /*
   md.sys.color.inverse-surface
   md.ref.palette.neutral20
 */
-  --material3-inverse-surface: #313033;
+  --camelot-m3-inverse-surface: #313033;
 
   /*
   md.sys.color.inverse-on-surface
   md.ref.palette.neutral95
 */
-  --material3-inverse-on-surface: #f4eff4;
+  --camelot-m3-inverse-on-surface: #f4eff4;
 
 
   /*
   md.sys.color.error
   md.ref.palette.error40
 */
-  --material3-error: #b3261e;
+  --camelot-m3-error: #b3261e;
 
   /*
   md.sys.color.error-container
   md.ref.palette.error90
 */
-  --material3-error-container: #f9dedc;
+  --camelot-m3-error-container: #f9dedc;
 
   /*
   md.sys.color.on-error
   md.ref.palette.error100
 */
-  --material3-on-error: #ffffff;
+  --camelot-m3-on-error: #ffffff;
 
   /*
   md.sys.color.on-error-container
   md.ref.palette.error10
 */
-  --material3-on-error-container: #410e0b;
+  --camelot-m3-on-error-container: #410e0b;
 
   /*
   md.sys.color.outline
   md.ref.palette.neutral-variant50
 */
-  --material3-outline: #79747e;
+  --camelot-m3-outline: #79747e;
 
   /*
   md.sys.color.outline-variant
   md.ref.palette.neutral-variant80
 */
-  --material3-outline-variant: #c4c7c5;
+  --camelot-m3-outline-variant: #c4c7c5;
 
   /*
   md.sys.color.shadow
   md.ref.palette.neutral0
 */
-  --material3-shadow: #000000;
+  --camelot-m3-shadow: #000000;
 
   /*
   md.sys.color.surface-tint-color
   md.sys.color.primary
 */
-  --material3-surface-tint: #6750a4;
+  --camelot-m3-surface-tint: #6750a4;
 
   /*
   md.sys.color.scrim
   md.ref.palette.neutral0
 */
-  --material3-scrim: #000000;
+  --camelot-m3-scrim: #000000;
 }
 
 /* dark mode */
 /* @media (prefers-color-scheme: dark) {
   :root {
-    --material3-primary: #d0bcff;
+    --camelot-m3-primary: #d0bcff;
 
---material3-primary-container: #4f378b;
+--camelot-m3-primary-container: #4f378b;
 
---material3-on-primary: #371e73;
+--camelot-m3-on-primary: #371e73;
 
---material3-on-primary-container: #eaddff;
+--camelot-m3-on-primary-container: #eaddff;
 
---material3-inverse-primary: #6750a4;
+--camelot-m3-inverse-primary: #6750a4;
 
---material3-secondary: #ccc2dc;
+--camelot-m3-secondary: #ccc2dc;
 
---material3-secondary-container: #4a4458;
+--camelot-m3-secondary-container: #4a4458;
 
---material3-on-secondary: #332d41;
+--camelot-m3-on-secondary: #332d41;
 
---material3-on-secondary-container: #e8def8;
+--camelot-m3-on-secondary-container: #e8def8;
 
---material3-tertiary: #efb8c8;
+--camelot-m3-tertiary: #efb8c8;
 
---material3-tertiary-container: #633b48;
+--camelot-m3-tertiary-container: #633b48;
 
---material3-on-tertiary: #492532;
+--camelot-m3-on-tertiary: #492532;
 
---material3-on-tertiary-container: #ffd8e4;
+--camelot-m3-on-tertiary-container: #ffd8e4;
 
---material3-surface: #141218;
+--camelot-m3-surface: #141218;
 
---material3-surface-dim: #141218;
+--camelot-m3-surface-dim: #141218;
 
---material3-surface-bright: #3b383e;
+--camelot-m3-surface-bright: #3b383e;
 
---material3-surface-container-lowest: #0f0d13;
+--camelot-m3-surface-container-lowest: #0f0d13;
 
---material3-surface-container-low: #1d1b20;
+--camelot-m3-surface-container-low: #1d1b20;
 
---material3-surface-container: #211f26;
+--camelot-m3-surface-container: #211f26;
 
---material3-surface-container-high: #2b2930;
+--camelot-m3-surface-container-high: #2b2930;
 
---material3-surface-container-highest: #36343b;
+--camelot-m3-surface-container-highest: #36343b;
 
---material3-on-surface: #e6e1e5;
+--camelot-m3-on-surface: #e6e1e5;
 
---material3-on-surface-variant: #cac4d0;
+--camelot-m3-on-surface-variant: #cac4d0;
 
---material3-inverse-surface: #e6e1e5;
+--camelot-m3-inverse-surface: #e6e1e5;
 
---material3-inverse-on-surface: #313033;
+--camelot-m3-inverse-on-surface: #313033;
 
---material3-error: #f2b8b5;
+--camelot-m3-error: #f2b8b5;
 
---material3-error-container: #8c1d18;
+--camelot-m3-error-container: #8c1d18;
 
---material3-on-error: #601410;
+--camelot-m3-on-error: #601410;
 
---material3-on-error-container: #f9dedc;
+--camelot-m3-on-error-container: #f9dedc;
 
---material3-outline: #938f99;
+--camelot-m3-outline: #938f99;
 
---material3-outline-variant: #444746;
+--camelot-m3-outline-variant: #444746;
 
---material3-shadow: #000000;
+--camelot-m3-shadow: #000000;
 
---material3-surface-tint: #d0bcff;
+--camelot-m3-surface-tint: #d0bcff;
 
---material3-scrim: #000000;
+--camelot-m3-scrim: #000000;
   }
 } */
 
@@ -285,203 +285,203 @@
   md.sys.color.primary
   md.ref.palette.primary80
   */
-  --material3-primary: #d0bcff;
+  --camelot-m3-primary: #d0bcff;
 
   /*
   md.sys.color.primary-container
   md.ref.palette.primary30
   */
-  --material3-primary-container: #4f378b;
+  --camelot-m3-primary-container: #4f378b;
 
   /*
   md.sys.color.on-primary
   md.ref.palette.primary20
   */
-  --material3-on-primary: #371e73;
+  --camelot-m3-on-primary: #371e73;
 
   /*
   md.sys.color.on-primary-container
   md.ref.palette.primary90
   */
-  --material3-on-primary-container: #eaddff;
+  --camelot-m3-on-primary-container: #eaddff;
 
   /*
   md.sys.color.inverse-primary
   md.ref.palette.primary40
   */
-  --material3-inverse-primary: #6750a4;
+  --camelot-m3-inverse-primary: #6750a4;
 
   /*
   md.sys.color.secondary
   md.ref.palette.secondary80
   */
-  --material3-secondary: #ccc2dc;
+  --camelot-m3-secondary: #ccc2dc;
 
   /*
   md.sys.color.secondary-container
   md.ref.palette.secondary30
   */
-  --material3-secondary-container: #4a4458;
+  --camelot-m3-secondary-container: #4a4458;
 
   /*
   md.sys.color.on-secondary
   md.ref.palette.secondary20
   */
-  --material3-on-secondary: #332d41;
+  --camelot-m3-on-secondary: #332d41;
 
   /*
   md.sys.color.on-secondary-container
   md.ref.palette.secondary90
   */
-  --material3-on-secondary-container: #e8def8;
+  --camelot-m3-on-secondary-container: #e8def8;
 
   /*
   md.sys.color.tertiary
   md.ref.palette.tertiary80
   */
-  --material3-tertiary: #efb8c8;
+  --camelot-m3-tertiary: #efb8c8;
 
   /*
   md.sys.color.tertiary-container
   md.ref.palette.tertiary30
   */
-  --material3-tertiary-container: #633b48;
+  --camelot-m3-tertiary-container: #633b48;
 
   /*
   md.sys.color.on-tertiary
   md.ref.palette.tertiary20
   */
-  --material3-on-tertiary: #492532;
+  --camelot-m3-on-tertiary: #492532;
 
   /*
   md.sys.color.on-tertiary-container
   md.ref.palette.tertiary90
   */
-  --material3-on-tertiary-container: #ffd8e4;
+  --camelot-m3-on-tertiary-container: #ffd8e4;
 
   /*
   md.sys.color.surface
   md.ref.palette.neutral6
   */
-  --material3-surface: #141218;
+  --camelot-m3-surface: #141218;
 
   /*
   md.sys.color.surface-dim
   md.ref.palette.neutral6
   */
-  --material3-surface-dim: #141218;
+  --camelot-m3-surface-dim: #141218;
 
   /*
   md.sys.color.surface-bright
   md.ref.palette.neutral24
   */
-  --material3-surface-bright: #3b383e;
+  --camelot-m3-surface-bright: #3b383e;
 
   /*
   md.sys.color.surface-container-lowest
   md.ref.palette.neutral4
   */
-  --material3-surface-container-lowest: #0f0d13;
+  --camelot-m3-surface-container-lowest: #0f0d13;
 
   /*
   md.sys.color.surface-container-low
   md.ref.palette.neutral10
   */
-  --material3-surface-container-low: #1d1b20;
+  --camelot-m3-surface-container-low: #1d1b20;
 
   /*
   md.sys.color.surface-container
   md.ref.palette.neutral12
   */
-  --material3-surface-container: #211f26;
+  --camelot-m3-surface-container: #211f26;
 
   /*
   md.sys.color.surface-container-high
   md.ref.palette.neutral17
   */
-  --material3-surface-container-high: #2b2930;
+  --camelot-m3-surface-container-high: #2b2930;
 
   /*
   md.sys.color.surface-container-highest
   md.ref.palette.neutral22
   */
-  --material3-surface-container-highest: #36343b;
+  --camelot-m3-surface-container-highest: #36343b;
 
   /*
   md.sys.color.on-surface
   md.ref.palette.neutral90
   */
-  --material3-on-surface: #e6e1e5;
+  --camelot-m3-on-surface: #e6e1e5;
 
   /*
   md.sys.color.on-surface-variant
   md.ref.palette.neutral-variant80
   */
-  --material3-on-surface-variant: #cac4d0;
+  --camelot-m3-on-surface-variant: #cac4d0;
 
   /*
   md.sys.color.inverse-surface
   md.ref.palette.neutral90
   */
-  --material3-inverse-surface: #e6e1e5;
+  --camelot-m3-inverse-surface: #e6e1e5;
 
   /*
   md.sys.color.inverse-on-surface
   md.ref.palette.neutral20
   */
-  --material3-inverse-on-surface: #313033;
+  --camelot-m3-inverse-on-surface: #313033;
 
   /*
   md.sys.color.error
   md.ref.palette.error80
   */
-  --material3-error: #f2b8b5;
+  --camelot-m3-error: #f2b8b5;
 
   /*
   md.sys.color.error-container
   md.ref.palette.error30
   */
-  --material3-error-container: #8c1d18;
+  --camelot-m3-error-container: #8c1d18;
 
   /*
   md.sys.color.on-error
   md.ref.palette.error20
   */
-  --material3-on-error: #601410;
+  --camelot-m3-on-error: #601410;
 
   /*
   md.sys.color.on-error-container
   md.ref.palette.error90
   */
-  --material3-on-error-container: #f9dedc;
+  --camelot-m3-on-error-container: #f9dedc;
 
   /*
   md.sys.color.outline
   md.ref.palette.neutral-variant60
   */
-  --material3-outline: #938f99;
+  --camelot-m3-outline: #938f99;
 
   /*
   md.sys.color.outline-variant
   md.ref.palette.neutral-variant30
   */
-  --material3-outline-variant: #444746;
+  --camelot-m3-outline-variant: #444746;
 
   /*
   md.sys.color.shadow
   md.ref.palette.neutral0
   */
-  --material3-shadow: #000000;
+  --camelot-m3-shadow: #000000;
 
   /*
   md.sys.color.surface-tint-color
   md.sys.color.primary
   */
-  --material3-surface-tint: #d0bcff;
+  --camelot-m3-surface-tint: #d0bcff;
 
   /*
   md.sys.color.scrim
   md.ref.palette.neutral0
   */
-  --material3-scrim: #000000;
+  --camelot-m3-scrim: #000000;
 }

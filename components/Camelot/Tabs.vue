@@ -173,13 +173,13 @@ ul {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
   user-select: none;
-  background-color: rgba(var(--material3-surface), 1);
-  color: rgba(var(--material3-on-surface), 1);
+  background-color: rgba(var(--camelot-m3-surface), 1);
+  color: rgba(var(--camelot-m3-on-surface), 1);
 }
 
 .tab-selected {
-  background-color: rgba(var(--material3-primary-container), 1) !important;
-  color: rgba(var(--material3-on-primary-container), 1) !important;
-  border-color: rgba(var(--material3-primary-container), 1) !important;
+  background-color: rgba(var(--camelot-m3-primary-container), 1) !important;
+  color: rgba(var(--camelot-m3-on-primary-container), 1) !important;
+  border-color: rgba(var(--camelot-m3-primary-container), 1) !important;
 }
 </style>
