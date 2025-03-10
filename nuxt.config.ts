@@ -57,6 +57,10 @@ export default defineNuxtConfig({
     dirs: [
       // scan all modules within given directory
       'composables/**',
+      // 'types/**',
+      'models/**/*.ts',
+      // 'types/**/*.ts',
+      // 'types/*.ts',
     ],
   },
   devtools: { enabled: false },
