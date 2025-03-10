@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "postinstall": "nuxt prepare .playground",
     "fix": "eslint . --fix --quiet",
-    "fix-dry-run": "eslint . --fix-dry-run --quiet"
+    "fix-dry-run": "eslint . --fix-dry-run --quiet",
+    "generateModelDeclarations": "tsc --declaration --emitDeclarationOnly --outDir types models/**/*.ts"
   },
   "devDependencies": {
     "@iconify-json/ic": "^1.2.2",

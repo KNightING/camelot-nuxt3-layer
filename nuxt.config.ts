@@ -58,6 +58,7 @@ export default defineNuxtConfig({
       // scan all modules within given directory
       'composables/**',
       'types/**',
+      'modules/**',
     ],
   },
   devtools: { enabled: false },
