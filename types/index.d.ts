@@ -1,1 +1,5 @@
-export * from './selectOptions'
+declare global{
+  export * from './selectOptions'
+}
+
+export {}
