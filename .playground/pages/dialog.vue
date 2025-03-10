@@ -98,6 +98,8 @@
 </template>
 
 <script setup lang="ts">
+import { SelectOptions } from '#types/selectOptions'
+
 const v = ref(0.3)
 
 const { lightColorScheme, darkColorScheme } = useCustomColorScheme<{ test: string }>(undefined, {
