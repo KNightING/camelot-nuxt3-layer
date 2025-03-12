@@ -8,6 +8,17 @@ export const useLazyImage = (options: LazyImageOptions) => {
   const isPending = ref(false)
   const isError = ref(false)
   const isReady = ref(false)
+  const image = ref<HTMLImageElement | null>(null)
+
+  const isLandscapeImage = computed(() => {
+    if (!image.value) {
+      return false
+    }
+    if (image.value.width && image.value.height) {
+      return image.value.width > image.value.height
+    }
+    return false
+  })
 
   const load = () => {
     isLoading.value = true
@@ -16,6 +27,7 @@ export const useLazyImage = (options: LazyImageOptions) => {
     isReady.value = false
 
     if (options.src) {
+      image.value = null
       const img = new Image()
       img.onerror = () => {
         isError.value = true
@@ -26,6 +38,7 @@ export const useLazyImage = (options: LazyImageOptions) => {
         isReady.value = true
         isLoading.value = false
         isPending.value = false
+        image.value = img
       }
       img.src = options.src
     }
@@ -41,5 +54,7 @@ export const useLazyImage = (options: LazyImageOptions) => {
     isReady,
     isPending,
     load,
+    image,
+    isLandscapeImage,
   }
 }

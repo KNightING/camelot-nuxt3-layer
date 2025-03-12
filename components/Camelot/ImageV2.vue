@@ -1,19 +1,27 @@
 <template>
   <div
-    ref="containerEl"
-    :class="{
-      'bg-gray-300 animate-pulse relative': !loadedSrc,
-    }"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
+    ref="containerRef"
+    @pointerenter="handleMouseEnter"
+    @pointerleave="handleMouseLeave"
   >
     <ClientOnly>
+      <CamelotSkeleton
+        v-if="isLoading"
+        ref="target"
+      />
+      <div
+        v-else-if="isError"
+        v-bind="$attrs"
+      >
+        <slot name="error" />
+      </div>
       <img
-        v-if="loadedSrc"
-        ref="imgEl"
-        :src="loadedSrc"
+        v-else
+        v-bind="$attrs"
+        ref="imgRef"
+        :src="image?.src"
         :alt="alt"
-        class="relative select-none h-full w-full"
+        class="relative select-none h-auto w-auto"
         :class="{
           'object-fill': objectFit === 'fill',
           'object-contain': objectFit === 'contain',
@@ -29,22 +37,25 @@
 
     <Teleport to="body">
       <div
-        v-if="loadedSrc && showFullImage"
+        v-if="isReady && showFullImage"
         ref="imgPopupEl"
-        class="bg-white z-30 fixed rounded-xl border-4 border-white overflow-hidden drop-shadow-md pointer-events-none w-fit h-fit"
+        class="bg-black z-30 fixed rounded-lg border-4 border-white overflow-hidden drop-shadow-md pointer-events-none"
+        :class="{
+          'max-w-[500px]': isLandscapeImage,
+          'max-h-[500px]': !isLandscapeImage,
+        }"
         :style="{
           top: `${popupTop}px`,
           left: `${popupLeft}px`,
+          width: `${!isLandscapeImage ? 'auto' : `${image?.width}px`}`,
+          height: `${isLandscapeImage ? 'auto' : `${image?.height}px`}`,
         }"
       >
-        <AppImage
-          :src="fullSrc ?? loadedSrc"
+        <CamelotImageV2
+          :src="fullSrc ?? image?.src"
           :alt="alt"
-          class="max-w-96 max-h-96 min-w-10 min-h-10"
-          :style="{
-            width: `${imageWidth}px`,
-            height: `${imageHeight}px`,
-          }"
+          class="w-full h-full"
+          immediate
         />
       </div>
     </Teleport>
@@ -52,6 +63,8 @@
 </template>
 
 <script setup lang="ts">
+const target = ref(null)
+
 const props = withDefaults(defineProps<{
   src?: string
   fullSrc?: string
@@ -60,32 +73,37 @@ const props = withDefaults(defineProps<{
   width?: number
   height?: number
   objectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+  immediate?: boolean
 }>(), {
   hoverShowFullImage: false,
   objectFit: 'scale-down',
+  immediate: false,
 })
 
 const emit = defineEmits<{
   loaded: [image: HTMLImageElement]
 }>()
 
-watch(() => props.src, () => {
-  loadedSrc.value = undefined
-  loadImage()
+const containerRef = useTemplateRef('containerRef')
+
+const { isLoading, isError, isPending, isReady, load, image, isLandscapeImage } = useLazyImage({
+  src: props.src,
+  immediate: props.immediate,
 })
 
-const containerEl = useTemplateRef('containerEl')
+const imgRef = useTemplateRef('imgRef')
 
-const imgEl = useTemplateRef('imgEl')
-
-const { stop } = useIntersectionObserver(containerEl, ([entry], observerElement) => {
-  if (entry?.isIntersecting) {
-    loadImage()
+const { stop } = useIntersectionObserver(containerRef, ([entry], observerElement) => {
+  if (entry?.isIntersecting
+    && (isReady.value === false
+      && isError.value === false
+      && isPending.value === false)) {
+    load()
     stop()
   }
 }, { immediate: true, threshold: 0.5 })
 
-const { top, bottom, right, left, height: imgHeight } = useElementBounding(imgEl)
+const { top, bottom, right, left, height: imgHeight } = useElementBounding(imgRef)
 
 const imgPopupEl = useTemplateRef('imgPopupEl')
 const { width: popupWidth, height: popupHeight, bottom: popupBottom } = useElementBounding(imgPopupEl)
@@ -106,14 +124,9 @@ const popupLeft = computed(() => {
   return result
 })
 
-const loadedSrc = ref<string>()
-
 const showFullImage = ref(false)
 let timeoutId: NodeJS.Timeout | string | number | undefined
 const abortController = ref(null)
-
-const imageHeight = ref(0)
-const imageWidth = ref(0)
 
 const handleMouseEnter = () => {
   if (!props.hoverShowFullImage) return
@@ -132,27 +145,11 @@ const handleMouseLeave = () => {
   }, 100)
 }
 
-const convertImageSrc = (src: string): string => {
-  try {
-    const url = new URL(src)
-    return src
-  } catch {
-    return useRuntimeConfig().public.parkImageHost + src
-  }
-}
+onBeforeUnmount(() => {
+  stop()
+})
 
-const loadImage = useThrottleFn(async () => {
-  if (!props.src) return
-  const image = new Image()
-  image.onload = () => {
-    loadedSrc.value = image.src
-    imageHeight.value = image.height
-    imageWidth.value = image.width
-    emit('loaded', image)
-  }
-
-  image.src = convertImageSrc(props.src)
-}, 1000)
+defineExpose({ isLoading, isError, isReady })
 </script>
 
 <style scoped>

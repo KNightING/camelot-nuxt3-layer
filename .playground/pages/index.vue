@@ -110,7 +110,7 @@
       <div class="bg-gradient-to-b from-red-500 to-blue-500 h-28" />
     </CamelotExpanded>
 
-    <div class="w-40 h-40 ">
+    <div class="w-40 h-60 rounded-2xl overflow-hidden ">
       <CamelotSkeleton />
     </div>
 
@@ -123,6 +123,30 @@
           <span class="flex w-full h-full bg-black text-red-600">loading image error</span>
         </template>
       </CamelotImage>
+    </div>
+
+    <div class="w-40 h-40">
+      <CamelotImageV2
+        src="https://cataas.com/cat?v=2"
+        class="w-full h-full"
+        hover-show-full-image
+      >
+        <template #error>
+          <span class="flex w-full h-full bg-black text-red-600">loading image error</span>
+        </template>
+      </CamelotImageV2>
+    </div>
+
+    <div class="w-40 h-40">
+      <CamelotImageV2
+        src="https://cataas.com/cat?v=3"
+        class="w-full h-full"
+        hover-show-full-image
+      >
+        <template #error>
+          <span class="flex w-full h-full bg-black text-red-600">loading image error</span>
+        </template>
+      </CamelotImageV2>
     </div>
 
     isOnBottom: {{ isOnBottom }}

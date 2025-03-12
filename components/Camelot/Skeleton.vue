@@ -29,13 +29,13 @@ const props = withDefaults(defineProps<{
 
 <style scoped>
 .skeleton {
-  --background-color:144, 142, 142;
-  animation: skeleton-animate 3s ease-out infinite;
+  --background-color: 145, 145, 145;
+  animation: skeleton-animate 4s ease-out infinite;
 }
 
 @keyframes skeleton-animate {
   0% {
-    background-color: rgba(var(--background-color), 1);
+    background-color: rgba(var(--background-color), .8);
   }
 
   75% {
@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<{
   }
 
   100% {
-    background-color: rgba(var(--background-color), 1);
+    background-color: rgba(var(--background-color), .8);
   }
 }
 
@@ -54,24 +54,23 @@ const props = withDefaults(defineProps<{
   left: 0px;
   width: 125%;
   height: 125%;
-  background-image: linear-gradient(90deg, rgba(var(--background-color), .8) , rgba(var(--background-color), .4));
-  transform: translateX(-110%) ;
+  background-image: linear-gradient(90deg, rgba(var(--background-color), .8) , rgba(var(--background-color), .6));
   pointer-events: none;
   animation: animate 2s ease-out infinite;
-  animation-delay: .5s;
+  animation-delay: .6s;
 }
 
 @keyframes animate {
   0% {
-    transform: translateX(-110%);
+    transform: translateX(-110%) rotate(45deg) scale(1.25);
   }
 
-  80% {
-    transform: translateX(100%);
+  50% {
+    transform: translateX(70%) rotate(225deg) scale(1.5);
   }
 
   100% {
-    transform: translateX(110%);
+    transform: translateX(250%) rotate(315deg) scale(1.25);
   }
 }
 </style>

@@ -2,6 +2,9 @@ export default defineNuxtConfig({
   extends: ['..'],
 
   runtimeConfig: {
+    securityPlugin: {
+      enabled: false,
+    },
     tappay: {
       addScript: false,
     },
