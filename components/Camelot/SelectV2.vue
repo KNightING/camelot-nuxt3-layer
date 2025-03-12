@@ -3,6 +3,7 @@
     v-model:open="open"
     :z-index="zIndex"
     width-with-target
+    :disabled-close-when-scrolling="disabledCloseWhenScrolling"
   >
     <slot :selected-data="selectedData" />
     <template #popup>
@@ -61,8 +62,10 @@ const props = withDefaults(defineProps<{
   zIndex?: number
   disableCloseWhenSelected?: boolean
   default?: boolean
+  disabledCloseWhenScrolling?: boolean
 }>(), {
   optionsContainerMaxHeight: 160,
+  disabledCloseWhenScrolling: true,
   default: true,
 })
 

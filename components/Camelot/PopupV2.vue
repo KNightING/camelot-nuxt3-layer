@@ -51,6 +51,7 @@ const props = defineProps<{
   zIndex?: number
   disabled?: boolean
   disabledShadow?: boolean
+  disabledCloseWhenScrolling?: boolean
 }>()
 
 const open = defineModel<boolean>('open', { default: false })
@@ -65,9 +66,17 @@ onClickOutside(targetRef, event => open.value = false, {
   },
 })
 
-const { x, y, width, height, bottom } = useElementBounding(targetRef)
+const { x, y, width, height, bottom, update } = useElementBounding(targetRef)
 
 const { height: windowHeight, width: windowWidth } = useWindowSize()
+
+useWindowScroll({
+  onScroll(e) {
+    if (!props.disabledCloseWhenScrolling) {
+      open.value = false
+    }
+  },
+})
 
 const isBottom = computed(() => {
   if (isClient) {
@@ -93,6 +102,7 @@ onUpdated(() => {
   if (props.disabled) {
     open.value = false
   }
+  update()
 })
 </script>
 
