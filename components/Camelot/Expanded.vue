@@ -26,10 +26,11 @@ const expanded = defineModel<boolean>('expanded', {
 
 const contentRef = useTemplateRef('contentRef')
 
-const { height: contentHeight } = useElementBounding(contentRef)
+const { height: contentHeight, width: contentWidth } = useElementBounding(contentRef)
 
 defineExpose({
   contentHeight,
+  contentWidth,
 })
 </script>
 

@@ -2,6 +2,7 @@
   <CamelotPopupV2
     v-model:open="open"
     :z-index="zIndex"
+    width-with-target
   >
     <slot :selected-data="selectedData" />
     <template #popup>

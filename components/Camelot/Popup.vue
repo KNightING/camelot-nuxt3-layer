@@ -6,31 +6,22 @@
   >
     <slot />
     <Teleport to="body">
-      <CamelotCustomColorSchemeProvider>
-        <Transition>
-          <div
-            v-if="open"
-            class="background"
-            :style="[
-              `z-index:${zIndex ?? 900};`,
-            ]"
-            @click="onBackgroundClick"
-          >
-            <div
-              ref="popupEl"
-              class="popup"
-              :style="[
-                `height:min-content;`,
-                `top:${popupContainerY}px;left:${popupContainerX}px`,
-                disableWidthWithTarget?'width:min-content;':`width:${width}px;`,
-              ]"
-              @click="(e) => { e.stopPropagation() }"
-            >
-              <slot name="popup" />
-            </div>
-          </div>
-        </Transition>
-      </CamelotCustomColorSchemeProvider>
+      <CamelotExpanded
+        :expanded="open"
+      >
+        <div
+          ref="popupEl"
+          class="popup"
+          :style="[
+            `height:min-content;`,
+            `top:${popupContainerY}px;left:${popupContainerX}px`,
+            disableWidthWithTarget?'width:min-content;':`width:${width}px;`,
+            `z-index:${zIndex ?? 10};`,
+          ]"
+        >
+          <slot name="popup" />
+        </div>
+      </CamelotExpanded>
     </Teleport>
   </div>
 </template>
@@ -53,36 +44,15 @@ const el = ref<HTMLElement>()
  */
 const popupEl = ref<HTMLElement>()
 
-/**
- * 目標元素
- */
-const selectEl = ref<HTMLElement>()
-
-watch(el, (nV) => {
-  if (nV && nV.children.length > 0) {
-    selectEl.value = nV.children[0] as HTMLElement
-  }
+onClickOutside(popupEl, () => {
+  open.value = false
 })
 
 const { x, y, top, right, bottom, left, width, height }
-       = useElementBounding(selectEl)
+       = useElementBounding(el)
 
 const { top: popupElTop, left: popupElLeft, width: popupElWidth, height: popupElHeight }
         = useElementBounding(popupEl)
-
-// const optionsContainerBackgroundColorVar = useElCssVar('--c-popup-background', popupEl, { inherit: false })
-
-// watch([popupEl, props], ([el, props]) => {
-//   if (el && props) {
-//     const optionsContainerBackgroundColor = props.popupBackgroundColor
-//     if (optionsContainerBackgroundColor) {
-//       const rgba = useColor().hexToRgbaArray(optionsContainerBackgroundColor)
-//       if (rgba) {
-//         optionsContainerBackgroundColorVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
-//       }
-//     }
-//   }
-// })
 
 const { height: windowHeight, width: windowWidth } = useWindowSize()
 
@@ -117,22 +87,6 @@ watch([
   }
 })
 
-// const popupContainerX = computed(() => {
-//   const popupContainerClientWidth = popupElWidth.value ?? 0
-//   if (left.value + popupContainerClientWidth > windowWidth.value) {
-//     return windowWidth.value - popupContainerClientWidth
-//   }
-//   return left.value
-// })
-
-// const popupContainerY = computed(() => {
-//   const popupContainerClientHeight = popupElHeight.value ?? 0
-//   if (bottom.value + popupContainerClientHeight > windowHeight.value) {
-//     return top.value - popupContainerClientHeight
-//   }
-//   return bottom.value
-// })
-
 const onContainerClick = (e: Event) => {
   if (props.disabled) {
     return
@@ -141,11 +95,6 @@ const onContainerClick = (e: Event) => {
   if (!props.disableOpenByTarget) {
     open.value = true
   }
-}
-
-const onBackgroundClick = (e: Event) => {
-  open.value = false
-  e.stopPropagation()
 }
 
 onUpdated(() => {
@@ -171,13 +120,13 @@ onUpdated(() => {
   width: 100vw;
   height: 100dvh;
 }
+
 .popup {
   --c-popup-background: var(--camelot-m3-surface);
   background: transparent;
-  display: fixed;
   flex-direction: column;
   overflow: auto;
-  position: relative;
+  position: fixed;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
 }
 

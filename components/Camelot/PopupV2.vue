@@ -1,30 +1,45 @@
 <template>
   <div
     ref="targetRef"
-    class="w-fit relative"
+    class="w-fit"
   >
     <div @click="onTargetClick">
       <slot />
     </div>
 
-    <div
-      class="absolute left-0 min-w-full w-fit"
-      :class="{
-        'bottom-[105%]': isBottom,
-        'top-[105%]': !isBottom,
-        'drop-shadow': !disabledShadow,
-      }"
-      :style="{
-        zIndex: props.zIndex || 10,
-      }"
+    <Teleport
+      to="body"
     >
-      <CamelotExpanded
-        ref="popupRef"
-        :expanded="open"
+      <div
+        class="fixed pointer-events-none"
+        :style="{
+          zIndex: zIndex || 10,
+          width: `${width}px`,
+          height: `${height}px`,
+          top: `${y}px`,
+          left: `${x}px`,
+        }"
       >
-        <slot name="popup" />
-      </CamelotExpanded>
-    </div>
+        <div
+          class="absolute min-w-full w-fit pointer-events-auto"
+          :class="{
+            'right-1': isRight,
+            'left-0': !isRight && x > 0,
+            'left-1': !isRight && x <= 0,
+            'bottom-[105%]': isBottom,
+            'top-[105%]': !isBottom,
+            'drop-shadow': !disabledShadow,
+          }"
+        >
+          <CamelotExpanded
+            ref="popupRef"
+            :expanded="open"
+          >
+            <slot name="popup" />
+          </CamelotExpanded>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -41,15 +56,29 @@ const props = defineProps<{
 const open = defineModel<boolean>('open', { default: false })
 
 const targetRef = useTemplateRef('targetRef')
-onClickOutside(targetRef, event => open.value = false)
 
 const popupRef = useTemplateRef<InstanceType<typeof CamelotExpanded>>('popupRef')
 
-const { bottom } = useElementBounding(targetRef)
+onClickOutside(targetRef, event => open.value = false, {
+  ignore: () => {
+    return [popupRef.value?.$el]
+  },
+})
+
+const { x, y, width, height, bottom } = useElementBounding(targetRef)
+
+const { height: windowHeight, width: windowWidth } = useWindowSize()
 
 const isBottom = computed(() => {
   if (isClient) {
-    return bottom.value + (popupRef.value?.contentHeight ?? 0) > window.innerHeight
+    return bottom.value + (popupRef.value?.contentHeight ?? 0) > windowHeight.value
+  }
+  return false
+})
+
+const isRight = computed(() => {
+  if (isClient) {
+    return x.value + (popupRef.value?.contentWidth ?? 0) > windowWidth.value
   }
   return false
 })

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Header>
+      <template #bottom>
+        <div class="w-full bg-primary h-10 z-10" />
+      </template>
+    </Header>
+
     <div class="text-primary">
       {{ useBaseUrl() }}
     </div>
@@ -165,18 +171,31 @@
     </CamelotSelectV2>
 
     <CamelotPopupV2 class="ml-10">
-      <div>
-        Open Popup 123
+      <div class="text-primary">
+        Open PopupV2
       </div>
       <template #popup>
-        <div class="h-[100px] bg-blue-400" />
+        <div class="h-[100px] bg-blue-400 text-primary">
+          HIHI
+        </div>
       </template>
     </CamelotPopupV2>
+
+    <CamelotPopup class="ml-10">
+      <div class="text-primary">
+        Open PopupV1
+      </div>
+      <template #popup>
+        <div class="h-[100px] bg-blue-400 text-primary">
+          HIHI
+        </div>
+      </template>
+    </CamelotPopup>
 
     <div class="w-40 h-40">
       <CamelotImage
         src="https://123"
-        class="w-full h-full object-scale-down"
+        class="w-full h-full object-scale-down "
       >
         <template #error>
           <span class="flex w-full h-full bg-black text-red-600">loading image error</span>
