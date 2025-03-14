@@ -4,7 +4,7 @@
       v-for="(item, index) in data"
       ref="tabsElRefs"
       :key="index"
-      @click="onSelected(index, item)"
+      @click="onClick(index, item)"
     >
       <slot
         :item="item"
@@ -38,6 +38,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
+  click: [value: number]
   changedWithClick: [value: number]
 }>()
 
@@ -64,7 +65,9 @@ const selectedIndex = defineModel<number>()
 
 const tabsElRefs = ref<HTMLElement[]>([])
 
-const onSelected = (index: number, data: T) => {
+const onClick = (index: number, data: T) => {
+  emit('click', index)
+
   if (selectedIndex.value === index) {
     return
   }
