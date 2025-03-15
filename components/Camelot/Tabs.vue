@@ -67,7 +67,6 @@ const tabsElRefs = ref<HTMLElement[]>([])
 
 const onClick = (index: number, data: T) => {
   emit('click', index)
-
   if (selectedIndex.value === index) {
     return
   }

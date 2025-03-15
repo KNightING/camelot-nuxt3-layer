@@ -13,7 +13,7 @@
       <div
         class="fixed pointer-events-none"
         :style="{
-          zIndex: zIndex || 10,
+          zIndex: zIndex || 0,
           width: `${width}px`,
           height: `${height}px`,
           top: `${y}px`,
@@ -23,11 +23,11 @@
         <div
           class="absolute min-w-full w-fit pointer-events-auto"
           :class="{
-            'right-1': isRight,
-            'left-0': !isRight && x > 0,
-            'left-1': !isRight && x <= 0,
-            'bottom-[105%]': isBottom,
-            'top-[105%]': !isBottom,
+            'mx-1': !disabledAutoSpace && (x === 0 || isRight),
+            'right-0': isRight,
+            'left-0': !isRight,
+            'bottom-[100%]': isBottom,
+            'top-[100%]': !isBottom,
             'drop-shadow': !disabledShadow,
           }"
         >
@@ -50,8 +50,26 @@ import type { CamelotExpanded } from '#components'
 const props = defineProps<{
   zIndex?: number
   disabled?: boolean
+
+  /**
+   * 關閉陰影
+   */
   disabledShadow?: boolean
+
+  /**
+   * 關閉window滑動時 自動關閉popup
+   */
   disabledCloseWhenScrolling?: boolean
+
+  /**
+   * 自動調節左右空間
+   */
+  disabledAutoSpace?: boolean
+
+  /**
+   * 手動控制開啟關閉
+   */
+  manual?: boolean
 }>()
 
 const open = defineModel<boolean>('open', { default: false })
@@ -93,6 +111,10 @@ const isRight = computed(() => {
 })
 
 const onTargetClick = () => {
+  if (props.manual) {
+    return
+  }
+
   if (!props.disabled) {
     open.value = !open.value
   }
@@ -103,6 +125,17 @@ onUpdated(() => {
     open.value = false
   }
   update()
+})
+
+const updateOnRequestAnimationFrame = () => {
+  requestAnimationFrame(() => {
+    update()
+    updateOnRequestAnimationFrame()
+  })
+}
+
+onMounted(() => {
+  updateOnRequestAnimationFrame()
 })
 </script>
 

@@ -32,10 +32,12 @@
               }"
             >
               <CamelotPopupV2
+                v-model:open="open"
                 disabled-shadow
                 :z-index="70"
+                disabled-close-when-scrolling
               >
-                <span>會員</span>
+                <span>點擊開啟會員</span>
 
                 <template #popup>
                   <div class="flex flex-col border border-outline-variant min-w-[205px] rounded-lg bg-surface gap-6 py-3 px-4 overflow-hidden">
@@ -85,10 +87,12 @@
               </span>
 
               <CamelotPopupV2
+                :open="open"
                 disabled-shadow
                 :z-index="70"
+                manual
               >
-                <span>會員</span>
+                <span ref="hoverMemberRef">Hover開啟會員</span>
 
                 <template #popup>
                   <div class="flex flex-col border border-outline-variant min-w-[205px] rounded-lg bg-surface gap-6 py-3 px-4">
@@ -127,6 +131,16 @@ const windowScroll = useWindowScroll({
 })
 const { y } = windowScroll
 const smallerHeader = computed(() => y.value >= 100)
+
+const open = ref(false)
+
+const hoverMemberRef = useTemplateRef('hoverMemberRef')
+
+const isHover = useElementHover(hoverMemberRef)
+
+watch(isHover, (isHover) => {
+  open.value = isHover
+})
 </script>
 
 <style scoped>

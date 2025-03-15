@@ -4,6 +4,7 @@
     :z-index="zIndex"
     width-with-target
     :disabled-close-when-scrolling="disabledCloseWhenScrolling"
+    disabled-auto-space
   >
     <slot :selected-data="selectedData" />
     <template #popup>
