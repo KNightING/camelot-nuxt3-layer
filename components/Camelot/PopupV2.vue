@@ -13,7 +13,7 @@
       <div
         class="fixed pointer-events-none"
         :style="{
-          zIndex: zIndex || 0,
+          zIndex: zIndex || 10,
           width: `${width}px`,
           height: `${height}px`,
           top: `${y}px`,

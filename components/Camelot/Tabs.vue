@@ -30,7 +30,7 @@
 const props = withDefaults(
   defineProps<{
     data?: T[]
-    displayKey?: string
+    dataKey?: string
     scrollSmooth?: boolean
   }>(),
   {
@@ -51,8 +51,8 @@ const isValidKey = (
 }
 
 const getText = (data?: T) => {
-  if (data && props.displayKey && typeof data === 'object' && isValidKey(props.displayKey, data as object)) {
-    return data[props.displayKey]
+  if (data && props.dataKey && typeof data === 'object' && isValidKey(props.dataKey, data as object)) {
+    return data[props.dataKey]
   } else {
     return data
   }
