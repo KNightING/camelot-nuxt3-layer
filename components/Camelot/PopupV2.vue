@@ -101,13 +101,18 @@ useWindowScroll({
   },
 })
 
+/**
+ * 是否超出視窗底部
+ */
 const isBottom = computed(() => {
+  // 如果設定為top, 返回true, popup將永遠在目標上方
   if (props.verticalPosition === 'top') {
-    return false
+    return true
   }
 
+  // 如果設定為bottom, 返回false, popup將永遠在目標下方
   if (props.verticalPosition === 'bottom') {
-    return true
+    return false
   }
 
   if (isClient) {
