@@ -70,6 +70,11 @@ const props = defineProps<{
    * 手動控制開啟關閉
    */
   manual?: boolean
+
+  /**
+   * 調整垂直位置
+   */
+  verticalPosition?: 'auto' | 'top' | 'bottom'
 }>()
 
 const open = defineModel<boolean>('open', { default: false })
@@ -97,6 +102,14 @@ useWindowScroll({
 })
 
 const isBottom = computed(() => {
+  if (props.verticalPosition === 'top') {
+    return false
+  }
+
+  if (props.verticalPosition === 'bottom') {
+    return true
+  }
+
   if (isClient) {
     return bottom.value + (popupRef.value?.contentHeight ?? 0) > windowHeight.value
   }
