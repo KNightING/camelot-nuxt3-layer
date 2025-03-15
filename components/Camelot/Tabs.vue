@@ -8,6 +8,7 @@
     >
       <slot
         :item="item"
+        :text="getText(item)"
         :index="index"
         :is-selected="isSelected(index)"
       >
@@ -18,7 +19,7 @@
               isSelected(index),
           }"
         >
-          {{ getDisplayLabel(item) }}
+          {{ getText(item) }}
         </CamelotRippleEffect>
       </slot>
     </li>
@@ -49,7 +50,7 @@ const isValidKey = (
   return key in object
 }
 
-const getDisplayLabel = (data?: T) => {
+const getText = (data?: T) => {
   if (data && props.displayKey && typeof data === 'object' && isValidKey(props.displayKey, data as object)) {
     return data[props.displayKey]
   } else {
