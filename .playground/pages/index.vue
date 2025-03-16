@@ -63,9 +63,10 @@
 
     <CamelotTabs
       v-model="tabSelected"
-      class="top-0 sticky bg-surface py-2 px-2  z-10 drop-shadow"
-      :data="data"
+      class="top-0 sticky bg-surface py-2 px-2 z-10 drop-shadow"
+      :options="data"
       display-key="name"
+      trigger="hover"
     />
 
     <CamelotInput />
@@ -313,8 +314,8 @@ const elLightColorScheme = ref<Material3ColorSchemePartial>({
 const data
   = Array.from({ length: 21 }).map((_, rowIndex) => {
     return {
-      no: `${rowIndex}`,
       name: `分類-${rowIndex}`,
+      value: rowIndex,
     }
   })
 

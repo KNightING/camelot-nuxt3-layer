@@ -1,14 +1,17 @@
 <template>
   <ul>
     <li
-      v-for="(item, index) in data"
+      v-for="(option, index) in options"
       ref="tabsElRefs"
       :key="index"
-      @click="onClick(index, item)"
+      @click="onChange(index, option)"
+      @mouseenter="() => trigger === 'hover' && onChange(index, option)"
     >
       <slot
-        :item="item"
-        :text="getText(item)"
+        :item="option"
+        :option="option"
+        :data="option.data"
+        :text="getText(option)"
         :index="index"
         :is-selected="isSelected(index)"
       >
@@ -19,7 +22,7 @@
               isSelected(index),
           }"
         >
-          {{ getText(item) }}
+          {{ getText(option) }}
         </CamelotRippleEffect>
       </slot>
     </li>
@@ -27,11 +30,14 @@
 </template>
 
 <script setup lang="ts" generic="T">
+import type { SelectOptions } from '../../types/selectOptions'
+
 const props = withDefaults(
   defineProps<{
-    data?: T[]
+    options?: SelectOptions<T>
     dataKey?: string
     scrollSmooth?: boolean
+    trigger?: 'click' | 'hover'
   }>(),
   {
     scrollSmooth: true,
@@ -39,8 +45,8 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  click: [value: number]
-  changedWithClick: [value: number]
+  change: [index: number, option: SelectOption<T>]
+  changed: [index: number, option: SelectOption<T>]
 }>()
 
 const isValidKey = (
@@ -50,11 +56,13 @@ const isValidKey = (
   return key in object
 }
 
-const getText = (data?: T) => {
+const getText = (option: SelectOption<T>) => {
+  const data = option.data
+
   if (data && props.dataKey && typeof data === 'object' && isValidKey(props.dataKey, data as object)) {
     return data[props.dataKey]
   } else {
-    return data
+    return option.name
   }
 }
 
@@ -62,22 +70,25 @@ const isSelected = (index: number) => {
   return index === selectedIndex.value
 }
 
-const selectedIndex = defineModel<number>()
+const selected = defineModel<string | number>()
+
+const selectedIndex = defineModel<number>('selectedIndex', {})
 
 const tabsElRefs = ref<HTMLElement[]>([])
 
-const onClick = (index: number, data: T) => {
-  emit('click', index)
+const onChange = (index: number, option: SelectOption<T>) => {
+  emit('change', index, option)
   if (selectedIndex.value === index) {
     return
   }
+  selected.value = option.value
   selectedIndex.value = index
-  emit('changedWithClick', index)
+  emit('changed', index, option)
 }
 
 const scrollToTab = () => {
   const index = toValue(selectedIndex)
-  if (index === undefined || props.data === undefined || index > props.data.length) {
+  if (index === undefined || props.options === undefined || index > props.options.length) {
     return
   }
 
@@ -89,24 +100,6 @@ const scrollToTab = () => {
   if (!parentEl) {
     return
   }
-
-  // if (!props.selectedCenter) {
-  //   let tabLeft = tabEl.getBoundingClientRect().left - 15;
-  //   const tabRight = tabEl.getBoundingClientRect().right + 15;
-  //   const parentWidth = parentEl.clientWidth;
-
-  //   const toRight = Math.abs(tabRight - parentWidth);
-
-  //   if (toRight < tabLeft) {
-  //     tabLeft = toRight;
-  //   }
-
-  //   parentEl.scrollBy({
-  //     left: tabLeft,
-  //     behavior: props.scrollSmooth ? "smooth" : "auto",
-  //   });
-  //   return;
-  // }
 
   const parentWidth = parentEl.clientWidth
 
@@ -126,12 +119,9 @@ const scrollToTab = () => {
   })
 }
 
-watch([() => props.data, () => selectedIndex.value, () => tabsElRefs.value], ([data, selectedIndex, tabsElRefs]) => {
-  if (data === undefined || selectedIndex === undefined || tabsElRefs === undefined) {
-    return
-  }
+onUpdated(() => {
   scrollToTab()
-}, { immediate: true })
+})
 
 onMounted(() => {
   scrollToTab()

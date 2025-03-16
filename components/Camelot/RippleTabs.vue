@@ -91,24 +91,6 @@ watch(selectedIndex, (nV) => {
     return
   }
 
-  // if (!props.selectedCenter) {
-  //   let tabLeft = tabEl.getBoundingClientRect().left - 15;
-  //   const tabRight = tabEl.getBoundingClientRect().right + 15;
-  //   const parentWidth = parentEl.clientWidth;
-
-  //   const toRight = Math.abs(tabRight - parentWidth);
-
-  //   if (toRight < tabLeft) {
-  //     tabLeft = toRight;
-  //   }
-
-  //   parentEl.scrollBy({
-  //     left: tabLeft,
-  //     behavior: props.scrollSmooth ? "smooth" : "auto",
-  //   });
-  //   return;
-  // }
-
   const parentWidth = parentEl.clientWidth
 
   const tabWidth = tabEl.clientWidth
