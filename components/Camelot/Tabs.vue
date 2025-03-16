@@ -3,7 +3,7 @@
     <li
       v-for="(option, index) in options"
       ref="tabsElRefs"
-      :key="index"
+      :key="option.value"
       @click="onChange(index, option)"
       @mouseenter="() => trigger === 'hover' && onChange(index, option)"
     >
@@ -13,7 +13,7 @@
         :data="option.data"
         :text="getText(option)"
         :index="index"
-        :is-selected="isSelected(index)"
+        :is-selected="isSelected(option.value)"
       >
         <CamelotRippleEffect
           class="tab"
@@ -66,13 +66,26 @@ const getText = (option: SelectOption<T>) => {
   }
 }
 
-const isSelected = (index: number) => {
-  return index === selectedIndex.value
-}
-
 const selected = defineModel<string | number>()
 
-const selectedIndex = defineModel<number>('selectedIndex', {})
+const isSelected = (index: string | number) => {
+  return index === selected.value
+}
+
+const selectedIndex = defineModel<number | undefined>('selectedIndex', {
+  get(v) {
+    return props.options?.findIndex(option => option.value === selected.value) ?? undefined
+  },
+  set(v) {
+    if (v) {
+      const option = props.options?.at(v)
+      if (option) {
+        selected.value = option.value
+      }
+    }
+    return v
+  },
+})
 
 const tabsElRefs = ref<HTMLElement[]>([])
 
@@ -82,7 +95,6 @@ const onChange = (index: number, option: SelectOption<T>) => {
     return
   }
   selected.value = option.value
-  selectedIndex.value = index
   emit('changed', index, option)
 }
 
