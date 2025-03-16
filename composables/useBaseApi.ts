@@ -1,5 +1,6 @@
 import type { UseFetchOptions } from 'nuxt/app'
 import type { FetchContext, FetchResponse, FetchError, ResponseType } from 'ofetch'
+import type { NitroFetchOptions } from 'nitropack/types'
 
 export type Url = string | Request | Ref<string | Request> | (() => string | Request)
 
@@ -128,7 +129,7 @@ const useApiFetch = <DataT>(
     },
   )
 
-  const fetch = () => {
+  const fetch = (opts: NitroFetchOptions<any> = {}) => {
     let header: HeadersInit | undefined
 
     if (isRef(options.headers)) {
@@ -150,6 +151,7 @@ const useApiFetch = <DataT>(
 
     return $fetch<DataT>(realUrl as string,
       {
+        ...opts,
         method,
         baseURL: toValue(options.baseURL),
         headers: header,
