@@ -6,7 +6,7 @@
       ]"
     />
 
-    <CamelotFixIOS
+    <CamelotGpu
       ref="realHeaderEl"
       class="z-50 bg-white fixed top-0 left-0 right-0 w-screen min-h-header flex flex-col justify-center"
     >
@@ -117,7 +117,7 @@
 
         <slot name="bottom" />
       </div>
-    </CamelotFixIOS>
+    </CamelotGpu>
   </header>
 </template>
 

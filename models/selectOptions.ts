@@ -1,4 +1,4 @@
-export type SelectOptions<T> = SelectOption<T>[]
+export type SelectOptions<T = string> = SelectOption<T>[]
 
 export interface SelectOption<T = string> {
   name: string

@@ -24,7 +24,7 @@
               :data="option"
               :is-selected="model === option.value"
             >
-              <CamelotFixIOS class="option">
+              <CamelotGpu class="option">
                 <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
                 <span
                   :class="{
@@ -34,7 +34,7 @@
                     'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;',
                   ]"
                 >{{ option.label ?? option.name }}</span>
-              </CamelotFixIOS>
+              </CamelotGpu>
             </slot>
           </button>
         </template>

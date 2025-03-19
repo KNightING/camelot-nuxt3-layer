@@ -1,23 +1,22 @@
 <template>
   <div class="relative flex h-full w-full justify-center items-center">
-    <TransitionGroup :name="animeDirection" mode="out-in">
-      <template v-for="i in 10" :key="i">
-        <template v-if="i === index">
+    <TransitionGroup
+      :name="animeDirection"
+      mode="out-in"
+    >
+      <template
+        v-for="(item, idx) of items"
+        :key="item.key"
+      >
+        <template v-if="idx === currentIndex">
           <div
             class="absolute"
           >
-            <div
-              class="  bg-red-500 rounded-xl p-4 drop-shadow"
-              :style="[
-                `background: hsl(${i * 100}, 50%, 80%)`,
-                `width: ${i * 15}px`,
-                `height: ${300 - i * 15}px`,
-              ]"
-            >
-              <div class="w-full h-full flex justify-center items-center">
-                {{ index }}
-              </div>
-            </div>
+            <slot
+              :item="item"
+              :data="item.data"
+              :index="idx"
+            />
           </div>
         </template>
       </template>
@@ -25,26 +24,37 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
+import type { Items } from '../../models/items'
+
+const props = defineProps<{
+  items: Items<T>
+}>()
+
 const animeDirection = ref('slide-left')
 
-const index = ref(1)
+const currentIndex = defineModel<number>({ default: 0 })
 
-const minus = () => {
-  if (index.value <= 1) {
+const prev = () => {
+  if (currentIndex.value <= 0) {
     return
   }
   animeDirection.value = 'slide-right'
-  index.value--
+  currentIndex.value--
 }
 
-const add = () => {
-  if (index.value >= 10) {
+const next = () => {
+  if (currentIndex.value >= props.items.length) {
     return
   }
   animeDirection.value = 'slide-left'
-  index.value++
+  currentIndex.value++
 }
+
+defineExpose({
+  prev,
+  next,
+})
 </script>
 
 <style scoped>
