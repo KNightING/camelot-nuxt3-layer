@@ -4,8 +4,8 @@
       v-for="(option, index) in options"
       ref="tabsElRefs"
       :key="option.value"
-      @click="onChange(index, option)"
-      @mouseenter="() => trigger === 'hover' && onChange(index, option)"
+      @click="onClick(index, option)"
+      @mouseenter="() => trigger === 'hover' && onClick(index, option)"
     >
       <slot
         :item="option"
@@ -37,7 +37,7 @@ const props = withDefaults(
     options?: SelectOptions<T>
     dataKey?: string
     scrollSmooth?: boolean
-    trigger?: 'click' | 'hover'
+    trigger?: 'click' | 'hover' | 'manual'
   }>(),
   {
     scrollSmooth: true,
@@ -45,7 +45,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  change: [index: number, option: SelectOption<T>]
+  click: [index: number, option: SelectOption<T>]
   changed: [index: number, option: SelectOption<T>]
 }>()
 
@@ -89,8 +89,13 @@ const selectedIndex = defineModel<number | undefined>('selectedIndex', {
 
 const tabsElRefs = ref<HTMLElement[]>([])
 
-const onChange = (index: number, option: SelectOption<T>) => {
-  emit('change', index, option)
+const onClick = (index: number, option: SelectOption<T>) => {
+  emit('click', index, option)
+
+  if (props.trigger === 'manual') {
+    return
+  }
+
   if (selectedIndex.value === index) {
     return
   }
