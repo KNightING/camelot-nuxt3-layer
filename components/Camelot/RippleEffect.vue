@@ -3,7 +3,7 @@
   <div
     id="container"
     ref="container"
-    @mousedown="onMouseDown"
+    @pointerdown="onPointerDown"
   >
     <slot />
   </div>
@@ -12,7 +12,7 @@
 <script setup lang="ts">
 const props = defineProps<{ rippleColor?: string }>()
 
-const container = ref<HTMLDivElement>()
+const container = useTemplateRef('container')
 
 // let size: number | undefined = undefined;
 
@@ -22,16 +22,7 @@ const rippleSizeCss = useElCssVar('--ripple-size', container)
 
 const rippleColorCss = useElCssVar('--camelot-ripple-color', container, { inherit: false })
 
-watchOnce(container, (nV) => {
-  if (props.rippleColor) {
-    const rgba = useColor().hexToRgbaArray(props.rippleColor)
-    if (rgba) {
-      rippleColorCss.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
-    }
-  }
-})
-
-watchOnce([height, width], (nV) => {
+watch([height, width], (nV) => {
   const height = nV[0]
   const width = nV[1]
 
@@ -41,19 +32,11 @@ watchOnce([height, width], (nV) => {
   rippleSizeCss.value = `${size}px`
 })
 
-const onMouseDown = (e: MouseEvent) => {
+const onPointerDown = (e: MouseEvent) => {
   const ripples = document.createElement('span')
   ripples.className = 'ripple'
   ripples.style.left = `${e.clientX - x.value}px`
   ripples.style.top = `${e.clientY - y.value}px`
-
-  // if (!size) {
-  //   // 斜邊長 = 圓的半徑
-  //   // 但是size需要設定成直徑所以要*2
-  //   size = Math.sqrt(Math.pow(rect.height, 2) + Math.pow(rect.width, 2)) * 2;
-  // }
-
-  // ripples.style.setProperty("--ripple-size", `${size}px`);
 
   container.value?.appendChild(ripples)
 
@@ -61,6 +44,29 @@ const onMouseDown = (e: MouseEvent) => {
     ripples.remove()
   }, 650)
 }
+
+// let clearOnPointerUpTimeout: NodeJS.Timeout | null = null
+
+// const onPointerUp = () => {
+//   isPointerDown.value = false
+
+//   if (clearOnPointerUpTimeout) {
+//     clearTimeout(clearOnPointerUpTimeout)
+//   }
+
+//   clearOnPointerUpTimeout = setTimeout(() => {
+//     document.querySelectorAll('.ripple').forEach((ripple) => {
+//       ripple.remove()
+//     })
+//   }, 650)
+// }
+
+onUpdated(() => {
+  const rgba = useColor().hexToRgbaArray(props.rippleColor)
+  if (rgba) {
+    rippleColorCss.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
+  }
+})
 </script>
 
 <style scoped>

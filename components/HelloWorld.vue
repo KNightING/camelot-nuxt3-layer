@@ -5,7 +5,7 @@ const { myLayer } = useAppConfig()
 <template>
   <button class="rounded-md border-2 bg-blue-400 p-2 text-white">
     <div>
-      <h1>Hello World!</h1>
+      <h1>Hello Camelot!</h1>
       <pre>{{ myLayer }}</pre>
     </div>
   </button>
