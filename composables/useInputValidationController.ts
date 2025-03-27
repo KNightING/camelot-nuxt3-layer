@@ -21,19 +21,21 @@ export const useInputValidationController = () => {
   const validateRefList = ref<ComputedRef<boolean | string | undefined>[]>([])
 
   const addValidatorComputed = (ref: ComputedRef<boolean | string | undefined>) => {
-    validateRefList.value.push(ref)
+    validateRefList.value = [...validateRefList.value, ref]
   }
 
   const removeValidatorComputed = (ref: ComputedRef<boolean | string | undefined>) => {
     validateRefList.value.splice(validateRefList.value.indexOf(ref), 1)
+    validateRefList.value = [...validateRefList.value]
   }
 
   const addValidator = (fn: Validator) => {
-    validateFnList.value.push(fn)
+    validateFnList.value = [...validateFnList.value, fn]
   }
 
   const removeValidator = (fn: Validator) => {
     validateFnList.value.splice(validateFnList.value.indexOf(fn), 1)
+    validateFnList.value = [...validateFnList.value]
   }
 
   const validate = () => {
