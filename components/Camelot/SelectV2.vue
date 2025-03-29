@@ -13,40 +13,50 @@
         class="options-container"
         :style="[`max-height:${optionsContainerMaxHeight}px;`]"
       >
-        <template
-          v-for="(option, index) in options"
-          :key="index"
-        >
-          <button
-            type="button"
-            @click="(e) => onItemClick(e, option.value)"
+        <template v-if="options && options.length > 0">
+          <template
+            v-for="(option, index) in options"
+            :key="index"
           >
-            <slot
-              :name="`option-${option.value}`"
-              :index="index"
-              :data="option"
-              :is-selected="model === option.value"
+            <button
+              type="button"
+              @click="(e) => onItemClick(e, option.value)"
             >
               <slot
-                name="option"
+                :name="`option-${option.value}`"
                 :index="index"
                 :data="option"
                 :is-selected="model === option.value"
               >
-                <CamelotGpu class="option">
-                  <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
-                  <span
-                    :class="{
-                      'text-primary': model === option.value,
-                    }"
-                    :style="[
-                      'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;',
-                    ]"
-                  >{{ option.label ?? option.name }}</span>
-                </CamelotGpu>
+                <slot
+                  name="option"
+                  :index="index"
+                  :data="option"
+                  :is-selected="model === option.value"
+                >
+                  <CamelotGpu class="option">
+                    <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
+                    <span
+                      :class="{
+                        'text-primary': model === option.value,
+                      }"
+                      :style="[
+                        'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;',
+                      ]"
+                    >{{ option.label ?? option.name }}</span>
+                  </CamelotGpu>
+                </slot>
               </slot>
-            </slot>
-          </button>
+            </button>
+          </template>
+        </template>
+        <template v-else>
+          <slot name="empty-options">
+            <div class="flex flex-col items-center justify-center text-gray-400 gap-2 py-2">
+              <i-material-symbols-cancel-outline-rounded class="text-4xl" />
+              <span>沒有可選選項</span>
+            </div>
+          </slot>
         </template>
       </div>
     </template>
@@ -57,7 +67,7 @@
 import type { SelectOptions, SelectOption } from '../../models/selectOptions'
 
 const props = withDefaults(defineProps<{
-  options: SelectOptions<T>
+  options?: SelectOptions<T>
   optionsContainerMaxHeight?: number
   optionsContainerBackgroundColor?: string
   zIndex?: number
@@ -87,6 +97,9 @@ const emit = defineEmits<{
 // }
 
 const selectedData = computed(() => {
+  if (!props.options || props.options.length < 0) {
+    return
+  }
   return props.options.find(d => d.value === model.value)
 })
 
@@ -119,7 +132,11 @@ const onItemClick = (e: Event, value: string | number) => {
   }
 }
 
-onMounted(() => {
+onUpdated(() => {
+  if (!props.options || props.options.length < 0) {
+    return
+  }
+
   // 如果model為空值, 則預設為第一個option
   if (props.default && typeof model.value === 'undefined') {
     model.value = props.options.length > 0 ? props.options[0].value : undefined

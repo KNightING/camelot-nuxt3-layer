@@ -161,7 +161,6 @@
     <CamelotSelectV2
       v-model="department"
       class="w-full"
-      :options="options"
       options-container-background-color="#F35F6F"
     >
       <div

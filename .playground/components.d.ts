@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     IIcRoundKeyboardArrowDown: typeof import('~icons/ic/round-keyboard-arrow-down')['default']
+    IMaterialSymbolsCancelOutlineRounded: typeof import('~icons/material-symbols/cancel-outline-rounded')['default']
     IMaterialSymbolsClose: typeof import('~icons/material-symbols/close')['default']
     IMaterialSymbolsErrorCircleRounded: typeof import('~icons/material-symbols/error-circle-rounded')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
