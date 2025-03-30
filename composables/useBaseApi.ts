@@ -129,6 +129,43 @@ const useApiFetch = <DataT>(
     },
   )
 
+  const useFetchBetter = (mergeOptions: ApiFetchOptions<DataT> = {}) => {
+    const {
+      data,
+      refresh,
+      error,
+      clear,
+      status,
+    } = use({
+      dedupe: 'defer',
+      immediate: false,
+      ...mergeOptions,
+    })
+
+    const idle = computed(() => {
+      return status.value === 'idle'
+    })
+
+    const pending = computed(() => {
+      return status.value === 'pending'
+    })
+
+    const success = computed(() => {
+      return status.value === 'success'
+    })
+
+    return {
+      data,
+      refresh,
+      error,
+      clear,
+      status,
+      idle,
+      pending,
+      success,
+    }
+  }
+
   const fetch = (opts: NitroFetchOptions<any> = {}) => {
     let header: HeadersInit | undefined
 
@@ -200,6 +237,7 @@ const useApiFetch = <DataT>(
 
   return {
     useFetch: use,
+    useFetchBetter,
     fetch,
   }
 }
