@@ -93,7 +93,7 @@ const ignore = computed(() => {
   return [popupRef.value?.$el, ...(props.isClickInside ?? [])]
 })
 
-if (!(props.manual || !props.disabledClickOutside)) {
+if (!props.manual && !props.disabledClickOutside) {
   onClickOutside(targetRef, event => open.value = false, {
     ignore: ignore,
   })
