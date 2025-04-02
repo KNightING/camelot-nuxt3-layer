@@ -1,7 +1,7 @@
 {
   "name": "camelot-nuxt3-layer",
   "type": "module",
-  "version": "3.16.2.0",
+  "version": "3.16.2.1",
   "main": "./nuxt.config.ts",
   "types": "./types/index.d.ts",
   "scripts": {
@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.10.1",
+    "@vuepic/vue-datepicker": "^11.0.2",
     "@vueuse/components": "^13.0.0",
     "@vueuse/integrations": "^13.0.0",
     "change-case": "^5.4.4",

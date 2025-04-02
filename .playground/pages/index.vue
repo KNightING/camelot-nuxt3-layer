@@ -158,6 +158,8 @@
 
     isOnBottom: {{ isOnBottom }}
 
+    <CamelotDate />
+
     <CamelotSelectV2
       v-model="department"
       class="w-full"

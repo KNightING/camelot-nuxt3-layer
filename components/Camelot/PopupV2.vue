@@ -35,7 +35,9 @@
             ref="popupRef"
             :expanded="open"
           >
-            <slot name="popup" />
+            <div class="popup">
+              <slot name="popup" />
+            </div>
           </CamelotExpanded>
         </div>
       </div>
@@ -44,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { isClient } from '@vueuse/core'
+import { isClient, type MaybeElement, type MaybeElementRef } from '@vueuse/core'
 import type { CamelotExpanded } from '#components'
 
 const props = defineProps<{
@@ -75,6 +77,10 @@ const props = defineProps<{
    * 調整垂直位置
    */
   verticalPosition?: 'auto' | 'top' | 'bottom'
+
+  isClickInside?: (string | MaybeElementRef<MaybeElement>)[]
+
+  disabledClickOutside?: boolean
 }>()
 
 const open = defineModel<boolean>('open', { default: false })
@@ -83,11 +89,15 @@ const targetRef = useTemplateRef('targetRef')
 
 const popupRef = useTemplateRef<InstanceType<typeof CamelotExpanded>>('popupRef')
 
-onClickOutside(targetRef, event => open.value = false, {
-  ignore: () => {
-    return [popupRef.value?.$el]
-  },
+const ignore = computed(() => {
+  return [popupRef.value?.$el, ...(props.isClickInside ?? [])]
 })
+
+if (!(props.manual || !props.disabledClickOutside)) {
+  onClickOutside(targetRef, event => open.value = false, {
+    ignore: ignore,
+  })
+}
 
 const { x, y, width, height, bottom, update } = useElementBounding(targetRef)
 
