@@ -2,6 +2,8 @@ import type { DebounceFilterOptions } from '@vueuse/core'
 
 type LoadingCloseable = () => void
 
+type ErrorFn = (ex: unknown) => Promise<void> | void
+
 interface LoadingState {
   tags: string[]
 }
@@ -43,7 +45,7 @@ export const useLoading = () => {
   const run = async <R = void>(
     tag: string,
     fn: () => Promise<R | undefined>,
-    errorFn?: (ex: unknown) => Promise<void>) => {
+    errorFn?: ErrorFn) => {
     open(tag)
     try {
       return await fn()
@@ -94,7 +96,7 @@ const loading = useLoading()
 export const useLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
-  errorFn?: (ex: unknown) => Promise<void>,
+  errorFn?: ErrorFn,
 ) => {
   return async (params?: P) => {
     return loading.run(tag, async () => {
@@ -107,7 +109,7 @@ export const useLoadingFn = <T, P = void>(
 export const useDebounceLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
-  errorFn?: (ex: unknown) => Promise<void>,
+  errorFn?: ErrorFn,
   ms?: MaybeRefOrGetter<number>,
   options?: DebounceFilterOptions,
 ) => {
@@ -120,7 +122,7 @@ export const useDebounceLoadingFn = <T, P = void>(
 export const useThrottleLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
-  errorFn?: (ex: unknown) => Promise<void>,
+  errorFn?: ErrorFn,
   ms?: MaybeRefOrGetter<number>,
   trailing?: boolean,
   leading?: boolean,
