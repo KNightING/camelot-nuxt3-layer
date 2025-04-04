@@ -40,12 +40,17 @@ export const useLoading = () => {
     return state.value.tags.length > 0
   })
 
-  const run = async <R = void>(tag: string, fn: () => Promise<R | undefined>) => {
+  const run = async <R = void>(
+    tag: string,
+    fn: () => Promise<R | undefined>,
+    errorFn?: (ex: unknown) => Promise<void>) => {
     open(tag)
     try {
       return await fn()
     } catch (ex) {
-      return undefined
+      if (errorFn) {
+        await errorFn(ex)
+      }
     } finally {
       close(tag)
     }
@@ -75,7 +80,13 @@ export const useLoading = () => {
     }
   }
 
-  return { state, open, close, isOpening, run, watch: watcher }
+  return {
+    open,
+    close,
+    isOpening,
+    run,
+    watch: watcher,
+  }
 }
 
 export const useLoadingFn = <T, P = void>(
@@ -83,20 +94,17 @@ export const useLoadingFn = <T, P = void>(
   fn: (params?: P) => Promise<T>,
 ) => {
   return async (params?: P) => {
-    const { open, close } = useLoading()
-    open(tag)
-    try {
+    const loading = useLoading()
+    return loading.run(tag, async () => {
       return await fn(params)
-    } finally {
-      close(tag)
-    }
+    })
   }
 }
 
 export const useDebounceLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
-  ms?: globalThis.MaybeRefOrGetter<number>,
+  ms?: MaybeRefOrGetter<number>,
   options?: DebounceFilterOptions,
 ) => {
   return useDebounceFn(useLoadingFn(tag, fn), ms, options)
@@ -105,7 +113,7 @@ export const useDebounceLoadingFn = <T, P = void>(
 export const useThrottleLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
-  ms?: globalThis.MaybeRefOrGetter<number>,
+  ms?: MaybeRefOrGetter<number>,
   trailing?: boolean,
   leading?: boolean,
   rejectOnCancel?: boolean,
