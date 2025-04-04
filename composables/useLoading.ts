@@ -89,37 +89,45 @@ export const useLoading = () => {
   }
 }
 
+const loading = useLoading()
+
 export const useLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
+  errorFn?: (ex: unknown) => Promise<void>,
 ) => {
   return async (params?: P) => {
-    const loading = useLoading()
     return loading.run(tag, async () => {
       return await fn(params)
-    })
+    },
+    errorFn)
   }
 }
 
 export const useDebounceLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
+  errorFn?: (ex: unknown) => Promise<void>,
   ms?: MaybeRefOrGetter<number>,
   options?: DebounceFilterOptions,
 ) => {
-  return useDebounceFn(useLoadingFn(tag, fn), ms, options)
+  return useDebounceFn(
+    useLoadingFn(tag, fn, errorFn),
+    ms,
+    options)
 }
 
 export const useThrottleLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
+  errorFn?: (ex: unknown) => Promise<void>,
   ms?: MaybeRefOrGetter<number>,
   trailing?: boolean,
   leading?: boolean,
   rejectOnCancel?: boolean,
 ) => {
   return useThrottleFn(
-    useLoadingFn(tag, fn),
+    useLoadingFn(tag, fn, errorFn),
     ms,
     trailing,
     leading,
