@@ -73,8 +73,7 @@
 
     <CamelotSelectV2
       v-model="department"
-      :options="options"
-      options-container-background-color="#F35F6F"
+      class="w-full"
     />
 
     <CamelotSteps
@@ -209,9 +208,8 @@
       v-model="department"
       class="w-full"
       :options="options"
-      options-container-background-color="#F35F6F"
     >
-      <div
+      <!-- <div
         class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
       >
         <span class="flex-1">{{ department }}</span>
@@ -223,7 +221,19 @@
 
       <template #option-中式餐廳>
         <span class="flex-1">中式餐~~廳</span>
-      </template>
+      </template> -->
+    </CamelotSelectV2>
+
+    <CamelotSelectV2
+      v-model="department"
+      :options="options"
+      class="w-full"
+    >
+      <div
+        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+      >
+        <span class="flex-1">{{ department }}</span>
+      </div>
     </CamelotSelectV2>
 
     <span>向下相容</span>
@@ -327,22 +337,18 @@ const department = ref('韓式餐廳')
 const options = ref([
   {
     name: '韓式餐廳',
-    label: '韓式餐廳',
     value: '韓式餐廳',
   },
   {
     name: '港式餐廳',
-    label: '港式餐廳',
     value: '港式餐廳',
   },
   {
     name: '日式餐廳',
-    label: '日式餐廳',
     value: '日式餐廳',
   },
   {
     name: '中式餐廳',
-    label: '中式餐廳',
     value: '中式餐廳',
   },
 ])

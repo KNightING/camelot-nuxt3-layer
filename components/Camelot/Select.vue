@@ -3,7 +3,13 @@
     v-model:open="open"
     :z-index="zIndex"
   >
-    <slot :selected-data="selectedData" />
+    <slot :selected-data="selectedData">
+      <div
+        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+      >
+        <span class="flex-1">{{ selectedData?.value }}</span>
+      </div>
+    </slot>
     <template #popup>
       <div
         ref="optionsContainerEl"
@@ -60,7 +66,7 @@ const props = withDefaults(defineProps<{
 
 const open = defineModel<boolean>('open', { default: false })
 
-const model = defineModel<string | number>()
+const model = defineModel<string | number | undefined>()
 
 const emit = defineEmits<{
   changed: [SelectOption<T>]

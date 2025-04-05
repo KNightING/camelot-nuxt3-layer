@@ -6,7 +6,9 @@
     :disabled-close-when-scrolling="disabledCloseWhenScrolling"
     disabled-auto-space
   >
-    <slot :selected-data="selectedData" />
+    <slot :selected-data="selectedData">
+      <span class="flex-1">{{ selectedData?.value }}</span>
+    </slot>
     <template #popup>
       <div
         ref="optionsContainerEl"
