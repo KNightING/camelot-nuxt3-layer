@@ -79,11 +79,11 @@ const useApiFetch = <DataT>(
   options.contentType = options.contentType ?? ContentType.Json
   options.addSecureHeaderRequest = options.addSecureHeaderRequest ?? true
 
-  const use = (mergeOptions: ApiFetchOptions<DataT> = {}) => useFetch(
+  const use = (coverOptions: ApiFetchOptions<DataT> = {}) => useFetch(
     url,
     {
       ...options,
-      ...mergeOptions,
+
       method,
       getCachedData(key: string) {
         if (options.cachePolicy === 'cache') {
@@ -126,17 +126,18 @@ const useApiFetch = <DataT>(
           }
         }
       },
+      ...coverOptions,
     },
   )
 
-  const useFetchBetter = (mergeOptions: ApiFetchOptions<DataT> = {}) => {
+  const useFetchBetter = (coverOptions: ApiFetchOptions<DataT> = {}) => {
     const {
       data,
       refresh,
       error,
       clear,
       status,
-    } = use(mergeOptions)
+    } = use(coverOptions)
 
     const idle = computed(() => {
       return status.value === 'idle'
@@ -169,14 +170,14 @@ const useApiFetch = <DataT>(
    * No Immediate
    * No Dedupe
    */
-  const useLazyFetch = (mergeOptions: ApiFetchOptions<DataT> = {}) => useFetchBetter({
+  const useLazyFetch = (coverOptions: ApiFetchOptions<DataT> = {}) => useFetchBetter({
     dedupe: 'defer',
     immediate: false,
     watch: false,
-    ...mergeOptions,
+    ...coverOptions,
   })
 
-  const fetch = (opts: NitroFetchOptions<any> = {}) => {
+  const fetch = (coverOptions: NitroFetchOptions<any> = {}) => {
     let header: HeadersInit | undefined
 
     if (isRef(options.headers)) {
@@ -198,7 +199,6 @@ const useApiFetch = <DataT>(
 
     return $fetch<DataT>(realUrl as string,
       {
-        ...opts,
         method,
         baseURL: toValue(options.baseURL),
         headers: header,
@@ -242,6 +242,7 @@ const useApiFetch = <DataT>(
             }
           }
         },
+        ...coverOptions,
       })
   }
 
