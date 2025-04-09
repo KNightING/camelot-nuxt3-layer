@@ -177,5 +177,6 @@ dialog {
   pointer-events: painted;
   background-color: transparent;
   margin: auto;
+  margin: auto;
 }
 </style>

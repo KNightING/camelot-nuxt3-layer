@@ -7,6 +7,7 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from '@tailwindcss/vite'
 
 const osPlatform = process.platform
 let isWindows = false
@@ -128,6 +129,7 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [
+      tailwindcss(),
       tailwindcss(),
       Components({
         resolvers: [

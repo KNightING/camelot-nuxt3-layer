@@ -15,7 +15,9 @@
 
 <script setup lang="ts">
 const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
+const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
   primary: '#44ffFF',
+  test: '#F40fFF',
   test: '#F40fFF',
 })
 </script>

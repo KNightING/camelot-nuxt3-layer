@@ -20,7 +20,7 @@ const { height, width, x, y } = useElementBounding(container)
 
 const rippleSizeCss = useElCssVar('--ripple-size', container)
 
-const rippleColorCss = useElCssVar('--camelot-ripple-color', container, { inherit: false })
+const rippleColorCss = useElCssVar('--cml-c-ripple-color', container, { inherit: false })
 
 watch([height, width], (nV) => {
   const height = nV[0]
