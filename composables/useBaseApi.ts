@@ -136,11 +136,7 @@ const useApiFetch = <DataT>(
       error,
       clear,
       status,
-    } = use({
-      dedupe: 'defer',
-      immediate: false,
-      ...mergeOptions,
-    })
+    } = use(mergeOptions)
 
     const idle = computed(() => {
       return status.value === 'idle'
@@ -165,6 +161,20 @@ const useApiFetch = <DataT>(
       success,
     }
   }
+
+  /**
+   * Lazy for useFetchBetter
+   *
+   * No Watch
+   * No Immediate
+   * No Dedupe
+   */
+  const useLazyFetch = (mergeOptions: ApiFetchOptions<DataT> = {}) => useFetchBetter({
+    dedupe: 'defer',
+    immediate: false,
+    watch: false,
+    ...mergeOptions,
+  })
 
   const fetch = (opts: NitroFetchOptions<any> = {}) => {
     let header: HeadersInit | undefined
@@ -238,6 +248,7 @@ const useApiFetch = <DataT>(
   return {
     useFetch: use,
     useFetchBetter,
+    useLazyFetch,
     fetch,
   }
 }
