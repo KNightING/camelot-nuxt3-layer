@@ -150,11 +150,11 @@ const onPlusClick = () => {
 }
 
 .container:active {
-  border-color: color-mix(in oklab, var(--camelot-m3-primary) 100%, transparent);
+  border-color: rgba(from var(--camelot-m3-primary) r g b / 1);
 }
 
 .container-focus {
-  border-color: color-mix(in oklab, var(--camelot-m3-primary) 100%, transparent);
+  border-color: rgba(from var(--camelot-m3-primary) r g b / 1);
 }
 
 input {

@@ -1,7 +1,6 @@
 <template>
   <div
     ref="targetRef"
-    class="w-fit"
   >
     <div @click="onTargetClick">
       <slot />
@@ -35,9 +34,7 @@
             ref="popupRef"
             :expanded="open"
           >
-            <div class="popup">
-              <slot name="popup" />
-            </div>
+            <slot name="popup" />
           </CamelotExpanded>
         </div>
       </div>
@@ -152,7 +149,6 @@ onUpdated(() => {
   if (props.disabled) {
     open.value = false
   }
-  update()
 })
 
 const updateOnRequestAnimationFrame = () => {

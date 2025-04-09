@@ -5,7 +5,7 @@
       :dark-color-scheme="darkColorScheme"
     >
       <div
-        class="text-test bg-primary"
+        class="text-c-test bg-primary"
         @click="open = true"
       >
         open dialog
@@ -43,14 +43,14 @@
 
     <div class="h-[1000px]" />
     <div
-      class="text-test bg-primary"
+      class="text-c-test bg-primary"
       @click="open = true"
     >
       open dialog
     </div>
 
     <div
-      class="text-test bg-primary my-4"
+      class="text-c-test bg-primary my-4"
       @click="openBottomSheet = true"
     >
       open BottomSheet
@@ -77,7 +77,7 @@
             used-min-step-by-value
           />
           <div
-            class="text-test bg-primary"
+            class="text-c-test bg-primary"
             @click="open = true"
           >
             open dialog
@@ -88,7 +88,7 @@
     </CamelotBaseBottomSheetV2>
 
     <div
-      class="text-test bg-primary"
+      class="text-c-test bg-primary"
       @click="openLoading"
     >
       open loading
@@ -102,11 +102,11 @@ const v = ref(0.3)
 
 const { lightColorScheme, darkColorScheme } = useCustomColorScheme<{ test: string }>(undefined, {
   lightColorScheme: {
-    primary: '#1C32DAFF',
-    test: '#F40fFF',
+    primary: '#140fF1',
+    test: '#FFEA00',
   },
   darkColorScheme: {
-    primary: '#0EBEEAFF',
+    primary: '#FFEA00',
     test: '#140fF1',
   },
 })

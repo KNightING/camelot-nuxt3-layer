@@ -20,7 +20,7 @@ const { height, width, x, y } = useElementBounding(container)
 
 const rippleSizeCss = useElCssVar('--ripple-size', container)
 
-const rippleColorCss = useElCssVar('--cml-c-ripple-color', container, { inherit: false })
+const rippleColorCss = useElCssVar('--camelot-ripple-color', container, { inherit: false })
 
 watch([height, width], (nV) => {
   const height = nV[0]
@@ -79,7 +79,7 @@ onUpdated(() => {
 
 :deep(.ripple) {
   position: absolute;
-  background: radial-gradient(#0000, color-mix(in oklab, var(--cml-c-ripple-color) 100%, white));
+  background: radial-gradient(#0000, rgba(from var(--camelot-ripple-color) r g b / 1));
   transform: translate(-50%, -50%);
   pointer-events: none;
   border-radius: 50%;

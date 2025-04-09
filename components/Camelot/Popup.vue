@@ -143,15 +143,3 @@ onUpdated(() => {
   opacity: 0;
 }
 </style>
-
-<!-- .popup {
-  --c-popup-background: var(--cml-m3-background);
-  background: rgba(var(--c-popup-background),1);
-  display: flex;
-  overflow: auto;
-  position: relative;
-  top: 0;
-  left: 0;
-  flex-direction: column;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
-} -->

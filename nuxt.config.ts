@@ -63,7 +63,9 @@ export default defineNuxtConfig({
       // 'types/*.ts',
     ],
   },
+
   devtools: { enabled: false },
+
   app: {
     baseURL: '/',
 
@@ -79,6 +81,7 @@ export default defineNuxtConfig({
 
   css: [
     // join(currentDir, "/assets/css/global.css"),
+    // './assets/css/tailwind.css',
     join(currentDir, '/assets/css/tailwind.css'),
   ],
 
@@ -183,4 +186,6 @@ export default defineNuxtConfig({
     },
     vueI18n: './i18n.config.ts',
   },
+
+  compatibilityDate: '2025-04-09'
 })

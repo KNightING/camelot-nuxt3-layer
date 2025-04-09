@@ -5,7 +5,6 @@
     class="!w-full"
     :disabled="disabled"
     :z-index="selectZIndex"
-    disabled-click-outside
   >
     <label
       class="min-w-[16ch] w-full border bg-surface-container-lowest border-outline has-[:focus]:border-primary rounded-lg px-4 py-2 flex gap-2"
@@ -29,11 +28,11 @@
         @focus="isFocus = true"
         @blur="isFocus = false"
       >
-      <img
+      <!-- <img
         class="ml-1"
         src="/assets/images/calendar.svg"
         @click="open = true"
-      >
+      > -->
     </label>
 
     <CamelotBaseDialogV2

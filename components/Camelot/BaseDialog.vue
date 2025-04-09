@@ -167,7 +167,7 @@ watch([() => route.path, () => route.query], ([path, query]) => {
 }
 
 .mask {
-  background-color: color-mix(in oklab, var(--cml-c-mask-color) 80%, transparent);
+  background-color: rgba(from var(--camelot-mask-color) r g b / .8);
   width: 100dvw;
   height: 100dvh;
   pointer-events: painted;

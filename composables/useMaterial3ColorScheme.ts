@@ -262,7 +262,7 @@ export const useMaterial3ColorScheme = (
 
   const changeCase = useChangeCase('', 'kebabCase')
 
-  watchImmediate(usedColorScheme, (nV) => {
+  watchImmediate(usedColorScheme, (nV: any) => {
     if (config?.editMode === false) {
       return
     }

@@ -127,21 +127,36 @@ export const useCustomColorScheme = <T>(
       if (useIsValidKey(key, colorScheme)) {
         changeCase.value = key
         let cssVarKey = changeCase.value
+
+        // 因為tailwind V4 會將 變數放到 :root 導致無法覆蓋 所以需要多一個變數重新設定
+        let cssVarOverrideTailwindKey = changeCase.value
         if (Material3ColorSchemeKeys.includes(key)) {
+          cssVarOverrideTailwindKey = `--color-${cssVarOverrideTailwindKey}`
           cssVarKey = `--camelot-m3-${cssVarKey}`
         } else if (CamelotColorSchemeKeys.includes(key)) {
+          cssVarOverrideTailwindKey = `--color-${cssVarOverrideTailwindKey}`
           cssVarKey = `--camelot-${cssVarKey}`
         } else if (config?.cssVarKeyPrefix) {
+          cssVarOverrideTailwindKey = `--color-${config.cssVarKeyPrefix}-${cssVarOverrideTailwindKey}`
           cssVarKey = `--${config.cssVarKeyPrefix}-${cssVarKey}`
         } else {
+          cssVarOverrideTailwindKey = `--color-c-${cssVarOverrideTailwindKey}`
           cssVarKey = `--camelot-c-${cssVarKey}`
         }
         const cssVar = getCssVar(cssVarKey, targetRef)
-        const rgba = useColor().hexToRgbaArray(colorScheme[key])
-        if (!rgba) {
-          cssVar.value = colorScheme[key]
-        } else {
-          cssVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
+        const cssVarOverrideTailwind = getCssVar(cssVarOverrideTailwindKey, target)
+
+        // const rgba = useColor().hexToRgbaArray(colorScheme[key])
+        // if (!rgba) {
+        //   cssVar.value = colorScheme[key]
+        // } else {
+        //   cssVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
+        // }
+
+        cssVar.value = colorScheme[key]
+
+        if (!isGlobal) {
+          cssVarOverrideTailwind.value = `var(${cssVarKey})`
         }
       }
     }

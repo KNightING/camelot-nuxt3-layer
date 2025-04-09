@@ -1,6 +1,8 @@
 <template>
   <CamelotBaseDialogV2>
-    <slot />
+    <template #wrapper>
+      <slot />
+    </template>
   </CamelotBaseDialogV2>
 </template>
 

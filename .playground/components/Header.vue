@@ -40,7 +40,7 @@
                 <span>點擊開啟會員</span>
 
                 <template #popup>
-                  <div class="flex flex-col border border-outline-variant min-w-[205px] rounded-lg bg-surface gap-6 py-3 px-4 overflow-hidden">
+                  <div class=" flex flex-col border border-outline-variant min-w-[205px] rounded-lg bg-surface gap-6 py-3 px-4 overflow-hidden">
                     <span
                       type="content1"
                       single-line

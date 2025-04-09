@@ -11,7 +11,11 @@
       @pointerup="onDialogClick"
       @keydown.esc="onEsc"
     >
-      <slot />
+      <slot name="wrapper">
+        <div class="w-screen min-h-screen flex items-center justify-center">
+          <slot />
+        </div>
+      </slot>
     </dialog>
   </Transition>
 </template>
@@ -163,12 +167,14 @@ dialog {
   max-width: 100dvw;
   max-height: 100dvh;
   display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: painted;
   background-color: transparent;
 }
 
 /* 全屏背景遮罩 */
 dialog::backdrop {
-  background-color: rgba(var(--camelot-mask-color), .8); /* 深一点的背景，可调整透明度 */
+  background-color: rgba(from var(--camelot-mask-color) r g b / .5); /* 深一点的背景，可调整透明度 */
 }
 </style>

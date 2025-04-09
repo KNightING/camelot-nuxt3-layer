@@ -28,28 +28,6 @@
       go to dialog
     </button>
 
-    <!-- <CamelotCustomColorSchemeProvider :light-color-scheme="elCustomLightColorScheme">
-      <div
-        class="text-test bg-primary"
-        @click="changeCustom"
-      >
-        CHANGE
-      </div>
-      <CamelotRippleEffect><div class="w-10 h-10" /></CamelotRippleEffect>
-      <CamelotRippleEffect ripple-color="#034324">
-        <div class="w-10 h-10" />
-      </CamelotRippleEffect>
-
-      <CamelotNumberCounter
-        v-model="v"
-        class="w-4"
-        :max="10"
-        :min="0"
-        min-step-by-value
-        used-min-step-by-value
-      />
-    </CamelotCustomColorSchemeProvider> -->
-
     <CamelotNumberCounter
       v-model="v"
       class="w-4"
