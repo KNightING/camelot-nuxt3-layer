@@ -149,7 +149,7 @@ watch([() => route.path, () => route.query], ([path, query]) => {
 }
 
 .mask {
-  background-color: rgba(var(--camelot-mask-color), .8);
+  background-color: rgba(var(--cml-c-mask-color), .8);
   width: 100dvw;
   height: 100dvh;
   pointer-events: painted;

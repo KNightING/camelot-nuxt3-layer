@@ -14,8 +14,8 @@
 </template>
 
 <script setup lang="ts">
-const elCustomLightColorScheme = ref<CustomColorScheme<{ test2: string }>>({
+const elCustomLightColorScheme = ref<CustomColorScheme<{ test: string }>>({
   primary: '#44ffFF',
-  test2: '#F40fFF',
+  test: '#F40fFF',
 })
 </script>
