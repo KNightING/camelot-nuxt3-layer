@@ -293,3 +293,42 @@ export const useBaseApi = (baseOptions: ApiFetchOptions<any>) => {
     del,
   }
 }
+
+export class BaseApi {
+  private baseOptions: ApiFetchOptions<any>
+  public api: ReturnType<typeof useBaseApi>
+
+  public constructor(baseOptions: ApiFetchOptions<any>) {
+    this.baseOptions = baseOptions
+    this.api = useBaseApi(this.baseOptions)
+  }
+}
+
+// class Test extends BaseApi {
+//   constructor() {
+//     super({
+//       baseURL: 'https://api.example.com',
+//       contentType: ContentType.Json,
+//       cachePolicy: 'cache',
+//       onRequests: [
+//         useBasicTokenRequest('account', 'password'),
+//         useBearerTokenRequest('token'),
+//       ],
+//       onResponses: [
+//         ({ response }) => {
+//           console.log(response)
+//         },
+//       ],
+//     })
+//   }
+
+//   public getUser(id: string) {
+//     return this.api.get(`/user/${id}`, {
+//       onRequests: [
+//         ({ options }) => {
+//           options.headers.set('X-Custom-Header', 'value')
+//         },
+//       ],
+//     })
+//   }
+// }
