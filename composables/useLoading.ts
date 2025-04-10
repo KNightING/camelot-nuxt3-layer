@@ -47,7 +47,7 @@ export const useLoading = () => {
     fn: () => Promise<R | undefined>,
     errorFn?: ErrorFn,
     pending?: Ref<boolean>) => {
-    running(
+    return running(
       async () => {
         open(tag)
         return await fn()
@@ -111,7 +111,7 @@ export const useLoadingFn = <T, P = void>(
   pending?: Ref<boolean>,
 ) => {
   return async (params?: P) => {
-    return await loading.run(tag, async () => {
+    return loading.run(tag, async () => {
       return await fn(params)
     },
     errorFn,
