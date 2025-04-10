@@ -45,17 +45,28 @@ export const useLoading = () => {
   const run = async <R = void>(
     tag: string,
     fn: () => Promise<R | undefined>,
-    errorFn?: ErrorFn) => {
-    open(tag)
-    try {
-      return await fn()
-    } catch (ex) {
-      if (errorFn) {
-        await errorFn(ex)
-      }
-    } finally {
-      close(tag)
-    }
+    errorFn?: ErrorFn,
+    pending?: Ref<boolean>) => {
+    running(
+      async () => {
+        open(tag)
+        return await fn()
+      },
+      errorFn,
+      () => {
+        close(tag)
+      },
+      pending)
+    // open(tag)
+    // try {
+    //   return await fn()
+    // } catch (ex) {
+    //   if (errorFn) {
+    //     await errorFn(ex)
+    //   }
+    // } finally {
+    //   close(tag)
+    // }
   }
 
   const watchToggle = (tag: string, ref: Ref<boolean>, options?: {
@@ -97,12 +108,14 @@ export const useLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
   errorFn?: ErrorFn,
+  pending?: Ref<boolean>,
 ) => {
   return async (params?: P) => {
-    return loading.run(tag, async () => {
+    return await loading.run(tag, async () => {
       return await fn(params)
     },
-    errorFn)
+    errorFn,
+    pending)
   }
 }
 
@@ -110,11 +123,12 @@ export const useDebounceLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
   errorFn?: ErrorFn,
+  pending?: Ref<boolean>,
   ms?: MaybeRefOrGetter<number>,
   options?: DebounceFilterOptions,
 ) => {
   return useDebounceFn(
-    useLoadingFn(tag, fn, errorFn),
+    useLoadingFn(tag, fn, errorFn, pending),
     ms,
     options)
 }
@@ -123,16 +137,38 @@ export const useThrottleLoadingFn = <T, P = void>(
   tag: string,
   fn: (params?: P) => Promise<T>,
   errorFn?: ErrorFn,
+  pending?: Ref<boolean>,
   ms?: MaybeRefOrGetter<number>,
   trailing?: boolean,
   leading?: boolean,
   rejectOnCancel?: boolean,
 ) => {
   return useThrottleFn(
-    useLoadingFn(tag, fn, errorFn),
+    useLoadingFn(tag, fn, errorFn, pending),
     ms,
     trailing,
     leading,
     rejectOnCancel,
   )
+}
+
+export const running = async <R = void>(
+  fn: () => Promise<R | undefined>,
+  errorFn?: ErrorFn,
+  finallyFn?: VoidFunction,
+  pending?: Ref<boolean>) => {
+  const pendingRef = pending ?? ref(false)
+  pendingRef.value = true
+  try {
+    return await fn()
+  } catch (ex) {
+    if (errorFn) {
+      await errorFn(ex)
+    }
+  } finally {
+    if (finallyFn) {
+      finallyFn()
+    }
+    pendingRef.value = false
+  }
 }
