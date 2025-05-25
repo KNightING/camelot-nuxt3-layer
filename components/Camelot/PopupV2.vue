@@ -8,7 +8,7 @@
     </div>
 
     <Teleport
-      to="body"
+      :to="teleportTo"
     >
       <div
         class="fixed pointer-events-none"
@@ -81,6 +81,8 @@ const props = defineProps<{
   isClickInside?: (string | MaybeElementRef<MaybeElement>)[]
 
   disabledClickOutside?: boolean
+
+  teleport?: string | MaybeElementRef<MaybeElement>
 }>()
 
 const open = defineModel<boolean>('open', { default: false })
@@ -161,6 +163,27 @@ const updateOnRequestAnimationFrame = () => {
     updateOnRequestAnimationFrame()
   })
 }
+
+const parentIsDialog = computed(() => {
+  const checkIsDialog = (el?: Element | null): boolean => {
+    if (!el) return false
+    if (el.tagName.toLowerCase() === 'dialog') return true
+    return checkIsDialog(el.parentElement)
+  }
+
+  if (targetRef.value) {
+    return checkIsDialog(targetRef.value.parentElement)
+  }
+  return false
+})
+
+const teleportTo = computed(() => {
+  if (props.teleport) {
+    return props.teleport
+  }
+  console.log('parentIsDialog.value', parentIsDialog.value)
+  return parentIsDialog.value ? targetRef.value : 'body'
+})
 
 onMounted(() => {
   updateOnRequestAnimationFrame()

@@ -35,6 +35,18 @@
               min-step-by-value
               used-min-step-by-value
             />
+
+            <CamelotSelectV2
+              v-model="department"
+              :options="options"
+              class="!w-72 mx-4"
+            >
+              <div
+                class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+              >
+                <span class="flex-1">{{ department }}</span>
+              </div>
+            </CamelotSelectV2>
             <div class="h-[600px]" />
           </div>
         </div>
@@ -120,6 +132,27 @@ const openLoading = async () => {
   await useDelay(3000)
   closeable()
 }
+
+const department = ref('韓式餐廳')
+
+const options = ref([
+  {
+    name: '韓式餐廳',
+    value: '韓式餐廳',
+  },
+  {
+    name: '港式餐廳',
+    value: '港式餐廳',
+  },
+  {
+    name: '日式餐廳',
+    value: '日式餐廳',
+  },
+  {
+    name: '中式餐廳',
+    value: '中式餐廳',
+  },
+])
 </script>
 
 <style scoped></style>
