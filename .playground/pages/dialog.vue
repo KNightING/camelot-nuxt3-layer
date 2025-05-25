@@ -19,35 +19,44 @@
           value: 'test',
         }"
       >
-        <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
-          <div class="flex justify-end">
-            <i-material-symbols-close
-              class="text-primary text-lg m-1 cursor-pointer"
-              @click="open = false"
-            />
-          </div>
-          <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
-            <CamelotNumberCounter
-              v-model="v"
-              class="w-4"
-              :max="10"
-              :min="0"
-              min-step-by-value
-              used-min-step-by-value
-            />
-
-            <CamelotSelectV2
-              v-model="department"
-              :options="options"
-              class="!w-72 mx-4"
-            >
-              <div
-                class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
-              >
-                <span class="flex-1">{{ department }}</span>
+        <div class="bg-surface text-on-surface rounded-lg drop-shadow">
+          <div
+            class="flex flex-col items-stretch"
+          >
+            <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
+              <div class="flex justify-end">
+                <i-material-symbols-close
+                  class="text-primary text-lg m-1 cursor-pointer"
+                  @click="open = false"
+                />
               </div>
-            </CamelotSelectV2>
-            <div class="h-[600px]" />
+              <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
+                <CamelotNumberCounter
+                  v-model="v"
+                  class="w-4"
+                  :max="10"
+                  :min="0"
+                  min-step-by-value
+                  used-min-step-by-value
+                />
+
+                <div class="flex flex-col items-stretch py-1 overflow-auto">
+                  <div class="w-20 h-20" />
+                  <CamelotSelectV2
+                    v-model="department"
+                    :options="options"
+                    class="!w-72 mx-4"
+                  >
+                    <div
+                      class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+                    >
+                      <span class="flex-1">{{ department }}</span>
+                    </div>
+                  </CamelotSelectV2>
+                </div>
+                <div class="h-[600px]" />
+              </div>
+            </div>
           </div>
         </div>
       </CamelotBaseDialogV2>
@@ -94,6 +103,17 @@
           >
             open dialog
           </div>
+          <CamelotSelectV2
+            v-model="department"
+            :options="options"
+            class="!w-72 mx-4"
+          >
+            <div
+              class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
+            >
+              <span class="flex-1">{{ department }}</span>
+            </div>
+          </CamelotSelectV2>
           <div class="h-[600px]" />
         </div>
       </div>

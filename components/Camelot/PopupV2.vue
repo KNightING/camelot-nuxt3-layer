@@ -1,7 +1,6 @@
 <template>
   <div
     ref="targetRef"
-    class="w-fit"
   >
     <div @click="onTargetClick">
       <slot />
@@ -10,7 +9,7 @@
     <Teleport
       :to="teleportTo"
     >
-      <div
+      <CamelotGpu
         class="fixed pointer-events-none"
         :style="{
           zIndex: zIndex || 10,
@@ -21,7 +20,7 @@
         }"
       >
         <div
-          class="absolute min-w-full w-fit pointer-events-auto"
+          class="absolute w-fit pointer-events-auto"
           :class="{
             'mx-1': !disabledAutoSpace && (x === 0 || isRight),
             'right-0': isRight,
@@ -29,6 +28,7 @@
             'bottom-[100%]': isBottom,
             'top-[100%]': !isBottom,
             'drop-shadow': !disabledShadow,
+            'min-w-full': !disabledSameTargetWidth,
           }"
         >
           <CamelotExpanded
@@ -40,7 +40,7 @@
             </div>
           </CamelotExpanded>
         </div>
-      </div>
+      </CamelotGpu>
     </Teleport>
   </div>
 </template>
@@ -49,6 +49,13 @@
 import { isClient, type MaybeElement, type MaybeElementRef } from '@vueuse/core'
 import type { CamelotExpanded } from '#components'
 
+/**
+ * description: CamelotPopupV2 是一個可點擊開啟的彈出視窗組件，支持自動調整位置和大小。
+ *
+ * 注意: 因為使用fixed定位
+ * 如果父元素有設定transform, perspective, filter, will-change等屬性，可能會導致fixed定位失效。
+ * 這是一個 CSS 的重要概念，也是一個常見的「陷阱」。
+ */
 const props = defineProps<{
   zIndex?: number
   disabled?: boolean
@@ -81,6 +88,11 @@ const props = defineProps<{
   isClickInside?: (string | MaybeElementRef<MaybeElement>)[]
 
   disabledClickOutside?: boolean
+
+  /**
+   * popup是否需要跟隨目標寬度
+   */
+  disabledSameTargetWidth?: boolean
 
   teleport?: string | MaybeElementRef<MaybeElement>
 }>()
@@ -165,24 +177,26 @@ const updateOnRequestAnimationFrame = () => {
 }
 
 const parentIsDialog = computed(() => {
-  const checkIsDialog = (el?: Element | null): boolean => {
-    if (!el) return false
-    if (el.tagName.toLowerCase() === 'dialog') return true
+  const checkIsDialog = (el?: Element | null) => {
+    if (!el) return undefined
+    if (el.tagName.toLowerCase() === 'dialog') return el
     return checkIsDialog(el.parentElement)
   }
 
   if (targetRef.value) {
     return checkIsDialog(targetRef.value.parentElement)
   }
-  return false
+  return undefined
 })
 
+/**
+ * 父元素有 dialog 的 dialog本身 會建立一個新的 top layer 導致z-index多高都不會超過dialog的layer
+ */
 const teleportTo = computed(() => {
   if (props.teleport) {
     return props.teleport
   }
-  console.log('parentIsDialog.value', parentIsDialog.value)
-  return parentIsDialog.value ? targetRef.value : 'body'
+  return parentIsDialog.value ? parentIsDialog.value : 'body'
 })
 
 onMounted(() => {
