@@ -79,11 +79,11 @@ const useApiFetch = <DataT>(
   options.contentType = options.contentType ?? ContentType.Json
   options.addSecureHeaderRequest = options.addSecureHeaderRequest ?? true
 
-  const use = (mergeOptions: ApiFetchOptions<DataT> = {}) => useFetch(
+  const use = (coverOptions: ApiFetchOptions<DataT> = {}) => useFetch(
     url,
     {
       ...options,
-      ...mergeOptions,
+
       method,
       getCachedData(key: string) {
         if (options.cachePolicy === 'cache') {
@@ -126,21 +126,18 @@ const useApiFetch = <DataT>(
           }
         }
       },
+      ...coverOptions,
     },
   )
 
-  const useFetchBetter = (mergeOptions: ApiFetchOptions<DataT> = {}) => {
+  const useFetchBetter = (coverOptions: ApiFetchOptions<DataT> = {}) => {
     const {
       data,
       refresh,
       error,
       clear,
       status,
-    } = use({
-      dedupe: 'defer',
-      immediate: false,
-      ...mergeOptions,
-    })
+    } = use(coverOptions)
 
     const idle = computed(() => {
       return status.value === 'idle'
@@ -166,7 +163,21 @@ const useApiFetch = <DataT>(
     }
   }
 
-  const fetch = (opts: NitroFetchOptions<any> = {}) => {
+  /**
+   * Lazy for useFetchBetter
+   *
+   * No Watch
+   * No Immediate
+   * No Dedupe
+   */
+  const useLazyFetch = (coverOptions: ApiFetchOptions<DataT> = {}) => useFetchBetter({
+    dedupe: 'defer',
+    immediate: false,
+    watch: false,
+    ...coverOptions,
+  })
+
+  const fetch = (coverOptions: NitroFetchOptions<any> = {}) => {
     let header: HeadersInit | undefined
 
     if (isRef(options.headers)) {
@@ -188,7 +199,6 @@ const useApiFetch = <DataT>(
 
     return $fetch<DataT>(realUrl as string,
       {
-        ...opts,
         method,
         baseURL: toValue(options.baseURL),
         headers: header,
@@ -232,12 +242,14 @@ const useApiFetch = <DataT>(
             }
           }
         },
+        ...coverOptions,
       })
   }
 
   return {
     useFetch: use,
     useFetchBetter,
+    useLazyFetch,
     fetch,
   }
 }
@@ -281,3 +293,42 @@ export const useBaseApi = (baseOptions: ApiFetchOptions<any>) => {
     del,
   }
 }
+
+export class BaseApi {
+  private baseOptions: ApiFetchOptions<any>
+  public api: ReturnType<typeof useBaseApi>
+
+  public constructor(baseOptions: ApiFetchOptions<any>) {
+    this.baseOptions = baseOptions
+    this.api = useBaseApi(this.baseOptions)
+  }
+}
+
+// class Test extends BaseApi {
+//   constructor() {
+//     super({
+//       baseURL: 'https://api.example.com',
+//       contentType: ContentType.Json,
+//       cachePolicy: 'cache',
+//       onRequests: [
+//         useBasicTokenRequest('account', 'password'),
+//         useBearerTokenRequest('token'),
+//       ],
+//       onResponses: [
+//         ({ response }) => {
+//           console.log(response)
+//         },
+//       ],
+//     })
+//   }
+
+//   public getUser(id: string) {
+//     return this.api.get(`/user/${id}`, {
+//       onRequests: [
+//         ({ options }) => {
+//           options.headers.set('X-Custom-Header', 'value')
+//         },
+//       ],
+//     })
+//   }
+// }

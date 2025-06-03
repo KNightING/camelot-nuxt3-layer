@@ -7,6 +7,7 @@
   >
     <button
       type="button"
+      class="outline-none"
       @click="onMinusClick"
     >
       <slot name="minus">
@@ -32,6 +33,7 @@
 
     <button
       type="button"
+      class="outline-none"
       @click="onPlusClick"
     >
       <slot name="plus">

@@ -7,7 +7,7 @@
       :style="[
         `z-index:${zIndex};`,
       ]"
-      class="outline-none"
+      class="camelot-dialog outline-none"
       @pointerup="onDialogClick"
       @keydown.esc="onEsc"
     >
@@ -139,7 +139,7 @@ const onEsc = (event: KeyboardEvent) => {
 </script>
 
 <style scoped>
-:global(body:has(dialog[open])) {
+:global(body:has(dialog[open].camelot-dialog)) {
   overflow: hidden;
 }
 

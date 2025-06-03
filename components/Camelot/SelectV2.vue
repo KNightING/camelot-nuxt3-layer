@@ -55,7 +55,7 @@
         <template v-else>
           <slot name="empty-options">
             <div class="flex flex-col items-center justify-center text-gray-400 gap-2 py-2">
-              <i-material-symbols-cancel-outline-rounded class="text-4xl" />
+              <!-- <i-material-symbols-cancel-outline-rounded class="text-4xl" /> -->
               <span>沒有可選選項</span>
             </div>
           </slot>
