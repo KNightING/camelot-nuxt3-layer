@@ -87,10 +87,6 @@
             class="text-primary text-lg m-1 cursor-pointer"
             @click="openBottomSheet = false"
           />
-          <i-material-symbols-close
-            class="text-primary text-lg m-1 cursor-pointer"
-            @click="openBottomSheet = false"
-          />
         </div>
         <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
           <CamelotNumberCounter

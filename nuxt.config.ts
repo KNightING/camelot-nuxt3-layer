@@ -53,6 +53,10 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
   ],
 
+  $meta: {
+    name: 'camelot',
+  },
+
   imports: {
     dirs: [
       // scan all modules within given directory
@@ -130,7 +134,6 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [
-      tailwindcss(),
       tailwindcss(),
       Components({
         resolvers: [
