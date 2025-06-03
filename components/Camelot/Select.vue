@@ -16,19 +16,24 @@
         >
           <button
             type="button"
+            :disabled="option.disabled"
             @click="(e) => onItemClick(e, option.value)"
           >
             <slot
               name="option"
               :index="index"
               :data="option"
+              :disabled="option.disabled"
               :is-selected="model === option.value"
             >
               <CamelotFixIOS class="option">
-                <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
+                <span
+                  class="w-5 text-primary"
+                >{{ !option.disabled && model === option.value ? '✓' :'' }} </span>
                 <span
                   :class="{
-                    'text-primary': model === option.value,
+                    'text-primary': !option.disabled && model === option.value,
+                    'text-gray-400': option.disabled,
                   }"
                   :style="[
                     'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;',
