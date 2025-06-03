@@ -7,7 +7,6 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import tailwindcss from '@tailwindcss/vite'
-import tailwindcss from '@tailwindcss/vite'
 
 const osPlatform = process.platform
 let isWindows = false
@@ -119,6 +118,8 @@ export default defineNuxtConfig({
     },
   },
 
+  compatibilityDate: '2025-04-09',
+
   nitro: {
     esbuild: {
       options: {
@@ -188,6 +189,4 @@ export default defineNuxtConfig({
     },
     vueI18n: './i18n.config.ts',
   },
-
-  compatibilityDate: '2025-04-09'
 })
