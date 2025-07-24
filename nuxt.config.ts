@@ -60,7 +60,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: [
       // scan all modules within given directory
-      'composables/**',
+      'app/composables/**',
       // 'types/**',
       'models/**/*.ts',
       // 'types/**/*.ts',
@@ -84,9 +84,7 @@ export default defineNuxtConfig({
   },
 
   css: [
-    // join(currentDir, "/assets/css/global.css"),
-    // './assets/css/tailwind.css',
-    join(currentDir, '/assets/css/tailwind.css'),
+    join(currentDir, '/app/assets/css/tailwind.css'),
   ],
 
   runtimeConfig: {
