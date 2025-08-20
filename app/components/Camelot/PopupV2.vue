@@ -193,7 +193,23 @@ const teleportTo = computed(() => {
   if (props.teleport) {
     return props.teleport
   }
-  return parentIsDialog.value ? parentIsDialog.value : 'body'
+  return parentIsDialog.value ? parentIsDialog.value : document.body
+})
+
+watch(targetRef, (targetRef) => {
+  if (targetRef && targetRef instanceof HTMLElement) {
+    const scrollParent = useScrollParent(targetRef)
+
+    if (scrollParent.value) {
+      console.log(scrollParent.value)
+      scrollParent.value.addEventListener('scroll', () => {
+        // 在dialog中 關閉popup， 目前顯示有問題
+        if (!props.disabledCloseWhenScrolling || parentIsDialog.value) {
+          open.value = false
+        }
+      })
+    }
+  }
 })
 
 onMounted(() => {

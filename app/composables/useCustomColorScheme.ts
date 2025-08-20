@@ -14,9 +14,9 @@ export const CamelotColorSchemeKeys = Object.keys(
   },
 ) as (keyof CamelotColorScheme)[]
 
-export type CustomColorScheme<T = any> = Material3ColorSchemePartial &
-  Partial<CamelotColorScheme> &
-  Partial<T>
+export type CustomColorScheme<T = any> = Material3ColorSchemePartial
+  & Partial<CamelotColorScheme>
+  & Partial<T>
 
 const getCssVar = (key: string, target?: MaybeElementRef) =>
   useElCssVar(`${key}`, target, { inherit: false })
@@ -145,13 +145,6 @@ export const useCustomColorScheme = <T>(
         }
         const cssVar = getCssVar(cssVarKey, targetRef)
         const cssVarOverrideTailwind = getCssVar(cssVarOverrideTailwindKey, target)
-
-        // const rgba = useColor().hexToRgbaArray(colorScheme[key])
-        // if (!rgba) {
-        //   cssVar.value = colorScheme[key]
-        // } else {
-        //   cssVar.value = `${rgba[0]},${rgba[1]},${rgba[2]}`
-        // }
 
         cssVar.value = colorScheme[key]
 

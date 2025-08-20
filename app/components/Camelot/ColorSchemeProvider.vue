@@ -21,6 +21,11 @@ onUpdated(() => {
   darkColorScheme.value = { ...darkColorScheme.value, ...props.darkColorScheme }
 })
 
+onMounted(() => {
+  lightColorScheme.value = { ...lightColorScheme.value, ...props.lightColorScheme }
+  darkColorScheme.value = { ...darkColorScheme.value, ...props.darkColorScheme }
+})
+
 defineExpose({ usedColorScheme })
 </script>
 

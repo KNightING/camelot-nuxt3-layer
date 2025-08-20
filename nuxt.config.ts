@@ -28,6 +28,8 @@ function getArgvBoolean(key: string, defaultValue = false): boolean {
 
   if (index >= 0) {
     const arg = process.argv[index]
+    if (!arg) return defaultValue
+
     const [key, value] = arg.split('=')
     if (value === 'true' || value === '1') {
       return true
@@ -60,11 +62,11 @@ export default defineNuxtConfig({
   imports: {
     dirs: [
       // scan all modules within given directory
-      'app/composables/**',
-      // 'types/**',
-      'models/**/*.ts',
-      // 'types/**/*.ts',
-      // 'types/*.ts',
+      join(currentDir, '/app/composables/**'),
+      join(currentDir, '/app/stores/**'),
+      join(currentDir, '/app/shared/**'),
+      join(currentDir, '/app/**'),
+      '/app/**',
     ],
   },
 
@@ -172,11 +174,20 @@ export default defineNuxtConfig({
         code: 'zh-tw',
         file: 'zh-tw.json',
       },
+      {
+        name: '日本語',
+        code: 'ja-jp',
+        file: 'ja-jp.json',
+      },
+      {
+        name: '한국어',
+        code: 'ko',
+        file: 'ko.json',
+      },
     ],
-    lazy: true,
     defaultLocale: 'zh-tw',
-    restructureDir: false,
-    langDir: 'lang',
+    restructureDir: 'i18n',
+    langDir: 'locales',
 
     // lang路由 https://v8.i18n.nuxtjs.org/options/routing#strategy
     strategy: 'no_prefix',

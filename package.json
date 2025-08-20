@@ -1,7 +1,7 @@
 {
   "name": "camelot-nuxt3-layer",
   "type": "module",
-  "version": "3.16.2.12",
+  "version": "4.0.3.0",
   "main": "./nuxt.config.ts",
   "types": "./types/index.d.ts",
   "scripts": {
@@ -19,18 +19,18 @@
     "@iconify-json/ic": "^1.2.2",
     "@iconify-json/material-symbols": "^1.2.30",
     "@nuxt/eslint": "^1.7.0",
-    "@nuxtjs/i18n": "10.0.2",
+    "@nuxtjs/i18n": "10.0.6",
     "@pinia/nuxt": "0.11.2",
     "@vueuse/core": "^13.5.0",
     "@vueuse/nuxt": "^13.5.0",
     "eslint": "^9.31.0",
-    "nuxt": "4.0.1",
-    "tailwindcss": "4.1.11",
-    "unplugin-icons": "^22.1.0",
-    "unplugin-vue-components": "^28.8.0"
+    "nuxt": "4.0.3",
+    "tailwindcss": "4.1.12",
+    "unplugin-icons": "^22.2.0",
+    "unplugin-vue-components": "^29.0.0"
   },
   "dependencies": {
-    "@tailwindcss/vite": "4.1.11",
+    "@tailwindcss/vite": "4.1.12",
     "@vuepic/vue-datepicker": "^11.0.2",
     "@vueuse/components": "^13.5.0",
     "@vueuse/integrations": "^13.5.0",
@@ -47,6 +47,5 @@
     "ignoredBuiltDependencies": [
       "@tailwindcss/oxide"
     ]
-  },
-  "packageManager": "pnpm@10.6.2+sha512.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b"
+  }
 }

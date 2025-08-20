@@ -25,8 +25,6 @@
 </template>
 
 <script setup lang="ts" generic="T">
-import type { Items } from '../../models/items'
-
 const props = defineProps<{
   items: Items<T>
 }>()

@@ -1,45 +1,23 @@
 <template>
-  <CamelotPopup
-    v-model:open="open"
-    :z-index="zIndex"
-  >
+  <CamelotPopup v-model:open="open" :z-index="zIndex">
     <slot :selected-data="selectedData">
       <div
-        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex"
-      >
+        class="w-full border bg-background text-black-700 border-black-300 focus:border-primary-500 outline-none rounded-lg px-4 py-2 text-base caret-primary-500 flex">
         <span class="flex-1">{{ selectedData?.value }}</span>
       </div>
     </slot>
     <template #popup>
-      <div
-        ref="optionsContainerEl"
-        class="options-container"
-        :style="[`max-height:${optionsContainerMaxHeight}px;`]"
-      >
-        <template
-          v-for="(option, index) in options"
-          :key="index"
-        >
-          <button
-            type="button"
-            @click="(e) => onItemClick(e, option.value)"
-          >
-            <slot
-              name="option"
-              :index="index"
-              :data="option"
-              :is-selected="model === option.value"
-            >
+      <div ref="optionsContainerEl" class="options-container" :style="[`max-height:${optionsContainerMaxHeight}px;`]">
+        <template v-for="(option, index) in options" :key="index">
+          <button type="button" @click="(e) => onItemClick(e, option.value)">
+            <slot name="option" :index="index" :data="option" :is-selected="model === option.value">
               <CamelotGpu class="option">
-                <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
-                <span
-                  :class="{
-                    'text-primary': model === option.value,
-                  }"
-                  :style="[
+                <span class="w-5 text-primary">{{ model === option.value ? '✓' : '' }} </span>
+                <span :class="{
+                  'text-primary': model === option.value,
+                }" :style="[
                     'margin-top: 0.25rem;margin-bottom: 0.25rem;font-size: 1rem;line-height: 1.5rem; user-select:none;',
-                  ]"
-                >{{ option.label ?? option.name }}</span>
+                  ]">{{ option.label ?? option.name }}</span>
               </CamelotGpu>
             </slot>
           </button>
@@ -50,8 +28,6 @@
 </template>
 
 <script setup lang="ts" generic="T">
-import type { SelectOptions, SelectOption } from '../../models/selectOptions'
-
 const props = withDefaults(defineProps<{
   options: SelectOptions<T>
   optionsContainerMaxHeight?: number
@@ -116,7 +92,11 @@ const onItemClick = (e: Event, value: string | number) => {
 onMounted(() => {
   // 如果model為空值, 則預設為第一個option
   if (props.default && typeof model.value === 'undefined') {
-    model.value = props.options.length > 0 ? props.options[0].value : undefined
+    if (props.options.length > 0 && props.options[0]) {
+      model.value = props.options[0].value
+    } else {
+      model.value = undefined
+    }
   }
 })
 </script>

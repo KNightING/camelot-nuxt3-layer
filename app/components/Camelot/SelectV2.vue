@@ -37,7 +37,7 @@
                   :is-selected="model === option.value"
                 >
                   <CamelotGpu class="option">
-                    <span class="w-5 text-primary">{{ model === option.value ? '✓' :'' }} </span>
+                    <span class="w-5 text-primary">{{ model === option.value ? '✓' : '' }} </span>
                     <span
                       :class="{
                         'text-primary': model === option.value,
@@ -66,8 +66,6 @@
 </template>
 
 <script setup lang="ts" generic="T">
-import type { SelectOptions, SelectOption } from '../../models/selectOptions'
-
 const props = withDefaults(defineProps<{
   options?: SelectOptions<T>
   optionsContainerMaxHeight?: number
@@ -141,7 +139,11 @@ onUpdated(() => {
 
   // 如果model為空值, 則預設為第一個option
   if (props.default && typeof model.value === 'undefined') {
-    model.value = props.options.length > 0 ? props.options[0].value : undefined
+    if (props.options.length > 0 && props.options[0]) {
+      model.value = props.options[0].value
+    } else {
+      model.value = undefined
+    }
   }
 })
 </script>
@@ -149,7 +151,7 @@ onUpdated(() => {
 <style scoped>
 .options-container {
   --c-select-background: var(--camelot-m3-surface);
-  background: rgba(var(--c-select-background),1);
+  background: rgba(var(--c-select-background), 1);
   background: white;
   display: flex;
   overflow: auto;

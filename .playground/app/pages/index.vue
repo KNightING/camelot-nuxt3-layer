@@ -224,11 +224,11 @@
           isDesktop,
         }"
       >
-        <div class="flex flex-col gap-4">
-          <span>isMobile:{{ isMobile }}</span>
-          <span>isTablet:{{ isTablet }}</span>
-          <span>isLaptop:{{ isLaptop }}</span>
-          <span>isDesktop:{{ isDesktop }}</span>
+        <div class="flex flex-col gap-4 ">
+          <span class="text-primary">isMobile:{{ isMobile }}</span>
+          <span class="text-primary">isTablet:{{ isTablet }}</span>
+          <span class="text-primary">isLaptop:{{ isLaptop }}</span>
+          <span class="text-primary">isDesktop:{{ isDesktop }}</span>
         </div>
       </template>
 
@@ -251,10 +251,10 @@
         }"
       >
         <div class="flex flex-col gap-4">
-          <span>isMobile:{{ isMobile }}</span>
-          <span>isTablet:{{ isTablet }}</span>
-          <span>isLaptop:{{ isLaptop }}</span>
-          <span>isDesktop:{{ isDesktop }}</span>
+          <span class="text-primary">isMobile:{{ isMobile }}</span>
+          <span class="text-primary">isTablet:{{ isTablet }}</span>
+          <span class="text-primary">isLaptop:{{ isLaptop }}</span>
+          <span class="text-c-test">isDesktop:{{ isDesktop }}</span>
         </div>
       </template>
 
@@ -292,6 +292,7 @@ const globalColorScheme = useCustomColorScheme<{ test: string }>(undefined, {
     test: '#F40fFF',
   },
   darkColorScheme: {
+    primary: '#12FF00',
     test: '#140fF1',
   },
 })
