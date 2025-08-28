@@ -7,7 +7,7 @@
       :style="[
         `z-index:${zIndex};`,
       ]"
-      class="camelot-dialog outline-none overflow-hidden transform-gpu"
+      class="camelot-dialog outline-none overflow-hidden transform-gpu bg-transparent"
       @pointerup="onDialogClick"
       @keydown.esc="onEsc"
     >

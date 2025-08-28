@@ -19,18 +19,18 @@
           value: 'test',
         }"
       >
-        <div class="bg-surface text-on-surface rounded-lg drop-shadow">
+        <div class="bg-transparent text-on-surface overflow-hidden rounded-lg drop-shadow">
           <div
             class="flex flex-col items-stretch"
           >
-            <div class="overflow-hidden rounded-xl shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
+            <div class="overflow-hidden shadow flex flex-col w-[90vw] h-[30vh] bg-surface-container ">
               <div class="flex justify-end">
                 <i-material-symbols-close
                   class="text-primary text-lg m-1 cursor-pointer"
                   @click="open = false"
                 />
               </div>
-              <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-800">
+              <div class="flex-1 overflow-auto bg-gradient-to-b from-red-700 to-violet-300">
                 <CamelotNumberCounter
                   v-model="v"
                   class="w-4"
@@ -82,7 +82,7 @@
       v-model:open="openBottomSheet"
       tag="bottom"
     >
-      <div class="overflow-hidden rounded-xl shadow flex flex-col w-screen h-[30vh] bg-surface-container ">
+      <div class="overflow-hidden rounded-t-xl shadow flex flex-col w-screen h-[30vh] bg-surface-container ">
         <div class="flex justify-end">
           <i-material-symbols-close
             class="text-primary text-lg m-1 cursor-pointer"
